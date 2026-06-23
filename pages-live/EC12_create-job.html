@@ -22,7 +22,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782189971" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782194612"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782204188"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -66,7 +66,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'c4860556b949823d74c2058c14c529bd'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'c822da86498eb871bfcee3ed583d4990'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -1262,7 +1262,7 @@ $('#add_more_quote_files').on('click', function(){
     $('#quote_files_info').text('');
     var newRow = '<div class="quote-file-row" style="margin-bottom:6px;">' +
         '<input type="file" name="quote_files[]" class="quote_file_input" accept="application/pdf,.csv,.xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />' +
-        ' <a href="javascript:void(0);" class="remove_quote_file" style="color:red;text-decoration:none;font-weight:bold;" title="Remove">â</a>' +
+        ' <a href="javascript:void(0);" class="remove_quote_file" style="color:red;text-decoration:none;font-weight:bold;" title="Remove">✕</a>' +
         '</div>';
     $('#quote_file_inputs').append(newRow);
     if($('#quote_file_inputs .quote-file-row').length >= 4){
@@ -1304,7 +1304,7 @@ $('input[type=radio][name=labour_type]').change(function() {
         $('.labour_hire').hide();
         $('.quote_required').show();
 
-        // Quote jobs do not use the Requirements section â hide it and disable its fields
+        // Quote jobs do not use the Requirements section — hide it and disable its fields
         $('.employee-requirements-section').hide().find('select, input, textarea').prop('disabled', true);
 
         // Disable hidden section's fields so they don't submit empty values
@@ -1512,10 +1512,10 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions â guests are STOPPED here (not server-redirected): the
+        // Job finalise actions — guests are STOPPED here (not server-redirected): the
         // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
         // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit â the
+        // capture phase, so it fires before the form's own validation/submit — the
         // guest sees "Register your interest" and the form never validates or posts.
         if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
             return current;
@@ -1695,7 +1695,7 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
-    // Global helper â any page can call this before programmatic redirects
+    // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();

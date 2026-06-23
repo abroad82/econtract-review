@@ -22,7 +22,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782189971" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782194588"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782204180"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -66,7 +66,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'f6dce214b5417a40f0d2cd746e008b79'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'91d8e4582429749563863a30d36d6634'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -414,10 +414,10 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions â guests are STOPPED here (not server-redirected): the
+        // Job finalise actions — guests are STOPPED here (not server-redirected): the
         // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
         // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit â the
+        // capture phase, so it fires before the form's own validation/submit — the
         // guest sees "Register your interest" and the form never validates or posts.
         if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
             return current;
@@ -597,7 +597,7 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
-    // Global helper â any page can call this before programmatic redirects
+    // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();

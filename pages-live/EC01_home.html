@@ -22,7 +22,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782189971" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782194585"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782204177"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -66,7 +66,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'12241f9936640f3a5b7a93b22c981be3'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'207675f44893f172cb26daad49ec0994'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -255,10 +255,10 @@ $(function(){
             
             <div class="hv2-layout">
 
-                <!-- ââ Left column: CTA cards + Stats ââââââââ -->
+                <!-- ── Left column: CTA cards + Stats ──────── -->
                 <div class="hv2-left">
 
-                    <!-- ââ CTA cards âââââââââââââââââââââââââ -->
+                    <!-- ── CTA cards ───────────────────────── -->
                     <div class="hv2-ctas">
 
                         <a href="https://e-contract.com.au/?home=employee" class="hv2-cta hv2-cta-red">
@@ -289,7 +289,7 @@ $(function(){
 
                     </div>
 
-                    <!-- ââ Stats âââââââââââââââââââââââââââââ -->
+                    <!-- ── Stats ───────────────────────────── -->
                                         <div class="hv2-stats">
                                                 <div class="hv2-stat">
                             <span class="hv2-stat-num">60</span>
@@ -299,7 +299,7 @@ $(function(){
                     
                 </div>
 
-                <!-- ââ Right column: Video âââââââââââââââââââ -->
+                <!-- ── Right column: Video ─────────────────── -->
                 <div class="hv2-right">
                                         <div class="hv2-video">
                         <div class="hv2-video-wrap">
@@ -406,10 +406,10 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions â guests are STOPPED here (not server-redirected): the
+        // Job finalise actions — guests are STOPPED here (not server-redirected): the
         // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
         // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit â the
+        // capture phase, so it fires before the form's own validation/submit — the
         // guest sees "Register your interest" and the form never validates or posts.
         if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
             return current;
@@ -589,7 +589,7 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
-    // Global helper â any page can call this before programmatic redirects
+    // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();

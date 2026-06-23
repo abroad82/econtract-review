@@ -22,7 +22,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782189971" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782194605"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782204186"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -66,7 +66,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'4cc726b38598bdf1d54686c8b0f5ba61'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'cf4d34d5390afca8c6a730c81f4d3ec4'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -249,7 +249,7 @@ $(function(){
 
 <style>
 /* ================================================================
-   Work v2  â  job detail card layout (rebuilt)
+   Work v2  —  job detail card layout (rebuilt)
    Scoped to .wk2 to avoid colliding with existing site styles
    ================================================================ */
 .float-rights a{ float: right; }
@@ -261,7 +261,7 @@ $(function(){
     box-sizing: border-box;
 }
 
-/* ââ Main card ââââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Main card ────────────────────────────────────────────────── */
 .d-card-highlight{border-radius: 14px 14px 0 0;}
 .wk2-card {
     background: #fff;
@@ -279,7 +279,7 @@ $(function(){
     padding-bottom: 0;
 }
 
-/* ââ TOP: Logo + Title + Company (side by side) ââââââââââââââââ */
+/* ── TOP: Logo + Title + Company (side by side) ──────────────── */
 .wk2-header {
     display: flex;
     gap: 18px;
@@ -339,7 +339,7 @@ $(function(){
 
 .wk2-biz a:hover { text-decoration: underline; }
 
-/* ââ MIDDLE: Info grid âââââââââââââââââââââââââââââââââââââââââ */
+/* ── MIDDLE: Info grid ───────────────────────────────────────── */
 .wk2-info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -499,7 +499,7 @@ $(function(){
     display: inline;
 }
 
-/* ââ BELOW GRID: About + docs ââââââââââââââââââââââââââââââââââ */
+/* ── BELOW GRID: About + docs ────────────────────────────────── */
 .wk2-about {
     font-size: .875rem;
     color: #4b5563;
@@ -571,7 +571,7 @@ $(function(){
 
 .wk2 a .thumbs_action p { margin: 0; display: inline; }
 
-/* ââ BOTTOM: Actions row (full width) ââââââââââââââââââââââââââ */
+/* ── BOTTOM: Actions row (full width) ────────────────────────── */
 .wk2-actions {
     display: flex;
     flex-wrap: wrap;
@@ -604,7 +604,7 @@ $(function(){
     outline: none;
 }
 
-/* ââ Buttons ââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Buttons ──────────────────────────────────────────────────── */
 .wk2 .mybutton,
 .wk2 button.mybutton,
 .wk2 input.mybutton {
@@ -703,7 +703,7 @@ $(function(){
     box-sizing: border-box;
 }
 
-/* ââ Message box ââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Message box ──────────────────────────────────────────────── */
 .wk2-msg-box {
     margin-top: 20px;
     padding-top: 20px;
@@ -727,7 +727,7 @@ $(function(){
 
 .wk2-msg-box textarea:focus { border-color: #e8281e; }
 
-/* ââ Owner controls card ââââââââââââââââââââââââââââââââââââââââ */
+/* ── Owner controls card ──────────────────────────────────────── */
 .wk2-owner-card {
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -1156,7 +1156,7 @@ $(function(){
     text-decoration: underline;
 }
 
-/* ââ Section headings âââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Section headings ─────────────────────────────────────────── */
 .wk2-section-heading {
     font-size: 1rem;
     font-weight: 700;
@@ -1166,7 +1166,7 @@ $(function(){
     border-bottom: 1px solid #f3f4f6;
 }
 
-/* ââ Quote / agreement cards ââââââââââââââââââââââââââââââââââââ */
+/* ── Quote / agreement cards ──────────────────────────────────── */
 .wk2-agreement-card {
     background: #fff;
     border: 1px solid #e5e7eb;
@@ -1445,7 +1445,7 @@ $(function(){
     color: #b91c1c;
 }
 .mybutton, .mybutton-gray, .mybutton-black {min-width:150px;}
-/* ââ Responsive âââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 768px) {
     /* Mobile card highlight header */
     .d-card-highlight {
@@ -1637,25 +1637,25 @@ $(function(){
             <div class="wk2">
 
                 
-                <!-- ââ Main job card ââââââââââââââââââââââââââââââ -->
+                <!-- ── Main job card ────────────────────────────── -->
                
 
-                    <!-- ââ TOP: Logo + Title + Company (new design) ââââââââââ -->
+                    <!-- ── TOP: Logo + Title + Company (new design) ────────── -->
                     <h1 class="page-title">Job Detail <span class="page-title-variant">&mdash; Quote for a contract</span></h1>
 
                     <div class="d-card-highlight">
                         <a href="https://e-contract.com.au/user/view/469" class="d-card-logo" aria-label="View Principal Contractor">
                             <img src="https://e-contract.com.au/user/logo/nubelson-fernandes-UcYBL5V0xWQ-unsplash.jpg" title="" alt="" class="user_pic">                        </a>
                         <div class="d-card-overview">
-                            <div class="d-card-title">Carpenter needed Ã¹ WA</div>
+                            <div class="d-card-title">Carpenter needed ù WA</div>
                             <div class="d-card-company"><a href="https://e-contract.com.au/user/view/469">View Principal Contractor</a></div>
-                            <div class="d-card-company"> <span>â¢ Migratory - Offshore - Shipping (ACT)/</span></div>
+                            <div class="d-card-company"> <span>• Migratory - Offshore - Shipping (ACT)/</span></div>
                         </div>
                                                     <div class="d-card-rate">Quote</div>
-                                                <button class="m-star-btn quick_list " rel="780" title="Add to Quick List" aria-label="Add to Quick List">â</button>
+                                                <button class="m-star-btn quick_list " rel="780" title="Add to Quick List" aria-label="Add to Quick List">★</button>
                     </div><!-- /.d-card-highlight -->
                  <div class="wk2-card">    
-                    <!-- ââ MIDDLE: Info grid ââââââââââââââââââââ -->
+                    <!-- ── MIDDLE: Info grid ──────────────────── -->
                     <div class="wk2-info-grid">
 
                         <div class="wk2-info-row">
@@ -1729,7 +1729,7 @@ $(function(){
                                                     </div>
                     </div>
                     
-                    <!-- ââ BELOW GRID: About + Docs âââââââââââââ -->
+                    <!-- ── BELOW GRID: About + Docs ───────────── -->
                     <div class="wk2-about">
                         <strong>About:</strong> Sample job listing for the e-contract walkthrough. Immediate start, ongoing work available.                    </div>
 
@@ -1737,7 +1737,7 @@ $(function(){
                                         <div class="wk2-about" style="margin-top:8px;">
                         <strong>Quote document:</strong> <p>Test</p>                    </div>
                     
-                    <!-- ââ BOTTOM: Actions row (only for visitors, not job owner) ââ -->
+                    <!-- ── BOTTOM: Actions row (only for visitors, not job owner) ── -->
                                         <div class="wk2-actions">
                         
                         <div class="recived-request-left-panel" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
@@ -1761,18 +1761,18 @@ $(function(){
 
                 </div><!-- /.wk2-card -->
 
-                <!-- ââ Owner controls ââââââââââââââââââââââââââââ -->
+                <!-- ── Owner controls ──────────────────────────── -->
                 
-                <!-- ââ View quote panel ââââââââââââââââââââââââââ -->
+                <!-- ── View quote panel ────────────────────────── -->
                 
-                <!-- ââ Cancelled banner ââââââââââââââââââââââââââ -->
+                <!-- ── Cancelled banner ────────────────────────── -->
                 
                 
-                <!-- ââ Provide Quote form ââââââââââââââââââââââââ -->
+                <!-- ── Provide Quote form ──────────────────────── -->
                 
-                <!-- ââ Agreement 'with Sub-contractor' / 'with Employee' (employer view) ââ -->
+                <!-- ── Agreement 'with Sub-contractor' / 'with Employee' (employer view) ── -->
                 
-                <!-- ââ Agreement 'with Principal Contractor' (employee view) ââ -->
+                <!-- ── Agreement 'with Principal Contractor' (employee view) ── -->
                 
             </div><!-- /.wk2 -->
                     </div><!-- /.full_grid -->
@@ -2489,10 +2489,10 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions â guests are STOPPED here (not server-redirected): the
+        // Job finalise actions — guests are STOPPED here (not server-redirected): the
         // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
         // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit â the
+        // capture phase, so it fires before the form's own validation/submit — the
         // guest sees "Register your interest" and the form never validates or posts.
         if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
             return current;
@@ -2672,7 +2672,7 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
-    // Global helper â any page can call this before programmatic redirects
+    // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();
