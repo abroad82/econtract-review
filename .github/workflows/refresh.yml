@@ -1,14 +1,11 @@
-name: Daily page refresh (6am AWST)
+name: Daily refresh — e-contract landing pages
 
-# Pulls the live page SOURCE for every page each morning, overwrites the Saved HTML,
-# commits the diff (so you can see what the dev changed overnight), and redeploys.
+# Captures the live e-contract.com.au landing pages each morning (6am AWST),
+# commits the diff, and redeploys the board. All pages are logged-out (no login needed).
 
 on:
-  # Auto-schedule DISABLED — the PC scheduled task ("Contco Daily Refresh") is now the primary capturer,
-  # because GitHub's datacenter IP intermittently gets Cloudflare bot-challenged. This workflow stays as a
-  # MANUAL backup: trigger it from the Actions tab if the PC has been off for a while.
-  # schedule:
-  #   - cron: '0 22 * * *'   # 22:00 UTC == 06:00 AWST
+  schedule:
+    - cron: '0 22 * * *'   # 22:00 UTC = 6:00 AWST
   workflow_dispatch: {}     # run on demand from the Actions tab
 
 permissions:
@@ -23,80 +20,63 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the board
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
-      - name: Capture every page from the live source
-        shell: pwsh
-        env:
-          CONTRACTOR_EMAIL: ${{ secrets.CONTCO_CONTRACTOR_EMAIL }}
-          CONTRACTOR_PASS:  ${{ secrets.CONTCO_CONTRACTOR_PASS }}
-          EMPLOYEE_EMAIL:   ${{ secrets.CONTCO_EMPLOYEE_EMAIL }}
-          EMPLOYEE_PASS:    ${{ secrets.CONTCO_EMPLOYEE_PASS }}
-        run: |
-          ./capture-pages.ps1 -Role loggedout -Promote
-          if ($env:CONTRACTOR_EMAIL) {
-            try { ./capture-pages.ps1 -Role contractor -Email $env:CONTRACTOR_EMAIL -Pass $env:CONTRACTOR_PASS -Promote }
-            catch { Write-Host "::warning::Contractor capture failed - $($_.Exception.Message)" }
-          } else { Write-Host '::warning::No contractor login secret set - skipping contractor pages' }
-          if ($env:EMPLOYEE_EMAIL) {
-            try { ./capture-pages.ps1 -Role emp -Email $env:EMPLOYEE_EMAIL -Pass $env:EMPLOYEE_PASS -Promote }
-            catch { Write-Host "::warning::Employee capture failed - $($_.Exception.Message)" }
-          } else { Write-Host '::warning::No employee login secret set - skipping employee pages' }
-
-      - name: Record what changed + commit (builds the Daily Log)
+      - name: Capture e-contract landing pages
         shell: pwsh
         run: |
-          git config user.name  'page-refresh-bot'
-          git config user.email 'actions@users.noreply.github.com'
-          git add pages-live
-          # changed captured pages (exclude the log file itself and non-html)
-          $changed = @(git diff --cached --name-only |
-            Where-Object { $_ -match '^pages-live/.+\.html$' } |
-            ForEach-Object { Split-Path $_ -Leaf } | Sort-Object)
-          if ($changed.Count -eq 0) { Write-Host 'No page changes vs yesterday.'; exit 0 }
-          $awst = (Get-Date).ToUniversalTime().AddHours(8).ToString('yyyy-MM-dd')   # 6am AWST = the morning shown
-          Write-Host "Pages changed ($awst):`n$($changed -join "`n")"
-
-          # --- plain-text diff per page (visible text, old vs new) so the Daily Log shows WHAT changed ---
-          function Get-TextLines([string]$html){
-            if (-not $html) { return @() }
-            $h = $html -replace '(?is)<script.*?</script>',' ' -replace '(?is)<style.*?</style>',' '
-            $h = $h -replace '(?i)<(br|/p|/div|/li|/tr|/h[1-6]|/td|/option|/section|/header)\s*/?>', "`n"
-            $h = $h -replace '<[^>]+>',' '
-            $h = [System.Net.WebUtility]::HtmlDecode($h)
-            return @($h -split "`n" | ForEach-Object { ($_ -replace '\s+',' ').Trim() } | Where-Object { $_.Length -gt 1 })
-          }
-          function Trunc([string]$s){ if($s.Length -gt 180){ return $s.Substring(0,180)+'…' } return $s }
-          $changesArr = @()
-          foreach($f in $changed){
-            $newH=''; try { $newH = Get-Content "pages-live/$f" -Raw -ErrorAction Stop } catch {}
-            $oldH = (git show "HEAD:pages-live/$f" 2>$null) -join "`n"
-            $oldL = Get-TextLines $oldH; $newL = Get-TextLines $newH
-            $added=@(); $removed=@()
-            if($oldL.Count -or $newL.Count){
-              $d = Compare-Object -ReferenceObject @($oldL) -DifferenceObject @($newL)
-              $added   = @($d | Where-Object { $_.SideIndicator -eq '=>' } | ForEach-Object { Trunc $_.InputObject } | Select-Object -First 12)
-              $removed = @($d | Where-Object { $_.SideIndicator -eq '<=' } | ForEach-Object { Trunc $_.InputObject } | Select-Object -First 12)
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          $L = "https://e-contract.com.au/"
+          $dst = "${{ github.workspace }}/pages-live"
+          $pages = @(
+            @{f="EC01_home.html"; u=""},
+            @{f="EC02_register-employee.html"; u="register-interest-employee"},
+            @{f="EC03_register-contractor.html"; u="register-interest"},
+            @{f="EC04_register-thanks.html"; u="register-interest-thanks"},
+            @{f="EC05_privacy.html"; u="privacy-policy"},
+            @{f="EC06_find-contractor-hub.html"; u="search/find_me_worker"},
+            @{f="EC07_find-employee-hub.html"; u="search/find_me_worker?find=employee"},
+            @{f="EC08_contractors-directory.html"; u="search/find_me_worker?search=worker"},
+            @{f="EC09_jobs-board.html"; u="search/find_me_work?search=work"},
+            @{f="EC10_job-detail.html"; u="search/work/780"},
+            @{f="EC11_job-detail-quote.html"; u="search/work/780?quote=1"},
+            @{f="EC12_create-job.html"; u="myaccount/create_job"},
+            @{f="EC13_quick-job.html"; u="myaccount/create_quick_job"}
+          )
+          foreach($p in $pages){
+            $url = $L + $p.u
+            try {
+              $resp = Invoke-WebRequest -Uri $url -UseBasicParsing -TimeoutSec 30 -Headers @{ "User-Agent"="Mozilla/5.0" }
+              $html = $resp.Content
+              if($html -notmatch '(?i)<base\s'){ $html = $html -replace '(?i)<head([^>]*)>', ('<head$1><base href="'+$L+'">') }
+              [System.IO.File]::WriteAllText((Join-Path $dst $p.f), $html, (New-Object System.Text.UTF8Encoding($false)))
+              Write-Output "  ✓ $($p.f)"
+            } catch {
+              Write-Output "  ✗ $($p.f) : $($_.Exception.Message)"
             }
-            $changesArr += [pscustomobject]@{ file=$f; added=$added; removed=$removed }
           }
 
-          # prepend today's entry to the rolling log the board reads
-          $logPath = 'pages-live/refresh-log.json'
-          $log = @()
-          if (Test-Path $logPath) { try { $log = @(Get-Content $logPath -Raw | ConvertFrom-Json) } catch { $log = @() } }
-          $log = @($log | Where-Object { $_.date -ne $awst })            # replace today on a re-run
-          $entry = [pscustomobject]@{ date = $awst; count = $changed.Count; files = $changed; changes = $changesArr }
-          $log = @($entry) + $log
-          ($log | ConvertTo-Json -Depth 8 -AsArray) | Set-Content $logPath -Encoding utf8
-          git add pages-live
-          git commit -m "Daily page refresh $awst"
+      - name: Record changes and commit
+        shell: pwsh
+        run: |
+          git config user.name  'e-contract-refresh-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add pages-live/EC*.html
+          $changed = @(git diff --cached --name-only | Where-Object { $_ -match '^pages-live/EC.+\.html$' })
+          if ($changed.Count -eq 0) {
+            Write-Host 'No page changes since yesterday.'
+            exit 0
+          }
+          $date = (Get-Date).ToUniversalTime().AddHours(8).ToString('yyyy-MM-dd')
+          Write-Host "Pages changed ($date): $($changed.Count)"
+          git commit -m "chore: daily refresh of e-contract landing pages ($date)"
           git push
 
-      - name: Deploy to the workbench (Cloudflare Pages)
+      - name: Deploy to Cloudflare Pages (econtract-review)
         shell: pwsh
         env:
           CLOUDFLARE_API_TOKEN:  ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: 14d2fb99ae902acf9ce452f2ee7671dc
         run: |
-          npx --yes wrangler@4 pages deploy pages-live --project-name=contco-workbench --branch=production --commit-dirty=true
+          npm install -g wrangler@4
+          wrangler pages deploy pages-live --project-name=econtract-review --branch=production --commit-dirty=true
