@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>e-contract Ã¢â‚¬â€ Page List</title>
+<style>
+  :root{--red:#e8281e;--ink:#111827;--muted:#6b7280;--line:#e5e7eb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f8fafc;line-height:1.45}
+  header.top{background:var(--red);color:#fff;padding:16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+  header.top h1{margin:0;font-size:19px;flex:1}
+  header.top a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:7px}
+  header.top a:hover{background:rgba(255,255,255,.28)}
+  .meta{opacity:.9;font-size:12.5px;font-weight:400}
+  .wrap{padding:18px 22px;max-width:1100px;margin:0 auto}
+  .sec{margin:22px 0 6px;font-size:15px;font-weight:800;color:#374151;border-bottom:2px solid var(--line);padding-bottom:5px}
+  .sub{margin:14px 0 4px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-bottom:4px}
+  td{padding:8px 12px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafafa}
+  td.code{width:74px}
+  .codebadge{font-size:.72rem;font-weight:800;color:#fff;background:#334155;border-radius:5px;padding:2px 7px;white-space:nowrap}
+  .codebadge.new{background:#0d9488}
+  td.name{font-weight:600}
+  td.act{width:230px;text-align:right;white-space:nowrap}
+  a.btn{display:inline-block;text-decoration:none;font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:6px;margin-left:6px}
+  a.open{background:var(--red);color:#fff}
+  a.bench{background:#eef2f7;color:#334151;border:1px solid var(--line)}
+  a.dis{background:#f3f4f6;color:#9ca3af;pointer-events:none}
+  .count{color:var(--muted);font-weight:400;font-size:12px;margin-left:6px}
+  #status{font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>e-contract Ã¢â‚¬â€ Page List <span id="total" class="meta"></span></h1>
+  <a href="index.html">Ã¢â€ Â Review Board</a>
+  <a href="workbench.html">Open Workbench Ã¢â€ â€”</a>
+</header>
+<div class="wrap">
+  <p id="status">Loading the live page listÃ¢â‚¬Â¦</p>
+  <div id="list"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="pages.js"></script>
+<script>
+(function(){
+  var SB_URL="https://eqkwdhidstghlsdmipqq.supabase.co";
+  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxa3dkaGlkc3RnaGxzZG1pcHFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTYwMzgsImV4cCI6MjA5Nzc3MjAzOH0.s1lozgGT0yJnFdZ88-hDotCi78U99CWF5MXjy3K_byQ";
+  var sb=null; try{ sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){}
+  function codeOf(p){ if(p.c) return p.c; if(p.f){var s=p.f.replace(/\.html?$/i,'');return s.indexOf('_')>=0?s.split('_')[0]:s;} return "Ã¢â‚¬â€"; }
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+
+  async function build(){
+    var P=(window.WB_PAGES||[]).slice();
+    // team-added pages (live from Supabase) so the list matches the workbench
+    if(sb){ try{
+      var r=await sb.from('custom_pages').select('*').order('created_at',{ascending:true});
+      if(!r.error){ (r.data||[]).forEach(function(c){ P.push({g:c.section||"8 Ã‚Â· New / Build",s:c.subsection||"",c:c.code,n:c.name,id:c.id,custom:true}); }); }
+    }catch(e){} }
+
+    var captured=P.filter(function(p){return p.f;}).length;
+    document.getElementById('total').textContent="Ã‚Â· "+captured+" live pages";
+    document.getElementById('status').textContent="";
+
+    var host=document.getElementById('list'), html="";
+    var bySec={}, secOrder=[];
+    P.forEach(function(p){ if(!bySec[p.g]){bySec[p.g]=[];secOrder.push(p.g);} bySec[p.g].push(p); });
+
+    secOrder.forEach(function(g){
+      html+='<div class="sec">'+esc(g)+' <span class="count">'+bySec[g].filter(function(p){return p.f;}).length+'</span></div>';
+      var lastSub=null, rows="";
+      bySec[g].forEach(function(p){
+        if((p.s||"")!==lastSub){ if(rows){ html+='<table>'+rows+'</table>'; rows=""; } if(p.s){ html+='<div class="sub">'+esc(p.s)+'</div>'; } lastSub=p.s||""; }
+        var code=codeOf(p), open = p.f
+          ? '<a class="btn open" href="'+esc(p.f)+'" target="_blank">Open page Ã¢â€ â€”</a>'
+          : '<a class="btn dis">to build</a>';
+        var bench='<a class="btn bench" href="workbench.html?page='+encodeURIComponent(code)+'">Workbench Ã¢â€ â€”</a>';
+        rows+='<tr><td class="code"><span class="codebadge'+(p.custom?' new':'')+'">'+esc(code)+'</span></td>'
+            +'<td class="name">'+esc(p.n)+'</td>'
+            +'<td class="act">'+open+bench+'</td></tr>';
+      });
+      if(rows){ html+='<table>'+rows+'</table>'; }
+    });
+    host.innerHTML=html;
+  }
+  build();
+})();
+</script>
+</body>
+</html>

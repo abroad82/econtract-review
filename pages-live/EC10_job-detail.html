@@ -1,0 +1,2760 @@
+<!DOCTYPE HTML>
+<html>
+<head><base href="https://e-contract.com.au/">
+<title>e-contract - Job detail page</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="e-contract">
+<link rel="apple-touch-icon" href="/application/images/logo_icon.png">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta property="og:image" content="https://e-contract.com.au/application/images/logo.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="479" />
+<meta property="og:image:height" content="100" />
+<meta content="e-contract" property="og:title" />
+<meta property="og:description" content="" />
+
+<!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
+
+<link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782189971" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1782194605"></script-->
+
+<script>
+$( document ).ready(function() {
+	 $("input:radio:checked").data("chk",true);
+    $("input:radio").click(function(){
+        $("input[name='"+$(this).attr("name")+"']:radio").not(this).removeData("chk");
+        $(this).data("chk",!$(this).data("chk"));
+        $(this).prop("checked",$(this).data("chk"));
+    });
+$( ".menuitem" ).click(function() {
+	var id=this.id;
+  $( "#"+id+"_mydiv" ).toggle('slow');
+});
+});
+</script>
+<script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/function.js?v=1782157965" charset="utf-8"></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "unizw151vx");
+</script>
+<script>
+$(function(){
+
+    $('.mobile-menu-btn').on('click', function(){
+        $('body').addClass('mobile-menu-open');
+    });
+
+    $('.mobile-menu-overlay').on('click', function(){
+        $('body').removeClass('mobile-menu-open');
+    });
+
+});
+</script>
+
+<script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1782157965"></script>
+<script defer src="/pwa-android.js?v=1782157966"></script>
+<script defer src="/pwa-ios.js?v=1782157966"></script>
+<script>
+/* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
+(function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'4cc726b38598bdf1d54686c8b0f5ba61'; }
+  jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
+    if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
+    else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
+    else if(s.data&&typeof s.data==='object'){ s.data[name]=v; } } } });
+  function addTok(f){ var $f=jQuery(f); if(($f.attr('method')||'').toLowerCase()!=='post'){return;}
+    var $i=$f.find('input[name="'+name+'"]'); if($i.length){ $i.val(tok()); }
+    else { jQuery('<input>',{type:'hidden',name:name,value:tok()}).appendTo($f); } }
+  jQuery(function($){ $('form').each(function(){ addTok(this); }); });
+  jQuery(document).on('submit','form',function(){ addTok(this); });
+  /* helper to POST a state-changing action with the CSRF token (replaces GET links) */
+  window.ec_post=function(url,data){ var $f=jQuery('<form>',{method:'POST',action:url});
+    jQuery.each(data||{},function(k,v){ $f.append(jQuery('<input>',{type:'hidden',name:k,value:String(v)})); });
+    $f.append(jQuery('<input>',{type:'hidden',name:name,value:tok()}));
+    jQuery('body').append($f); $f[0].submit(); };
+})();
+</script>
+</head>
+
+<body>
+    <!-- EMAIL VERIFICATION BANNER -->
+
+<div class="header">
+  <div class="header_top">
+    <div class="wrap">
+      <div class="logo aanimate"> <a href="https://e-contract.com.au/"><img src="https://e-contract.com.au/application/images/logo.png" /></a> </div>
+      <div class="header-phone aanimate">
+        <h2>
+                    <a class="register-interest-btn" href="https://e-contract.com.au/register-interest-employee">Register your interest</a>
+                  </h2></div>
+      <div class="clear"> </div>
+    </div>
+  </div>
+  <div class="header_bottom phone-slogan">
+    <div class="wrap">
+      <div class="top-nav aanimate">
+        <ul>
+                    <li ><a href="https://e-contract.com.au/">Home</a></li>
+                    <li ><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
+                    <li class="active"><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
+                    
+          <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
+          
+        </ul>
+      </div>
+     
+     <!-- MOBILE MENU BUTTON -->
+<div class="mobile-menu-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="mobile-menu-overlay"></div>
+
+<!-- MOBILE MENU DRAWER -->
+<div class="mobile-menu-drawer">
+    <ul>
+                    <li><a href="https://e-contract.com.au/">Home</a></li>
+                    <li><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
+                    <li><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
+                    <li><a href="https://e-contract.com.au/tips-hints">Site Info</a></li>
+        
+                    <li class="divider"></li>
+            <li><a href="https://e-contract.com.au/register-interest-employee">Register your interest</a></li>
+            </ul>
+</div>
+
+      
+      <!--div class="header-search">
+
+
+
+
+
+
+
+							<form action="https://e-contract.com.au/search/find_me_work" method="get"><input type="text" value="" placeholder="Search" name="s" /><input type="hidden" name="search" value="work" /></form>
+
+
+
+
+
+
+
+						</div--> 
+      
+    </div>
+  </div>
+</div>
+
+<!---End-header---> 
+
+<!---start-content---->
+
+<div class="content">
+<div class="signnup-pop ec-hidden"><span id="errorVal">
+    </span> <a href="javascript:void(0);" class="pop-close"><img src="https://e-contract.com.au/application/images/cross.png" alt="" /></a> </div>
+<div id="invitef" class="my_availability">
+  <form onSubmit="return check_friend();" class="contact-form" method="post" action="#">
+    <table>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right"><a class="ec-popup-close" href="javascript:void(0);" onClick="$('.my_availability').hide();">X</a></td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td class="text-bold">Invite friend to join your network</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Email Friend&nbsp;&nbsp;
+            <input placeholder="Enter friends e-mail" type="text" value="" id="to" name="to"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Friends Name&nbsp;&nbsp;
+            <input placeholder="Enter friends name" type="text" value="" id="toname" name="toname"></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Message&nbsp;&nbsp;
+            <textarea placeholder="Enter message here" name="message" id="message" cols="29"></textarea></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right">&nbsp;</td>
+        </tr>
+        <tr> </tr>
+        <tr>
+          <td><input type="hidden" name="url" class="url" />
+            <input type="submit" value="Send" class="mybutton" name="submit"></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+
+
+
+<div id="fsearch" class="my_availability">
+  <form onsubmit="return check_avail();" method="post" action="https://e-contract.com.au/search/find_me_worker?search=worker">
+    <table>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right"><a class="ec-popup-close ec-popup-close-borderless" href="javascript:void(0);" onclick="$('.my_availability').hide();">X</a></td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td class="text-bold">Locate contacts on <span class="bcolor">e-</span>contract</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>
+            <input placeholder="Enter email" type="text" name="email" ></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td align="right">&nbsp;</td>
+        </tr>
+        <tr> </tr>
+        <tr>
+          <td><input type="submit" value="Find" class="mybutton" name="Find"></td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+
+<style>
+/* ================================================================
+   Work v2  â  job detail card layout (rebuilt)
+   Scoped to .wk2 to avoid colliding with existing site styles
+   ================================================================ */
+.float-rights a{ float: right; }
+.wk2 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding: 24px 0 48px;
+    background: transparent;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ââ Main card ââââââââââââââââââââââââââââââââââââââââââââââââââ */
+.d-card-highlight{border-radius: 14px 14px 0 0;}
+.wk2-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    padding: 28px 26px 16px;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wk2-card > *:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* ââ TOP: Logo + Title + Company (side by side) ââââââââââââââââ */
+.wk2-header {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.wk2-logo {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wk2-logo img,
+.wk2-logo .user_pic {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+}
+
+.wk2-header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.wk2-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #e8281e;
+    margin: 0 0 4px;
+    line-height: 1.3;
+    word-wrap: break-word;
+}
+
+.wk2-biz {
+    font-size: .875rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.wk2-biz a {
+    color: #e8281e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.wk2-biz a:hover { text-decoration: underline; }
+
+/* ââ MIDDLE: Info grid âââââââââââââââââââââââââââââââââââââââââ */
+.wk2-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 20px;
+    font-size: .875rem;
+    border: 1px solid #f3f4f6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.wk2-info-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    color: #4b5563;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-width: 0;
+}
+
+.wk2-info-row:nth-child(odd) {
+    border-right: 1px solid #f3f4f6;
+}
+
+.wk2-info-row strong {
+    color: #111827;
+    font-weight: 600;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.wk2-info-row .wk2-info-val {
+    flex: 1;
+    min-width: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.wk2-extra-section-title {
+    color: #020617;
+    font-weight: 700;
+}
+
+.wk2-extra-section {
+    margin: 0 0 18px;
+    color: #0f172a;
+    font-size: .875rem;
+}
+
+.wk2-extra-section-title {
+    margin: 0 0 10px;
+}
+
+.wk2-check-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wk2-check-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    color: #334155;
+}
+
+.wk2-check-list .is-off {
+    color: #64748b;
+    text-decoration: line-through;
+}
+
+.wk2-check-icon {
+    color: #10b981;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.wk2-check-list .is-off .wk2-check-icon {
+    color: #cbd5e1;
+}
+
+.wk2-requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    border-radius: 5px;
+    background: #f8fafc;
+    padding: 17px 18px;
+}
+
+.wk2-requirement-name {
+    color: #64748b;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.wk2-requirement-value {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.wk2-weekend-note {
+    display: block;
+    margin-top: 3px;
+    color: #e8281e;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+/* Full-width row spanning both columns */
+.wk2-info-row.full {
+    grid-column: 1 / -1;
+    border-right: none;
+}
+
+.wk2-info-row.full table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.wk2-info-row.full table td,
+.wk2-info-row.full table th {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+}
+
+.wk2-badge-orange {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #fff7ed;
+    color: #f97316;
+    font-size: .75rem;
+    font-weight: 700;
+    padding: 3px 11px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* Labour/quote info rows (full width) */
+.wk2-info-row .fwdate,
+.wk2-info-row .fwtime {
+    display: inline;
+}
+
+/* ââ BELOW GRID: About + docs ââââââââââââââââââââââââââââââââââ */
+.wk2-about {
+    font-size: .875rem;
+    color: #4b5563;
+    line-height: 1.6;
+    margin: 0 0 4px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.wk2-about strong { color: #111827; }
+
+.wk2-files {
+    margin-bottom: 14px;
+    font-size: .875rem;
+}
+
+.wk2-file-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+    border-top: 1px solid #f3f4f6;
+    font-size: .82rem;
+    color: #4b5563;
+}
+
+/* Requirement icon row */
+.wk2 .recived-request-icon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 0;
+}
+
+.wk2 .recived-request-icon a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: auto;
+    background: #f3f4f6;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: .75rem;
+    font-weight: 600;
+    color: #374151;
+    text-decoration: none;
+    position: static;
+}
+
+.wk2 .recived-request-icon a img {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+}
+
+.wk2 .recived-request-icon a i { font-size: .85rem; }
+
+.wk2 a .thumbs_action {
+    float: none;
+    width: auto;
+    background: transparent;
+    color: #374151;
+    position: static;
+    padding: 0;
+    bottom: auto;
+    z-index: auto;
+    font-size: .75rem;
+}
+
+.wk2 a .thumbs_action p { margin: 0; display: inline; }
+
+/* ââ BOTTOM: Actions row (full width) ââââââââââââââââââââââââââ */
+.wk2-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid #f3f4f6;
+    margin-top: 0;
+}
+
+.wk2-actions .quick_list {
+    font-size: .78rem;
+    color: #9ca3af;
+    text-decoration: none;
+    padding: 4px 8px;
+}
+
+.wk2-actions .quick_list:hover { color: #374151; }
+
+.wk2-actions p { margin: 0; }
+
+
+.wk2-actions select.quantity {
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: .82rem;
+    color: #374151;
+    background: #f9fafb;
+    outline: none;
+}
+
+/* ââ Buttons ââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+.wk2 .mybutton,
+.wk2 button.mybutton,
+.wk2 input.mybutton {
+    display: inline-block;
+    padding: 9px 16px;
+    background: #e8281e;
+    color: #fff !important;
+    font-size: .82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.wk2 .mybutton:hover,
+.wk2 button.mybutton:hover,
+.wk2 input.mybutton:hover {
+    background: #c41e16;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.wk2 .mybutton.smallbutton {
+    width: auto;
+    padding: 5px 12px;
+    font-size: .75rem;
+}
+
+.wk2 .mybutton-gray,
+.wk2 button.mybutton-gray {
+    display: inline-block;
+    padding: 9px 16px;
+    background: #f3f4f6;
+    color: #374151 !important;
+    font-size: .82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.wk2 .mybutton-gray:hover,
+.wk2 button.mybutton-gray:hover {
+    background: #e5e7eb;
+    color: #374151 !important;
+    text-decoration: none;
+}
+
+.wk2 .mybutton-black,
+.wk2 button.mybutton-black {
+    display: inline-block;
+    padding: 9px 16px;
+    background: #111827;
+    color: #fff !important;
+    font-size: .82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease;
+    text-align: center;
+    white-space: nowrap;
+    line-height: 1.4;
+    box-sizing: border-box;
+}
+
+.wk2 .mybutton-black:hover,
+.wk2 button.mybutton-black:hover {
+    background: #1f2937;
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.wk2 .appbutton {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #f3f4f6;
+    border-radius: 7px;
+    font-size: .8rem;
+    color: #6b7280;
+    font-weight: 600;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* ââ Message box ââââââââââââââââââââââââââââââââââââââââââââââââ */
+.wk2-msg-box {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.wk2-msg-box textarea {
+    display: block;
+    width: 100%;
+    min-height: 80px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #111827;
+    box-sizing: border-box;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+.wk2-msg-box textarea:focus { border-color: #e8281e; }
+
+/* ââ Owner controls card ââââââââââââââââââââââââââââââââââââââââ */
+.wk2-owner-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: visible;
+}
+
+.wk2-owner-card .buttondiv {
+    margin: 0;
+}
+
+.wk2-owner-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.wk2-owner-btns .mybutton,
+.wk2-owner-btns .mybutton-gray,
+.wk2-owner-btns .mybutton-black,
+.wk2-owner-btns input.mybutton,
+.wk2-owner-btns input[type="button"] {
+    width: auto;
+    flex-shrink: 0;
+}
+
+.wk2-owner-btns .wk2-owner-edit {
+    min-width: 100px !important;
+}
+
+/* Contacts table */
+.wk2-contacts-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 9999;
+    background: rgba(15,23,42,.45);
+    box-sizing: border-box;
+}
+
+.wk2-contacts-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 94%;
+    max-width: 720px;
+    max-height: calc(100vh - 40px);
+    margin: 0;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: rgba(15,23,42,.22) 0 22px 55px;
+    overflow: auto;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+}
+
+.wk2 table.wk2-contacts-table {
+    display: table !important;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: none;
+    border: 0;
+    border-radius: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    overflow: hidden;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.wk2 table.wk2-contacts-table col.wk2-contacts-col-check {
+    width: 46px;
+}
+
+.wk2 table.wk2-contacts-table col.wk2-contacts-col-name {
+    width: 31%;
+}
+
+.wk2 table.wk2-contacts-table td {
+    padding: 12px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid #f3f4f6;
+    color: #374151;
+    word-break: break-word;
+}
+
+.wk2 table.wk2-contacts-table tr:last-child td {
+    border-bottom: none;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-close-row td {
+    padding-bottom: 6px;
+    border-bottom: none;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-title-row td {
+    padding-top: 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-title-row h2 {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+    color: #111827;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-headings td {
+    background: #f9fafb;
+    color: #111827;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-check-cell {
+    width: auto;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    vertical-align: middle;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-headings td:nth-child(2),
+.wk2 table.wk2-contacts-table .wk2-contact-row td:nth-child(2) {
+    width: 31%;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-close {
+    float: right;
+    color: #6b7280;
+    text-decoration: none;
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-close:hover {
+    color: #111827;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-empty td {
+    text-align: center;
+    color: #6b7280;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-feedback-row td {
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.wk2-contacts-feedback {
+    margin: 0 0 10px;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.wk2-contacts-feedback.is-success {
+    background: #f3f4f6;
+    border-color: #ff4136;
+    box-shadow: inset 4px 0 0 #e8281e;
+    color: #e8281e;
+}
+
+.wk2-contacts-feedback.is-error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #991b1b;
+}
+
+.wk2-contacts-feedback-action {
+    margin-top: 8px;
+}
+
+.wk2-contacts-feedback-action a {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-actions td {
+    padding-top: 14px;
+    text-align: center;
+}
+
+.wk2-contacts-submit-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-actions .mybutton {
+    width: 100%;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.wk2 table.wk2-contacts-table input[type="checkbox"] {
+    margin: 0;
+}
+
+.wk2 table.wk2-contacts-table .wk2-contacts-check-cell input[type="checkbox"] {
+    width: 16px !important;
+    min-width: 0;
+    height: 16px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Role grouping (Contractors / Employees) inside the contacts modal */
+.wk2 table.wk2-contacts-table .wk2-contacts-group td {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding-top: 16px;
+    padding-bottom: 8px;
+}
+.wk2-group-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #111827;
+}
+.wk2-group-count {
+    font-size: .72rem;
+    font-weight: 700;
+    color: #6b7280;
+    background: #f3f4f6;
+    border-radius: 999px;
+    padding: 2px 9px;
+}
+.wk2-group-note {
+    float: right;
+    font-size: .74rem;
+    font-weight: 600;
+    color: #b91c1c;
+}
+.wk2 table.wk2-contacts-table .wk2-contacts-group.is-locked td,
+.wk2 table.wk2-contacts-table .wk2-contact-row.is-locked td {
+    opacity: .45;
+}
+.wk2 table.wk2-contacts-table .wk2-contacts-group.is-locked .wk2-group-note {
+    opacity: 1;
+}
+.wk2-contacts-group-empty {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.wk2-contacts-submit[disabled] {
+    opacity: .75;
+    cursor: wait;
+}
+
+.wk2-contact-note {
+    display: block;
+    margin-top: 2px;
+    color: #e8281e;
+    font-size: .74rem;
+    font-weight: 600;
+}
+
+.wk2-inline-history {
+    display: none;
+    margin: 0 0 20px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    padding: 20px;
+}
+
+.wk2-inline-history-empty {
+    margin: 0;
+    color: #6b7280;
+    font-size: .9rem;
+}
+
+.wk2-history-group {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 12px;
+}
+
+.wk2-history-group:last-child {
+    margin-bottom: 0;
+}
+
+.wk2-history-group.is-open .wk2-history-arrow {
+    transform: rotate(180deg);
+}
+
+.wk2-history-date-toggle {
+    width: 100%;
+    border: 0;
+    background: #f9fafb;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.wk2-history-date {
+    font-size: .95rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.wk2 .wk2-history-date-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #6b7280;
+    font-size: .8rem;
+    white-space: nowrap;
+}
+
+.wk2 .wk2-history-date-meta > span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.wk2-history-count {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #e8281e;
+    font-weight: 700;
+}
+
+.wk2-history-arrow {
+    font-size: .8rem;
+    transition: transform .2s ease;
+}
+
+.wk2-history-items {
+    padding: 0 16px 6px;
+}
+
+.wk2-history-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid #f3f4f6;
+}
+
+.wk2-history-avatar {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    background: #f3f4f6;
+}
+
+.wk2-history-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.wk2-history-copy {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.wk2-history-name {
+    color: #111827;
+    font-size: .95rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.wk2-history-biz,
+.wk2-history-time {
+    color: #6b7280;
+    font-size: .84rem;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.wk2-history-link {
+    color: #e8281e;
+    text-decoration: none;
+    font-size: .84rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.wk2-history-link:hover {
+    text-decoration: underline;
+}
+
+/* ââ Section headings âââââââââââââââââââââââââââââââââââââââââââ */
+.wk2-section-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+/* ââ Quote / agreement cards ââââââââââââââââââââââââââââââââââââ */
+.wk2-agreement-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: .875rem;
+    color: #374151;
+    position: relative;
+}
+
+.wk2-agreement-card span { display: block; }
+.wk2-agreement-card strong { color: #111827; }
+
+.wk2-agreement-card .float-right {
+    position: absolute;
+    top: 22px;
+    right: 24px;
+}
+
+.wk2-agreement-card .cancel_agreement {
+    color: #b91c1c;
+    font-size: .8rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.wk2-agreement-card .cancel_agreement:hover { text-decoration: underline; }
+
+
+.wk2-agreement-card .circle-gray {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 8px;
+    background: #fff7ed;
+    color: #f97316;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.wk2-agreement-card .displayflex {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Quote view box */
+.wk2-quote-box {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    padding: 24px 26px;
+    margin-bottom: 20px;
+}
+
+.wk2-quote-row {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid #f9fafb;
+    font-size: .875rem;
+}
+
+.wk2-quote-row:last-child { border-bottom: none; }
+
+.wk2-quote-row strong {
+    min-width: 200px;
+    flex-shrink: 0;
+    color: #374151;
+}
+
+.wk2-quote-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+    align-items: center;
+}
+
+.wk2-quote-btns .mybutton,
+.wk2-quote-btns .mybutton-gray,
+.wk2-quote-btns .mybutton-black {
+    padding: 8px 20px;
+}
+
+/* Quote accepted banner */
+.wk2-accepted-banner {
+    background: #fff7ed;
+    border: 2px solid #f97316;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.wk2-accepted-banner h3 {
+    color: #c2410c;
+    margin: 0 0 8px;
+    font-size: 1.1rem;
+}
+
+.wk2-accepted-banner p {
+    color: #555;
+    font-size: .875rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Provide quote form */
+.wk2-quote-form-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    padding: 28px 26px;
+    margin-bottom: 20px;
+}
+
+.wk2 .rate_price .Cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.wk2 .rate_price input[type="number"] {
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: .875rem;
+    color: #111827;
+    background: #f9fafb;
+    outline: none;
+    width: 60px;
+}
+
+.wk2 .rate_price input[type="number"]:focus {
+    border-color: #e8281e;
+    background: #fff;
+}
+
+.wk2-hours-row,
+.wk2-quote-dates {
+    display: flex;
+    align-items: center;
+    gap: 10px 16px;
+    margin-bottom: 14px;
+}
+
+.wk2 .wk2-hours-row .Cell,
+.wk2 .wk2-quote-dates .Cell {
+    width: auto;
+    margin: 0;
+}
+
+.wk2-hours-title,
+.wk2-quote-dates-title {
+    color: #374151;
+}
+
+.wk2-hours-field,
+.wk2-quote-date-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wk2-hours-field label,
+.wk2-quote-date-field label {
+    margin: 0;
+    white-space: nowrap;
+    font-size: .875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.wk2-hours-field input[type="number"] {
+    width: 90px;
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: .875rem;
+    color: #111827;
+    background: #f9fafb;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.wk2-hours-field input[type="number"]:focus {
+    border-color: #e8281e;
+    background: #fff;
+}
+
+.wk2 .from_date,
+.wk2 .to_date,
+.wk2 input[name="complete_one"],
+.wk2 input[name="complete_two"] {
+    padding: 9px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-size: .875rem;
+    color: #111827;
+    background: #f9fafb;
+    outline: none;
+}
+
+.wk2-quote-ack-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    margin-bottom: 14px;
+    font-size: .875rem;
+}
+
+.wk2-quote-date-range {
+    color: #374151;
+}
+
+.wk2-ack-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    color: #374151;
+}
+
+.wk2-ack-label input[type="checkbox"] {
+    width: auto !important;
+    margin: 0;
+    flex-shrink: 0;
+}
+
+.wk2 textarea.about {
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: .875rem;
+    box-sizing: border-box;
+    resize: vertical;
+    outline: none;
+}
+
+/* Cancelled banner */
+.wk2-cancelled {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 14px 18px;
+    color: #b91c1c;
+    font-size: .875rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Inline errors */
+.wk2 .error_signup {
+    display: block;
+    margin-top: 4px;
+    font-size: .78rem;
+    color: #b91c1c;
+}
+.mybutton, .mybutton-gray, .mybutton-black {min-width:150px;}
+/* ââ Responsive âââââââââââââââââââââââââââââââââââââââââââââââââ */
+@media (max-width: 768px) {
+    /* Mobile card highlight header */
+    .d-card-highlight {
+        padding: 12px 14px;
+        gap: 10px;
+    }
+    
+    /* Logo smaller on mobile */
+    .d-card-logo {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+    }
+    
+    .d-card-logo img,
+    .d-card-logo .user_pic {
+        width: 44px;
+        height: 44px;
+    }
+    
+    /* Overview section stacking with proper spacing */
+    .d-card-overview {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    /* Title smaller and truncated */
+    .d-card-title {
+        font-size: 0.875rem;
+        font-weight: 700;
+        margin: 0 0 2px;
+        line-height: 1.2;
+    }
+    
+    /* Company smaller, single line */
+    .d-card-company {
+        font-size: 0.75rem;
+        font-weight: 400;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin: 0;
+    }
+    
+    /* Rate badge smaller on mobile */
+    .d-card-rate {
+        flex-shrink: 0;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: 600;
+        min-width: 50px;
+    }
+    
+    /* Star button size for mobile */
+    .m-star-btn {
+        flex-shrink: 0;
+        background: none;
+        border: 1px solid #ccc;
+        color: #ccc;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0 2px;
+        line-height: 1;
+        transition: color 0.2s;
+        border-radius: 50px;
+    }
+    
+    .m-star-btn.selected {
+        color: #e8281e;
+        border-color: #e8281e;
+    }
+}
+
+@media (max-width: 640px) {
+    .wk2-header { flex-direction: column; text-align: center; }
+    .wk2-logo { width: 64px; height: 64px; }
+    .wk2-logo img, .wk2-logo .user_pic { width: 64px; height: 64px; }
+    .wk2-info-grid,
+    .wk2-requirements-grid { grid-template-columns: 1fr; }
+    .wk2-info-row:nth-child(odd) { border-right: none; }
+    .wk2-actions { width: 100%; flex-direction: row; flex-wrap: wrap; }
+    .wk2-owner-btns { flex-direction: column; }
+    .wk2-owner-btns .mybutton,
+    .wk2-owner-btns .mybutton-gray,
+    .wk2-owner-btns .mybutton-black,
+    .wk2-owner-btns input.mybutton, .wk2-quote-btns button,
+    .wk2-owner-btns input[type="button"] { width: 100%; }
+
+    .wk2-hours-row,
+    .wk2-quote-dates {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .wk2 .wk2-hours-row .Cell,
+    .wk2 .wk2-quote-dates .Cell {
+        width: 100%;
+    }
+
+    .wk2-hours-field,
+    .wk2-quote-date-field {
+        display: grid;
+        grid-template-columns: 72px minmax(0, 1fr);
+        width: 100%;
+        gap: 10px;
+    }
+
+    .wk2-hours-field input[type="number"],
+    .wk2-quote-date-field input {
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .wk2-history-date-toggle,
+    .wk2-history-item {
+        align-items: flex-start;
+    }
+
+    .wk2-history-date-toggle {
+        align-items: flex-start;
+    }
+
+
+    .wk2-history-item {
+        flex-wrap: wrap;
+    }
+
+    .wk2-history-link {
+        padding-left: 66px;
+    }
+
+    .wk2 table.wk2-contacts-table {
+        margin: 0;
+        table-layout: auto;
+    }
+
+    .wk2 table.wk2-contacts-table td {
+        padding: 10px 10px;
+        font-size: .82rem;
+    }
+
+    .wk2 table.wk2-contacts-table col.wk2-contacts-col-check {
+        width: 40px;
+    }
+
+    .wk2 table.wk2-contacts-table col.wk2-contacts-col-name {
+        width: 42%;
+    }
+
+    .wk2 table.wk2-contacts-table .wk2-contacts-check-cell {
+        width: auto;
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+
+    .wk2 table.wk2-contacts-table .wk2-contacts-check-cell input[type="checkbox"] {
+        width: 15px !important;
+        height: 15px;
+    }
+
+    .wk2 table.wk2-contacts-table .wk2-contacts-headings td:nth-child(2),
+    .wk2 table.wk2-contacts-table .wk2-contact-row td:nth-child(2) {
+        width: 42%;
+    }
+
+    .wk2-contacts-modal {
+        background: rgba(15,23,42,.45);
+    }
+
+    .wk2-contacts-dialog {
+        top: 8px;
+        width: calc(100% - 16px);
+        max-height: calc(100vh - 16px);
+        border-radius: 12px;
+        transform: translateX(-50%);
+    }
+}
+</style>
+
+<div class="wrap work_page">
+    <div class="content_top">
+        <div class="grid1">
+            <div class="grides">
+                <div class="contact-form">
+                    <div class="full_grid">
+            <div class="wk2">
+
+                
+                <!-- ââ Main job card ââââââââââââââââââââââââââââââ -->
+               
+
+                    <!-- ââ TOP: Logo + Title + Company (new design) ââââââââââ -->
+                    <h1 class="page-title">Job Detail <span class="page-title-variant">&mdash; Quote for a contract</span></h1>
+
+                    <div class="d-card-highlight">
+                        <a href="https://e-contract.com.au/user/view/469" class="d-card-logo" aria-label="View Principal Contractor">
+                            <img src="https://e-contract.com.au/user/logo/nubelson-fernandes-UcYBL5V0xWQ-unsplash.jpg" title="" alt="" class="user_pic">                        </a>
+                        <div class="d-card-overview">
+                            <div class="d-card-title">Carpenter needed Ã¹ WA</div>
+                            <div class="d-card-company"><a href="https://e-contract.com.au/user/view/469">View Principal Contractor</a></div>
+                            <div class="d-card-company"> <span>â¢ Migratory - Offshore - Shipping (ACT)/</span></div>
+                        </div>
+                                                    <div class="d-card-rate">Quote</div>
+                                                <button class="m-star-btn quick_list " rel="780" title="Add to Quick List" aria-label="Add to Quick List">â</button>
+                    </div><!-- /.d-card-highlight -->
+                 <div class="wk2-card">    
+                    <!-- ââ MIDDLE: Info grid ââââââââââââââââââââ -->
+                    <div class="wk2-info-grid">
+
+                        <div class="wk2-info-row">
+                            <strong>Location:</strong>
+                            <span class="wk2-info-val">Migratory - Offshore - Shipping (ACT) / </span>
+                        </div>
+
+                        
+                        
+                                                <div class="wk2-info-row">
+                            <strong>Job Title:</strong>
+                            <span class="wk2-info-val">Cleaner</span>
+                        </div>
+                        
+                                                <div class="wk2-info-row full">
+                            <span class="wk2-info-val"><div style="word-wrap: break-word; overflow-wrap: break-word;"><div class="uv2-badges"><strong>Job Title:</strong> <span class="uv2-badge">Cleaner</span></div><div class="uv2-badges"><strong>Specific Skills:</strong> <span class="uv2-badge">Appliances</span> <span class="uv2-badge">Commercial</span></div></div></span>
+                        </div>
+                        
+                        
+                        <div class="wk2-info-row">
+                            <strong>Due Date for Quote:</strong>
+                            <span class="wk2-info-val">06 May 2026</span>
+                        </div>
+
+                        <div class="wk2-info-row">
+                            <strong>Price:</strong>
+                            <span class="wk2-info-val">Charge up</span>
+                        </div>
+
+                        <div class="wk2-info-row full">
+                            <strong>Date Requirements:</strong>
+                            <span class="wk2-info-val">Fixed Date Required <br /> 03 May 2026 - 31 May 2026</span>
+                        </div>
+
+                        <div class="wk2-info-row full">
+                            <strong>Materials:</strong>
+                            <span class="wk2-info-val">Principal Contractor supplies materials</span>
+                        </div>
+                        
+                    </div><!-- /.wk2-info-grid -->
+
+                    
+                    
+                    
+                                        <div class="wk2-extra-section">
+                        <div class="wk2-extra-section-title">Expected work:</div>
+                        <ul class="wk2-check-list">
+                                                        <li class="is-on"><span class="wk2-check-icon">&#10003;</span><span>Saturday</span></li>
+                                                        <li class="is-on"><span class="wk2-check-icon">&#10003;</span><span>Sunday</span></li>
+                                                        <li class="is-off"><span class="wk2-check-icon">&#10005;</span><span>Possible weekend work</span></li>
+                                                        <li class="is-off"><span class="wk2-check-icon">&#10005;</span><span>Possible overtime</span></li>
+                                                    </ul>
+                    </div>
+                    
+                    
+                                        <div class="wk2-extra-section">
+                        <div class="wk2-extra-section-title">Requirements:</div>
+                        <div class="wk2-requirements-grid">
+                                                        <div class="wk2-requirement">
+                                <div class="wk2-requirement-name">Tools</div>
+                                <div class="wk2-requirement-value">To be confirmed</div>
+                            </div>
+                                                        <div class="wk2-requirement">
+                                <div class="wk2-requirement-name">Vehicle</div>
+                                <div class="wk2-requirement-value">To be confirmed</div>
+                            </div>
+                                                        <div class="wk2-requirement">
+                                <div class="wk2-requirement-name">References</div>
+                                <div class="wk2-requirement-value">To be confirmed</div>
+                            </div>
+                                                    </div>
+                    </div>
+                    
+                    <!-- ââ BELOW GRID: About + Docs âââââââââââââ -->
+                    <div class="wk2-about">
+                        <strong>About:</strong> Sample job listing for the e-contract walkthrough. Immediate start, ongoing work available.                    </div>
+
+                    
+                                        <div class="wk2-about" style="margin-top:8px;">
+                        <strong>Quote document:</strong> <p>Test</p>                    </div>
+                    
+                    <!-- ââ BOTTOM: Actions row (only for visitors, not job owner) ââ -->
+                                        <div class="wk2-actions">
+                        
+                        <div class="recived-request-left-panel" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                                                                <button onclick="window.location.href='https://e-contract.com.au/search/work/780?quote=1#quote'" class="mybutton">Provide Quote</button>
+                                                                <button class="mybutton-gray send_message" value="780">Message</button>
+                            <button class="mybutton-black add_to_contact" value="469">Add to contacts</button>
+                        </div>
+                    </div><!-- /.wk2-actions -->
+                    
+                    <!-- Message form (hidden by default, shown by JS) -->
+                    <div id="send_message" style="display:none;" class="wk2-msg-box">
+                        <textarea name="message" id="messagew" placeholder="Write your message"></textarea>
+                        <div>
+                            <button class="mybutton send_message_button" style="width:auto;padding:9px 20px;">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- Requirement icons -->
+                    <div class="recived-request-icon">
+                                            </div><!-- /.recived-request-icon -->
+
+                </div><!-- /.wk2-card -->
+
+                <!-- ââ Owner controls ââââââââââââââââââââââââââââ -->
+                
+                <!-- ââ View quote panel ââââââââââââââââââââââââââ -->
+                
+                <!-- ââ Cancelled banner ââââââââââââââââââââââââââ -->
+                
+                
+                <!-- ââ Provide Quote form ââââââââââââââââââââââââ -->
+                
+                <!-- ââ Agreement 'with Sub-contractor' / 'with Employee' (employer view) ââ -->
+                
+                <!-- ââ Agreement 'with Principal Contractor' (employee view) ââ -->
+                
+            </div><!-- /.wk2 -->
+                    </div><!-- /.full_grid -->
+                </div><!-- /.contact-form -->
+            </div><!-- /.grides -->
+        </div><!-- /.grid1 -->
+
+        
+
+
+<aside class="sidebar" data-right-profile-sidebar="1" aria-label="My Profile">
+    <div class="sidebar-tabs" role="tablist">
+                <a href="https://e-contract.com.au/tips-hints" class="tab active" role="tab">Site Info</a>
+    </div>
+
+    
+    <div class="sidebar-panel active" data-panel="extras" role="tabpanel">
+        <ul class="sidebar-menu">
+            <li><a class="menu-row" href="https://e-contract.com.au/tips-hints"><span class="row-label">Site Info</span></a></li>
+        </ul>
+    </div>
+</aside>
+
+<script type="text/javascript">
+$(document).ready(function(){
+
+    $('.sidebar[data-right-profile-sidebar] .sidebar-tabs .tab').on('click', function(){
+        var target = $(this).data('target');
+
+        $('.sidebar[data-right-profile-sidebar] .sidebar-tabs .tab').removeClass('active');
+        $('.sidebar[data-right-profile-sidebar] .sidebar-panel').removeClass('active');
+
+        $(this).addClass('active');
+        $('.sidebar[data-right-profile-sidebar] .sidebar-panel[data-panel="' + target + '"]').addClass('active');
+    });
+
+    $('.sidebar[data-right-profile-sidebar] .sidebar-menu').on('click', 'li.has-submenu > .menu-row', function(e){
+        if ($(e.target).closest('a').length) {
+            return;
+        }
+
+        e.preventDefault();
+        var item = $(this).parent('li');
+        item.toggleClass('expanded');
+        $(this).attr('aria-expanded', item.hasClass('expanded') ? 'true' : 'false');
+    });
+
+    function showCount(selector, value, cssClass)
+    {
+        value = parseInt(value || 0, 10);
+
+        var target = $(selector);
+        if (!target.length) {
+            return;
+        }
+
+        var isBadge = target.hasClass('badge-count') || target.hasClass('badge-action');
+
+        // Never show a zero count (Rob: don't display "0")
+        if (value <= 0) {
+            target.html('').hide();
+            return;
+        }
+
+        if (!isBadge) {
+            target.removeClass('black my_unread_message_count');
+            if (cssClass) {
+                target.addClass(cssClass);
+            }
+        }
+
+        if (isBadge) {
+            target.text(value).show();
+        } else {
+            target.html('(' + value + ')').show();
+        }
+    }
+
+    function showCountWithWrapper(wrapperSelector, numberSelector, value)
+    {
+        value = parseInt(value || 0, 10);
+        var wrapper = $(wrapperSelector);
+        var number = $(numberSelector);
+
+        if (!wrapper.length || !number.length) {
+            return;
+        }
+
+        if (value <= 0) {
+            number.html('');
+            wrapper.hide();
+            return;
+        }
+
+        number.html(value);
+        wrapper.show();
+    }
+
+    function loadProfileCounts()
+    {
+        $.ajax({
+            url: "https://e-contract.com.au/myaccount/ajax_profile_counts",
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            success: function(res){
+
+                if (!res || res.status != 1) {
+                    return;
+                }
+
+                showCount("#count_find_me_work_total", res.find_me_work, "");
+                showCount("#count_find_me_work_new", res.find_me_work_new, "my_unread_message_count");
+                showCount("#count_sent_application_to_work", res.sent_application_to_work, "");
+                showCount("#count_sent_application_to_work_unread", res.sent_application_to_work_unread, "");
+                showCount("#count_received_request_to_work", res.received_request_to_work, "");
+                showCount("#count_received_request_to_work_unread", res.received_request_to_work_unread, "");
+                showCount("#count_employer_agreement", res.employer_agreement, "");
+                showCount("#count_employer_agreement_unread", res.employer_agreement_unread, "");
+                showCount("#count_quick_list", res.quick_list, "");
+                showCount("#count_quick_list_unread", res.quick_list_unread, "");
+
+                showCount("#count_short_term_employment_total", res.short_term_employment, "");
+                showCount("#count_short_term_employment_new", res.short_term_employment_new, "");
+                showCount("#count_short_sent_application_to_work", res.short_sent_application_to_work, "");
+                showCount("#count_short_sent_application_to_work_unread", res.short_sent_application_to_work_unread, "");
+                showCount("#count_short_received_request_to_work", res.short_received_request_to_work, "");
+                showCount("#count_short_received_request_to_work_unread", res.short_received_request_to_work_unread, "");
+                showCount("#count_short_employer_agreement", res.short_employer_agreement, "");
+                showCount("#count_short_employer_agreement_unread", res.short_employer_agreement_unread, "");
+                showCount("#count_short_quick_list", res.short_quick_list, "");
+                showCount("#count_short_quick_list_unread", res.short_quick_list_unread, "");
+                showCount("#count_full_time_employment_total", res.full_time_employment, "");
+                showCount("#count_full_time_employment_new", res.full_time_employment_new, "");
+                showCount("#count_full_sent_application_to_work", res.full_sent_application_to_work, "");
+                showCount("#count_full_sent_application_to_work_unread", res.full_sent_application_to_work_unread, "");
+                showCount("#count_full_received_request_to_work", res.full_received_request_to_work, "");
+                showCount("#count_full_received_request_to_work_unread", res.full_received_request_to_work_unread, "");
+                showCount("#count_full_employer_agreement", res.full_employer_agreement, "");
+                showCount("#count_full_employer_agreement_unread", res.full_employer_agreement_unread, "");
+                showCount("#count_full_quick_list", res.full_quick_list, "");
+                showCount("#count_full_quick_list_unread", res.full_quick_list_unread, "");
+
+                showCount("#count_find_me_a_worker_total", res.find_me_a_worker, "");
+                showCount("#count_find_me_a_worker_new", res.find_me_a_worker_new, "my_unread_message_count");
+                showCount("#count_created_jobs", res.created_jobs, "black");
+                showCount("#count_received_requrest_for_a_worker", res.received_requrest_for_a_worker, "");
+                showCount("#count_received_requrest_for_a_worker_unread", res.received_requrest_for_a_worker_unread, "");
+                showCount("#count_employee_agreement", res.employee_agreement, "");
+                showCount("#count_employee_agreement_unread", res.employee_agreement_unread, "");
+                showCount("#count_previous_jobs", res.previous_jobs, "");
+                showCount("#count_quicklist_worker", res.quicklist_worker, "");
+                showCount("#count_quicklist_worker_unread", res.quicklist_worker_unread, "");
+                showCount("#count_find_employee_total", res.find_employee, "");
+                showCount("#count_find_employee_unread", res.find_employee_unread, "");
+                showCount("#count_find_employee_short_total", res.find_employee_short_total, "");
+                showCount("#count_find_employee_short_total_unread", res.find_employee_short_total_unread, "");
+                showCount("#count_find_employee_short_created_jobs", res.find_employee_short_created_jobs, "");
+                showCount("#count_find_employee_short_received_requests", res.find_employee_short_received_requests, "");
+                showCount("#count_find_employee_short_received_requests_unread", res.find_employee_short_received_requests_unread, "");
+                showCount("#count_find_employee_short_agreements", res.find_employee_short_agreements, "");
+                showCount("#count_find_employee_short_agreements_unread", res.find_employee_short_agreements_unread, "");
+                showCount("#count_find_employee_short_previous_jobs", res.find_employee_short_previous_jobs, "");
+                showCount("#count_find_employee_short_quick_list", res.find_employee_short_quick_list, "");
+                showCount("#count_find_employee_short_quick_list_unread", res.find_employee_short_quick_list_unread, "");
+                showCount("#count_find_employee_full_total", res.find_employee_full_total, "");
+                showCount("#count_find_employee_full_total_unread", res.find_employee_full_total_unread, "");
+                showCount("#count_find_employee_full_created_jobs", res.find_employee_full_created_jobs, "");
+                showCount("#count_find_employee_full_received_requests", res.find_employee_full_received_requests, "");
+                showCount("#count_find_employee_full_received_requests_unread", res.find_employee_full_received_requests_unread, "");
+                showCount("#count_find_employee_full_agreements", res.find_employee_full_agreements, "");
+                showCount("#count_find_employee_full_agreements_unread", res.find_employee_full_agreements_unread, "");
+                showCount("#count_find_employee_full_previous_jobs", res.find_employee_full_previous_jobs, "");
+                showCount("#count_find_employee_full_quick_list", res.find_employee_full_quick_list, "");
+                showCount("#count_find_employee_full_quick_list_unread", res.find_employee_full_quick_list_unread, "");
+
+                showCountWithWrapper("#wrap_total_message", "#count_total_message", res.total_message);
+                showCount("#count_unread_message", res.unread_message, "my_unread_message_count");
+                showCount("#count_contacts", res.contacts, "");
+                showCount("#count_unread_contacts", res.unread_contacts, "my_unread_message_count");
+            }
+        });
+    }
+
+    
+});
+</script>
+        <div class="clear"></div>
+
+    </div><!-- /.content_top -->
+</div><!-- /.wrap -->
+
+
+<style>
+    </style>
+
+<link rel="stylesheet" href="https://e-contract.com.au/application/css/jquery-ui.css">
+
+<script src="https://e-contract.com.au/application/js/jquery-ui.js"></script>
+
+
+<script type="text/javascript">
+
+$(function() {
+var $quoteStartDate = $('input[name="complete_one"]');
+var $quoteEndDate = $('input[name="complete_two"]');
+
+if($quoteStartDate.length && $quoteEndDate.length){
+    var quoteFromText = $quoteStartDate.data('quoteFrom');
+    var quoteToText = $quoteStartDate.data('quoteTo');
+
+    if(quoteFromText && quoteToText){
+        try {
+            var quoteFromDate = $.datepicker.parseDate('dd-mm-yy', quoteFromText);
+            var quoteToDate = $.datepicker.parseDate('dd-mm-yy', quoteToText);
+            var quoteDatepickerOptions = {
+                dateFormat: "dd-mm-yy",
+                changeMonth: true,
+                changeYear: true,
+                minDate: quoteFromDate,
+                maxDate: quoteToDate
+            };
+
+            $quoteStartDate.datepicker($.extend({}, quoteDatepickerOptions, {
+                onSelect: function(selectedDate) {
+                    $quoteEndDate.datepicker('option', 'minDate', $.datepicker.parseDate('dd-mm-yy', selectedDate));
+                }
+            }));
+
+            $quoteEndDate.datepicker($.extend({}, quoteDatepickerOptions, {
+                onSelect: function(selectedDate) {
+                    $quoteStartDate.datepicker('option', 'maxDate', $.datepicker.parseDate('dd-mm-yy', selectedDate));
+                }
+            }));
+
+            $quoteStartDate.add($quoteEndDate).on('click', function() {
+                $(this).datepicker('show');
+            });
+        } catch(err) {
+            $quoteStartDate.datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true });
+            $quoteEndDate.datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true });
+            $quoteStartDate.add($quoteEndDate).on('click', function() {
+                $(this).datepicker('show');
+            });
+        }
+    }
+}
+});
+
+$(document).ready(function(){
+
+
+$('.reject').click(function(){
+
+var mid = $(this).parent().parent().parent().parent();
+
+var pmid = $(this).parent();$(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+var boxval =  $(this).parent().parent();
+
+	$.post("https://e-contract.com.au/search/job_reject",{job_id:$(this).val(), labour_type: '1'},function (data){
+
+	  if(data == 1){ show_msg(mid,'User updated successfully, not this time'); setTimeout(function () {$(boxval).remove();}, 2500);
+	   }else {	show_msg(mid,data); } $(pmid).children('.loading').remove();
+
+	});
+
+});
+
+
+$('.accept').click(function(){
+
+var mid = $(this).parent().parent().parent().parent();
+var oneup = $(this).parent().parent();
+
+var pmid = $(this).parent();$(pmid).append('<span class="loading"><img class="e-loading" src="/application/images/e-loading.gif" /></span>');
+
+var boxval =  $(this).parent().parent();
+
+	$.post("https://e-contract.com.au/search/quote_accept",{job_id:$(this).val(), labour_type: '1'},function (data){
+
+	  if(data==1){ show_msg(mid,'This job is accepted.'); setTimeout(function () {$(boxval).remove();}, 2500);
+
+	  }else show_msg(mid, data); $(pmid).children('.loading').remove();
+
+	});
+
+});
+
+
+
+$('.send_message').click(function(){
+
+	$('#send_message').show(); $('#message').focus();
+
+});
+
+
+
+$('.send_message_button').click(function(){
+
+    $('.error_signup').remove();
+
+    if($('#messagew').val() == ''){ 	$('#messagew').after('<small class="error_signup">Required.</small>'); return false; }
+
+	$('#messagew').after('<small class="error_signup">Sending message....</small>');
+
+	$.post("https://e-contract.com.au/search/send_message",{message:$('#messagew').val(),user_id:469},function (data){ $('.error_signup').remove(); if(data==1){  $('#messagew').val(''); $('#messagew').after('<small class="error_signup">Message has been sent.</small>'); }else if(data==2) $('#messagew').after('<small class="error_signup">You can not message yourself.</small>'); else $('#messagew').after('<small class="error_signup">' + data + '</small>'); });
+
+});
+
+$( ".recived-request-icon a .thumbs_action" ).each(function( index ) {
+
+   if( $.trim($( this ).html())=='' ) $(this).remove();
+
+});
+
+$('.job_apply').click(function(){
+
+    var mid = $(this).parent().parent().parent();
+    var pmid = $(this).parent();
+
+    if($(pmid).children('.quantity').find(":selected").val() == 0){
+        alert('Please select Quantity'); return false;
+    }
+    $(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+    $.post("https://e-contract.com.au/search/job_apply",{job_id:$(this).val(),quantity:$(pmid).children('.quantity').val()},function (data){
+
+ 		if(data == 1) show_msg(mid,'Applied successfully');
+
+		else if(data == 2) show_msg(mid,'You have already applied for this job');
+
+		else {	show_msg(mid,data); }
+
+		$(pmid).children('.loading').remove();
+
+  });
+
+});
+
+$('.job_accept').click(function(){
+
+    var mid = $(this).parent().parent().parent().parent();
+    var oneup = $(this).parent().parent();
+    var pmid = $(this).parent();
+
+    if($(oneup).children('.quantity').find(":selected").val() == 0){
+        alert('Please select Quantity'); return false;
+    }
+
+    $(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+$.post("https://e-contract.com.au/search/job_hire_accept",{job_id:$(this).val(),quantity:$(oneup).children('.quantity').val()},function (data){
+
+ 		if(data == 1){ show_msg(mid,'Job accepted successfully'); $('.job_reject_accept').remove(); }
+
+		else if(data == 2){ show_msg(mid,'This job is occupied'); $('.job_reject_accept').remove(); }
+
+		else {	show_msg(mid,data); }
+
+		$(pmid).children('.loading').remove();
+
+  });
+
+});
+
+$('.job_reject').click(function(){
+
+var mid = $(this).parent().parent().parent().parent();
+
+var pmid = $(this).parent();
+
+$(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+$.post("https://e-contract.com.au/search/job_hire_reject",{job_id:$(this).val()},function (data){
+
+ 		if(data == 1){ show_msg(mid,'Job rejected successfully'); $('.job_reject_accept').remove(); }
+
+		else {	show_msg(mid,data); }
+
+		$(pmid).children('.loading').remove();
+
+  });
+
+});
+
+$('.add_to_contact').click(function(){
+
+var mid = $(this).parent().parent().parent().parent();
+
+var pmid = $(this).parent();
+
+$(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+$.post("https://e-contract.com.au/search/job_contact",{friend_id:$(this).val()},function (data){
+
+ 		if(data == 1) show_msg(mid,'Added successfully');
+
+		else if(data == 2) show_msg(mid,'Already in contacts');
+
+		else show_msg(mid,data);
+
+		$(pmid).children('.loading').remove();
+
+  }).stop();
+
+});
+
+$('.quick_list').click(function(e){
+	e.preventDefault();
+	var btn = $(this);
+	var mid = btn.parent().parent();
+	cmid = this;
+
+	btn.append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+	$.post("https://e-contract.com.au/search/quick_list",{job_id:btn.attr('rel')},function (data){
+		$(cmid).children('.loading').remove();
+		
+		if(data == 1) {
+			// Added to quick list
+			btn.addClass('selected');
+			btn.attr('title', 'Remove from Quick List');
+			btn.attr('aria-label', 'Remove from Quick List');
+			show_msg(mid,'Added to quick list');
+		}
+		else if(data == 0) {
+			// Removed from quick list
+			btn.removeClass('selected');
+			btn.attr('title', 'Add to Quick List');
+			btn.attr('aria-label', 'Add to Quick List');
+			show_msg(mid,'Removed from quick list');
+		}
+		else {
+			show_msg(mid,data);
+		}
+	});
+
+});
+
+
+$('#state').change(function(){ $('#suburb').html('<option value=""> Suburb </option>');
+
+ $.post("https://e-contract.com.au/myaccount/region",{state_id:$(this).val(),id:''},function (data){ $('#region').html(data); });
+
+});
+
+$('#region').change(function(){
+
+ $.post("https://e-contract.com.au/myaccount/suburb",{region_id:$(this).val(),id:''},function (data){ $('#suburb').html(data);});
+
+});
+
+//industry
+
+$('#industry').change(function(){ $('#mspecific').html('<option value=""> More Specific </option>');
+
+ $.post("https://e-contract.com.au/myaccount/specific",{industry_id:$(this).val(),id:''},function (data){ $('#specific').html(data); });
+
+});
+
+$('#specific').change(function(){
+
+ $.post("https://e-contract.com.au/myaccount/mspecific",{specific_id:$(this).val(),id:''},function (data){ $('#mspecific').html(data);});
+
+});
+
+
+$('.wk2-show-sent-history').click(function(){
+    var historyBox = $('.wk2-inline-history');
+    historyBox.stop(true, true).slideToggle(200);
+});
+
+var contactForm = $('#send_to_contact');
+var sentHistoryBox = $('.wk2-inline-history');
+var contactActionInput = contactForm.find('input[name="wk2_submit_action"]');
+
+if(contactForm.hasClass('wk2-open-modal')){
+    contactForm.find('.wk2-contacts-modal').show();
+}
+
+if(contactForm.hasClass('wk2-open-history')){
+    sentHistoryBox.show();
+}
+
+contactForm.on('click', '.wk2-view-sent-invites', function(e){
+    e.preventDefault();
+    contactForm.find('.wk2-contacts-modal').hide();
+    sentHistoryBox.stop(true, true).slideDown(200);
+    if(sentHistoryBox.length){
+        $('html, body').animate({ scrollTop: sentHistoryBox.offset().top - 20 }, 250);
+    }
+});
+
+contactForm.on('click', 'input[type="submit"], button[type="submit"]', function(){
+    var isPopupSubmit = $(this).hasClass('wk2-contacts-submit');
+
+    contactForm.data('wk2-popup-submit', isPopupSubmit);
+
+    if(contactActionInput.length){
+        if(isPopupSubmit){
+            contactActionInput.val('send_contacts');
+        }else if($.trim($(this).val()) === 'Publicly post' || $.trim($(this).text()) === 'Publicly post'){
+            contactActionInput.val('public_post');
+        }else{
+            contactActionInput.val('');
+        }
+    }
+});
+
+contactForm.on('change', '#selectall', function(){
+    contactForm.find('.case').prop('checked', this.checked);
+});
+
+contactForm.on('change', '.case', function(){
+    var allCases = contactForm.find('.case');
+    contactForm.find('#selectall').prop('checked', allCases.length > 0 && allCases.length === allCases.filter(':checked').length);
+});
+
+contactForm.find('#selectall').prop(
+    'checked',
+    contactForm.find('.case').length > 0 &&
+    contactForm.find('.case').length === contactForm.find('.case:checked').length
+);
+
+contactForm.submit(function(e){
+    if(!contactForm.data('wk2-popup-submit')){
+        return true;
+    }
+
+    if(contactForm.find('.case:checked').length === 0){
+        e.preventDefault();
+        alert('Please select at least one contact.');
+        return false;
+    }
+
+    var submitButton = contactForm.find('.wk2-contacts-submit');
+    if(submitButton.prop('disabled')){
+        e.preventDefault();
+        return false;
+    }
+
+    submitButton.prop('disabled', true).val('Sending...');
+});
+
+$('.wk2-contacts-modal').click(function(e){
+    if($(e.target).is('.wk2-contacts-modal')){
+        $(this).hide();
+    }
+});
+
+$(document).mouseup(function(e){
+    var popup = $('.wk2-contacts-modal');
+    if(!popup.is(':visible')){
+        return;
+    }
+
+    if(!$(e.target).closest('.wk2-contacts-modal, [onclick*="wk2-contacts-modal"]').length){
+        popup.hide();
+    }
+});
+
+$(document).keyup(function(e){
+    if(e.keyCode == 27){
+        $('.wk2-contacts-modal:visible').hide();
+    }
+});
+
+$('.wk2-history-date-toggle').click(function(){
+    var group = $(this).closest('.wk2-history-group');
+    group.toggleClass('is-open');
+    group.find('.wk2-history-items').stop(true, true).slideToggle(200);
+});
+
+});
+
+function job_apply(jid){
+
+var mid = $('.job_apply').parent().parent().parent().parent();
+ $(mid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+
+        $.post("https://e-contract.com.au/search/job_apply",{job_id:jid,quantity:$('.job_applyqty'+jid).val(), anyway:'1'},function (data){
+
+ 		if(data == 1){ 
+            show_msg(mid,'Applied successfully');
+            $(mid).children('.loading').remove();
+        }else if(data == 2){ 
+            show_msg(mid,'You have already applied for this job');
+            $(mid).children('.loading').remove();
+        }else {	
+            show_msg(mid,data); 
+            $(mid).children('.loading').remove();
+        } 
+    });
+
+}
+
+function cancel_agreement(id){
+
+    var con = confirm('are you sure you want to cancel this agreement?');
+
+    var mid = $('.job_apply').parent().parent().parent().parent();
+
+    if(con){
+        var pmid = $('.cancel_agreement'+id);
+
+        $(pmid).append('<span class="loading"><img class="e-loading" src="../../application/images/e-loading.gif" /></span>');
+
+        $.post("https://e-contract.com.au/search/cancel_agreement",{id:id},function (data){
+
+         		if(data == 1){
+         		    show_msg(mid,'agreement cancelled');
+         		    $(pmid).html('Agreement cancelled');
+         		}
+
+        		else show_msg(mid,data);
+
+        		$('.loading').remove();
+          });
+    }
+
+}
+
+</script>
+ <!---End-content---->
+
+	 </div>
+
+	  <!---Footer---->
+<footer class="ec-footer">
+    <div class="ec-footer-main">
+        <div class="ec-footer-wrap">
+            <div class="ec-footer-grid">
+                <div class="ec-footer-brand">
+                    <a class="ec-footer-logo" href="https://e-contract.com.au/">
+                        <img src="https://e-contract.com.au/application/images/logo-footer-transparent.png" alt="e-contract.com.au">
+                    </a>
+                    <p class="ec-footer-summary">Find Work or Labour when you need it. Our goal is to assist YOU &mdash; connecting contractors, workers and employees across Australia.</p>
+                </div>
+
+                <div class="ec-footer-column">
+                    <h3 class="ec-footer-title">Extra Bits</h3>
+                    <ul class="ec-footer-links">
+                        <li><a href="https://e-contract.com.au/tips-hints">Site Info / FAQ</a></li>
+                        <li><a href="https://e-contract.com.au/privacy-policy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="ec-footer-column">
+                    <h3 class="ec-footer-title">Contact Us</h3>
+                    <a class="ec-footer-button" href="https://e-contract.com.au/contact">Write a Message</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ec-footer-bottom">
+        <div class="ec-footer-wrap">
+            <p class="ec-footer-copy">e-contract.com.au &copy; 2026 All Rights Reserved</p>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript">
+
+window.ecUserLoggedIn = false;
+
+window.ecRequireLoginAlert = function(event){
+    if(window.ecUserLoggedIn){
+        return false;
+    }
+
+    if(event){
+        if(typeof event.preventDefault === 'function'){
+            event.preventDefault();
+        }
+        if(typeof event.stopImmediatePropagation === 'function'){
+            event.stopImmediatePropagation();
+        }
+        if(typeof event.stopPropagation === 'function'){
+            event.stopPropagation();
+        }
+    }
+
+    if(typeof window.show_msg === 'function'){
+        window.show_msg('body', '<a href="https://e-contract.com.au/register-interest-employee">Register your interest here</a>');
+    }else{
+        alert('Please register your interest.');
+    }
+
+    return true;
+};
+
+window.ecFindLoginRequiredTarget = function(target){
+    var current = target;
+
+    while(current && current !== document){
+        if(current.nodeType !== 1){
+            current = current.parentNode;
+            continue;
+        }
+
+        if(current.disabled){
+            return null;
+        }
+
+        if(current.hasAttribute('data-requires-login')){
+            return current;
+        }
+
+        if(typeof current.matches === 'function' && current.matches('button.send_message, button.send_message_button, button.job_apply, button.hire_worker, a.hire_worker')){
+            return current;
+        }
+
+        // Job finalise actions â guests are STOPPED here (not server-redirected): the
+        // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
+        // post / Send buttons on Need Someone Now (quick job). This gate runs in the
+        // capture phase, so it fires before the form's own validation/submit â the
+        // guest sees "Register your interest" and the form never validates or posts.
+        if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
+            return current;
+        }
+
+        var href = (typeof current.getAttribute === 'function' && current.getAttribute('href')) || '';
+        var onclick = (typeof current.getAttribute === 'function' && current.getAttribute('onclick')) || '';
+        var label = (typeof current.getAttribute === 'function' && current.getAttribute('data-login-label')) || current.value || current.textContent || '';
+
+        href = href.toLowerCase();
+        onclick = onclick.toLowerCase();
+        label = label.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '').toLowerCase();
+
+        // NOTE: Create a Job / Need Someone Now links are intentionally NOT gated
+        // here. Guests are allowed to OPEN and fill those pages; only the finalise
+        // actions (Publicly Post / Send to Contacts / Submit Quote) are gated, and
+        // that is enforced server-side (redirect to register-interest).
+
+        if(href.indexOf('send=hire') !== -1 || onclick.indexOf('send=hire') !== -1){
+            return current;
+        }
+
+        current = current.parentElement || current.parentNode;
+    }
+
+    return null;
+};
+
+document.addEventListener('click', function(event){
+    var target = event.target;
+
+    if(!target){
+        return;
+    }
+
+    if(target.nodeType === 3){
+        target = target.parentNode;
+    }
+
+    if(!target){
+        return;
+    }
+
+    var actionButton = window.ecFindLoginRequiredTarget(target);
+
+    if(!actionButton || actionButton.disabled){
+        return;
+    }
+
+    // Guests: the job finalise buttons (Publicly post / Send to contacts / Send on
+    // Create a Job + Need Someone Now) STOP here and go straight to Register your
+    // interest. We redirect rather than use the popup because the transient popup
+    // renders at opacity 0 / off-screen on the create-job pages (no visible feedback).
+    if(!window.ecUserLoggedIn && typeof actionButton.matches === 'function' &&
+        actionButton.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        window.location.href = 'https://e-contract.com.au/register-interest-employee';
+        return;
+    }
+
+    window.ecRequireLoginAlert(event);
+}, true);
+
+
+ function check_friend(){
+
+	  $('.error_signup').remove();
+
+	  	
+
+		if($('#to').val() == ''){			
+
+			$('#to').after('<small class="error_signup">Please enter friends email.</small>');
+
+		}
+
+		if($('#toname').val() == ''){			
+
+			$('#toname').after('<small class="error_signup">Please enter friends name.</small>');
+
+		}
+
+		if($('#message').val() == ''){			
+
+			$('#message').after('<small class="error_signup">Please enter message.</small>');
+
+		}	
+
+		
+
+		if($('.error_signup').length>0){ return false; }else{ 
+
+            $('#message').after('<small class="error_signup">Sending...</small>');
+
+			$.post("https://e-contract.com.au/myaccount/friend_network",{to:$('#to').val(),toname:$('#toname').val(),url:$('.url').val(),message:$('#message').val()},function (data){ $('.error_signup').remove();
+
+				if(data == 1) $('#to').after('<small class="error_signup">E-mail is not valid</small>');
+
+				else if(data == 2){ $('#to').val('');$('#toname').val(''); $('#message').val(''); $('#message').after('<small class="error_signup">Message has been sent</small>'); }
+
+				else if(data == 3) $('#message').after('<small class="error_signup">Please login</small>');else alert(data);
+
+			});
+
+		
+
+		}
+
+		return false;
+
+	}
+
+ 
+
+$(document).ready(function(){
+
+
+
+
+
+	$('.invitef').click(function(){ $("html, body").animate({ scrollTop: 100 }, "slow");
+
+	   $('#invitef').show(); $('.url').val($(this).attr('rel'));
+
+	
+
+	});
+
+var aAnimate = $(".aanimate");
+aAnimate.each(function (i) {
+			var li = $(this);
+			if (li.is(':visible')) {
+    			setTimeout(function () {
+    				li.addClass('visible-animation');
+    			}, 200 * i); // delay 200 ms	
+		    }
+		});
+
+
+});
+
+
+var allMods = $(".animate");
+	$(document).scroll(function (event) {
+		
+		allMods.each(function (i) {
+			var li = $(this);
+			if (li.is(':visible')) {
+    			setTimeout(function () {
+    				li.addClass('visible-animation');
+    			}, 200 * i); // delay 200 ms	
+		    }
+		});
+		
+
+	});
+
+</script>
+
+
+<img class="ec-preload-image" src="https://e-contract.com.au/application/images/e-loading.gif" alt="" />
+
+<script async src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+$(document).ready(function(){
+    function showFallbackLoader(){
+        if($('#ec-page-loader').length){
+            return;
+        }
+
+        $('body').append('<div id="ec-page-loader" class="ec-page-loader"><img src="https://e-contract.com.au/application/images/e-loading.gif" alt="Loading..."></div>');
+    }
+
+    function closeFallbackLoader(){
+        $('#ec-page-loader').remove();
+    }
+
+    // Global helper â any page can call this before programmatic redirects
+    window.showPageLoader = function(){
+        if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
+            showFallbackLoader();
+            return;
+        }
+
+        closeFallbackLoader();
+
+        Swal.fire({
+            html: '<img class="ec-loader-image" src="https://e-contract.com.au/application/images/e-loading.gif" alt="Loading...">',
+            allowOutsideClick:  false,
+            allowEscapeKey:     false,
+            showConfirmButton:  false,
+            background:         'transparent',
+            backdrop:           'rgba(255,255,255,0.8)',
+            customClass:        {
+                container: 'swal-loader-container',
+                popup: 'swal-no-shadow'
+            }
+        });
+    };
+
+    // Show loader on internal link clicks
+    $(document).on('click', 'a', function(e){
+
+        // Skip if another handler already prevented navigation
+        if(e.isDefaultPrevented()) return;
+
+        var href = $(this).attr('href');
+
+        // Skip non-navigation links
+        if(!href || href === '#' || href === '' || href.indexOf('javascript:') === 0) return;
+
+        // Skip links that open in a new tab
+        if($(this).attr('target') === '_blank') return;
+
+        // Allow individual links to opt-out with data-no-loader
+        if($(this).data('no-loader')) return;
+
+        window.showPageLoader();
+    });
+
+    // Show loader on form submissions
+    $(document).on('submit', 'form', function(e){
+        if(e.isDefaultPrevented()) return;
+        window.showPageLoader();
+    });
+
+});
+
+// Close loader when returning via back / forward button (bfcache)
+window.addEventListener('pageshow', function(event){
+    if(event.persisted){
+        if(typeof Swal !== 'undefined'){
+            Swal.close();
+        }
+
+        var fallback = document.getElementById('ec-page-loader');
+        if(fallback && fallback.parentNode){
+            fallback.parentNode.removeChild(fallback);
+        }
+    }
+});
+</script>
+
+  </body>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZNR5GHQBC6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZNR5GHQBC6');
+  
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "q1fi0c91nl");
+</script>
+
+
+</html>

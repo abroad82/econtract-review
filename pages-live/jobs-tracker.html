@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>e-contract — Jobs Tracker</title>
+<style>
+  :root{--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;--purple:#7c3aed}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f9fafb;line-height:1.45}
+  header.top{background:var(--purple);color:#fff;padding:20px 24px}
+  header.top h1{margin:0;font-size:21px}
+  header.top p{margin:5px 0 0;font-size:13px;opacity:.93;max-width:820px}
+  .wrap{padding:20px 24px;max-width:1080px;margin:0 auto}
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 16px;font-size:12px;color:var(--muted)}
+  .pill{border-radius:8px;padding:3px 10px;font-weight:700;font-size:11.5px}
+  .p-high{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+  .p-med{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
+  .p-low{background:#f3f4f6;color:#374151;border:1px solid var(--line)}
+  .p-rob{background:#eef2ff;color:#3730a3;border:1px solid #c7d2fe}
+  .gate{background:#fff7ed;border:1px solid #fed7aa;border-left:5px solid #ea580c;border-radius:10px;padding:13px 16px;margin:4px 0 18px;font-size:13px;color:#7c2d12}
+  .gate b{color:#9a3412}
+  h2.cat{font-size:14px;margin:24px 0 8px;color:#374151;border-bottom:2px solid var(--line);padding-bottom:5px}
+  table{border-collapse:collapse;width:100%;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12.5px}
+  th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:#faf5ff;color:#5b21b6;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+  tr:last-child td{border-bottom:none}
+  td.num{color:var(--muted);width:30px}
+  td.pr{white-space:nowrap;width:118px}
+  td.st{white-space:nowrap;width:96px;color:var(--muted)}
+  .job{font-weight:600}
+  .src{color:var(--muted);font-size:11px;margin-top:2px}
+  .status{font-size:11px;border-radius:6px;padding:2px 7px;background:#f3f4f6;color:#6b7280;border:1px solid var(--line)}
+  .status.done{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+  .note{font-size:12px;color:var(--muted);margin-top:22px;border-top:1px dashed var(--line);padding-top:12px}
+  .note b{color:#374151}
+</style>
+</head>
+<body>
+<!--rb-back--><div style="position:fixed;top:8px;right:10px;z-index:99999"><a href="index.html" style="background:#e8281e;color:#fff;text-decoration:none;font:600 12px/1 -apple-system,Segoe UI,Arial;padding:7px 12px;border-radius:7px;box-shadow:0 1px 4px rgba(0,0,0,.25)">&#8592; Review Board</a></div>
+<header class="top">
+  <h1>📋 Jobs Tracker — e-contract landing</h1>
+  <p>The e-contract.com.au pre-launch landing is <b>finalised, tested and live</b>. This tracks the few outstanding follow-ups (none block the launch) plus any review jobs the team raises in the Workbench.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="gate">
+    ⚠️ <b>Pre-launch behaviour — nothing can be "completed" on the landing.</b> Every finalise action — <b>Publicly Post</b>, <b>Send to Contacts</b>, <b>Submit Quote</b>, sign-up — is intentionally blocked and redirects to <b>“Register your interest”</b>. Visitors can browse and fill the forms, but the only outcome is capturing their interest. So review here is about wording, layout and the journey — not transactions.
+  </div>
+
+  <div class="bar">
+    Priority:
+    <span class="pill p-high">HIGH</span> blocks something
+    <span class="pill p-med">MED</span> should do
+    <span class="pill p-low">LOW</span> optional / polish
+    <span class="pill p-rob">NEEDS ROB/VINAY</span> a decision or info
+    &nbsp;·&nbsp; landing <span class="status done">finalised &amp; tested</span>
+  </div>
+
+  <h2 class="cat">A · Outstanding follow-ups (none block the launch)</h2>
+  <table>
+    <tr><th class="num">#</th><th>Job</th><th>Why it matters</th><th class="pr">Priority</th><th class="st">Status</th></tr>
+    <tr><td class="num">1</td><td><div class="job">Wire a dedicated Supabase to this review board</div><div class="src">Review board · gives the team shared comments/jobs (currently "local only" per browser)</div></td><td>Turns this board from local-only into team-synced.</td><td class="pr"><span class="pill p-rob">ROB</span></td><td class="st"><span class="status">To do</span></td></tr>
+    <tr><td class="num">2</td><td><div class="job">Add the registered entity name + ABN to the Privacy Policy</div><div class="src">/privacy-policy · section 1 currently says just "e-contract"</div></td><td>Completeness for an Australian privacy notice.</td><td class="pr"><span class="pill p-rob">ROB</span></td><td class="st"><span class="status">To do</span></td></tr>
+    <tr><td class="num">3</td><td><div class="job">Email deliverability — SPF / DKIM or Brevo</div><div class="src">Server · confirmation email already works via sendmail (landed in Gmail)</div></td><td>Hardens delivery to stricter inboxes (Outlook/corporate).</td><td class="pr"><span class="pill p-rob">VINAY</span></td><td class="st"><span class="status">To do</span></td></tr>
+    <tr><td class="num">4</td><td><div class="job">Enable CSRF on the register form (optional)</div><div class="src">Server · csrf_protection currently off; form has a honeypot</div></td><td>Anti-spam on the one public write. Low risk if left.</td><td class="pr"><span class="pill p-low">LOW</span></td><td class="st"><span class="status">To do</span></td></tr>
+    <tr><td class="num">5</td><td><div class="job">Set up this board's daily auto-refresh (optional)</div><div class="src">Review board · GitHub repo + Action, like contco's</div></td><td>Keeps the board current automatically; ready for when the full site moves over from Beta.</td><td class="pr"><span class="pill p-low">LOW</span></td><td class="st"><span class="status">To do</span></td></tr>
+  </table>
+
+  <h2 class="cat">B · Done &amp; verified (the landing)</h2>
+  <table>
+    <tr><th class="num">#</th><th>Job</th><th>What was delivered</th><th class="pr">Priority</th><th class="st">Status</th></tr>
+    <tr><td class="num">6</td><td><div class="job">Register-your-interest capture (employee + contractor)</div></td><td>Saves to a dedicated DB; consent + Privacy Policy agreement recorded.</td><td class="pr"><span class="pill p-high">HIGH</span></td><td class="st"><span class="status done">Done</span></td></tr>
+    <tr><td class="num">7</td><td><div class="job">Sample-data walkthrough across every state</div></td><td>Logged-out visitors can browse sample jobs &amp; profiles; no real member data.</td><td class="pr"><span class="pill p-high">HIGH</span></td><td class="st"><span class="status done">Done</span></td></tr>
+    <tr><td class="num">8</td><td><div class="job">Guest gating — all finalise actions → Register your interest</div><div class="src">Publicly Post · Send to Contacts · Submit Quote — client + server</div></td><td>Visitors can fill the forms but can't transact; they're funnelled to register.</td><td class="pr"><span class="pill p-high">HIGH</span></td><td class="st"><span class="status done">Done</span></td></tr>
+    <tr><td class="num">9</td><td><div class="job">Loading fix, capacity check, security check</div></td><td>Local jQuery-UI + self-hosted CKEditor; 60-concurrent burst = 0 errors; endpoints locked down.</td><td class="pr"><span class="pill p-med">MED</span></td><td class="st"><span class="status done">Done</span></td></tr>
+    <tr><td class="num">10</td><td><div class="job">Privacy Policy page + mandatory agree tickbox</div></td><td>/privacy-policy live; agreement stored per registration.</td><td class="pr"><span class="pill p-med">MED</span></td><td class="st"><span class="status done">Done</span></td></tr>
+    <tr><td class="num">11</td><td><div class="job">Footer/header cleanup + orange CTA restored</div><div class="src">Removed Login / Terms / Feedback / Social; added Privacy Policy</div></td><td>Front matches the pre-launch scope.</td><td class="pr"><span class="pill p-low">LOW</span></td><td class="st"><span class="status done">Done</span></td></tr>
+  </table>
+
+  <div class="note">
+    <b>How to use this:</b> raise new review jobs in the <b>Workbench</b> (per page — Repair/Build, P1/P2/P3, Action / Expected / Actual); they'll appear on the Job Board. This tracker is the prioritised summary.<br><br>
+    <b>Remember the gating:</b> there are no completable actions on the landing — every finalise button sends the visitor to “Register your interest”. Review for wording, layout and journey, not transactions.
+  </div>
+</div>
+</body>
+</html>

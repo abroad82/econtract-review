@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>e-contract — Page &amp; Email Flow</title>
+<style>
+  :root{--red:#e8281e;--ink:#111827;--muted:#6b7280;--line:#e5e7eb}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f8fafc;line-height:1.4}
+  header.top{background:var(--red);color:#fff;padding:16px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+  header.top h1{margin:0;font-size:19px;flex:1}
+  header.top a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;background:rgba(255,255,255,.16);padding:6px 12px;border-radius:7px}
+  header.top a:hover{background:rgba(255,255,255,.28)}
+  .meta{opacity:.9;font-size:12.5px;font-weight:400}
+  .wrap{padding:16px 22px;max-width:1400px;margin:0 auto}
+  .legend{font-size:12px;color:var(--muted);margin-bottom:12px;display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+  .legend b{color:#374151}
+  .lane{background:#fff;border:1px solid var(--line);border-left:6px solid var(--c,#64748b);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+  .lane h2{margin:0 0 4px;font-size:16px}
+  .lane .sub{margin:14px 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:800}
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{display:flex;flex-direction:column;justify-content:center;min-width:150px;max-width:210px;border:1px solid var(--line);border-radius:9px;padding:8px 10px;text-decoration:none;color:var(--ink);background:#fbfdff;transition:.12s}
+  .node:hover{border-color:var(--c,#64748b);box-shadow:0 2px 8px rgba(0,0,0,.07)}
+  .node.todo{background:#f9fafb;border-style:dashed;color:#9ca3af}
+  .node .code{font-size:.66rem;font-weight:800;color:#fff;background:#334155;border-radius:4px;padding:1px 6px;align-self:flex-start;margin-bottom:4px}
+  .node.todo .code{background:#9ca3af}
+  .node .nm{font-size:12px;font-weight:600;line-height:1.25}
+  .arrow{align-self:center;color:#cbd5e1;font-size:18px;padding:0 7px;flex:0 0 auto}
+  .emails{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+  .emails .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:#0e7490;font-weight:800;margin-bottom:6px}
+  .echip{display:inline-flex;align-items:center;gap:5px;text-decoration:none;font-size:11.5px;font-weight:600;color:#0e7490;background:#ecfeff;border:1px solid #a5f3fc;border-radius:999px;padding:3px 10px;margin:0 6px 6px 0}
+  .echip:hover{background:#cffafe}
+  .echip.pchip{color:#9a3412;background:#fff7ed;border-color:#fed7aa}
+  .echip.pchip:hover{background:#ffedd5}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>e-contract — Page &amp; Email Flow <span id="total" class="meta"></span></h1>
+  <a href="index.html">← Review Board</a>
+  <a href="page-list.html">Page List ↗</a>
+  <a href="email-list.html">Email List ↗</a>
+  <a href="workbench.html">Workbench ↗</a>
+</header>
+<div class="wrap">
+  <div class="legend">
+    <span><b>How to read it:</b> each lane is a user; arrows show the page flow; click any page to open it in the Workbench. ✉ chips are the emails that fire in that lane.</span>
+  </div>
+  <div id="flow"></div>
+</div>
+
+<script src="pages.js"></script>
+<script>
+(function(){
+  function codeOf(p){ if(p.c) return p.c; if(p.f){var s=p.f.replace(/\.html?$/i,'');return s.indexOf('_')>=0?s.split('_')[0]:s;} return "—"; }
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+
+  // emails that fire per user lane (codes -> the Email List). Onboarding/Star emails are page nodes already.
+  var LANE_EMAILS = {
+    "1 · Logged Out":      ["EM01","EM02","EM03","EM18","EM19","EM24","EM25","EM26"],
+    "2 · Principal Contractor":["EM04","EM05","EM06","EM08","EM09","EM10","EM12","EM13","EM14","EM15","EM16","EM20"],
+    "3 · Sub-contractor":  ["EM07","EM11"],
+    "6 · Shared":          ["EM17","EM21"]
+  };
+  var LANE_POPUPS = {
+    "1 · Logged Out":["POP02","POP03","POP04"],
+    "2 · Principal Contractor":["POP05","POP06","POP07","POP08","POP09"],
+    "3 · Sub-contractor":["POP10","POP11","POP12"],
+    "6 · Shared":["POP13","POP14","POP15","POP16","POP17","POP18","POP19","POP20","POP21","POP22","POP23","POP24","POP25","POP26"]
+  };
+  var LANE_COLOR = {
+    "1 · Logged Out":"#6b7280","2 · Principal Contractor":"#2563eb","3 · Sub-contractor":"#7c3aed",
+    "4 · Employee":"#0d9488","5 · Onboarding":"#0d9488","6 · Shared":"#b45309",
+    "7 · PWA / Info":"#64748b","8 · New / Build":"#059669","9 · Star rating":"#d97706"
+  };
+
+  var P=(window.WB_PAGES||[]);
+  var bySec={}, order=[];
+  P.forEach(function(p){ if(!bySec[p.g]){bySec[p.g]=[];order.push(p.g);} bySec[p.g].push(p); });
+
+  var host=document.getElementById('flow'), pageCount=0, html="";
+  order.forEach(function(g){
+    var color=LANE_COLOR[g]||"#64748b";
+    html+='<div class="lane" style="--c:'+color+'"><h2>'+esc(g)+'</h2>';
+    // group by sub-heading, each sub is a left-to-right flow
+    var lastSub=null, open=false;
+    bySec[g].forEach(function(p){
+      var sub=p.s||"";
+      if(sub!==lastSub){
+        if(open){ html+='</div>'; }
+        if(sub){ html+='<div class="sub">'+esc(sub)+'</div>'; }
+        html+='<div class="flow">'; open=true; lastSub=sub;
+        var first=true; // reset arrow tracking handled below via marker
+      }
+      if(!p._firstInRow){} // noop
+      // arrow before node if not first in this row
+      if(p.__notfirst){ html+='<span class="arrow">→</span>'; }
+      var code=codeOf(p), todo = p.f ? "" : " todo";
+      pageCount += p.f?1:0;
+      html+='<a class="node'+todo+'" href="workbench.html?page='+encodeURIComponent(code)+'" title="Open in Workbench">'
+          +'<span class="code">'+esc(code)+'</span><span class="nm">'+esc(p.n)+'</span></a>';
+    });
+    if(open){ html+='</div>'; }
+    // email strip for this lane
+    var em=LANE_EMAILS[g];
+    if(em && em.length){
+      html+='<div class="emails"><div class="lbl">✉ Emails that fire here</div>';
+      em.forEach(function(c){ html+='<a class="echip" href="email-list.html#'+esc(c)+'" title="See in Email List">✉ '+esc(c)+'</a>'; });
+      html+='</div>';
+    }
+    var pop=LANE_POPUPS[g];
+    if(pop && pop.length){
+      html+='<div class="emails"><div class="lbl" style="color:#9a3412">💬 Pop-ups here</div>';
+      pop.forEach(function(c){ html+='<a class="echip pchip" href="popups-register.html#'+esc(c)+'" title="See in Pop-up Register">💬 '+esc(c)+'</a>'; });
+      html+='</div>';
+    }
+    html+='</div>';
+  });
+  // insert arrows: re-render with arrow logic per row (simpler: post-process)
+  host.innerHTML=html;
+  // add arrows between sibling nodes in each .flow
+  document.querySelectorAll('.flow').forEach(function(f){
+    var nodes=Array.prototype.slice.call(f.children).filter(function(c){return c.classList.contains('node');});
+    nodes.forEach(function(n,i){ if(i>0){ var a=document.createElement('span'); a.className='arrow'; a.textContent='→'; f.insertBefore(a,n); } });
+  });
+  document.getElementById('total').textContent="· "+pageCount+" pages linked";
+})();
+</script>
+</body>
+</html>

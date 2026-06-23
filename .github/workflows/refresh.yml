@@ -1,0 +1,102 @@
+name: Daily page refresh (6am AWST)
+
+# Pulls the live page SOURCE for every page each morning, overwrites the Saved HTML,
+# commits the diff (so you can see what the dev changed overnight), and redeploys.
+
+on:
+  # Auto-schedule DISABLED — the PC scheduled task ("Contco Daily Refresh") is now the primary capturer,
+  # because GitHub's datacenter IP intermittently gets Cloudflare bot-challenged. This workflow stays as a
+  # MANUAL backup: trigger it from the Actions tab if the PC has been off for a while.
+  # schedule:
+  #   - cron: '0 22 * * *'   # 22:00 UTC == 06:00 AWST
+  workflow_dispatch: {}     # run on demand from the Actions tab
+
+permissions:
+  contents: write           # so the job can commit the refreshed captures
+
+concurrency:
+  group: page-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the board
+        uses: actions/checkout@v5
+
+      - name: Capture every page from the live source
+        shell: pwsh
+        env:
+          CONTRACTOR_EMAIL: ${{ secrets.CONTCO_CONTRACTOR_EMAIL }}
+          CONTRACTOR_PASS:  ${{ secrets.CONTCO_CONTRACTOR_PASS }}
+          EMPLOYEE_EMAIL:   ${{ secrets.CONTCO_EMPLOYEE_EMAIL }}
+          EMPLOYEE_PASS:    ${{ secrets.CONTCO_EMPLOYEE_PASS }}
+        run: |
+          ./capture-pages.ps1 -Role loggedout -Promote
+          if ($env:CONTRACTOR_EMAIL) {
+            try { ./capture-pages.ps1 -Role contractor -Email $env:CONTRACTOR_EMAIL -Pass $env:CONTRACTOR_PASS -Promote }
+            catch { Write-Host "::warning::Contractor capture failed - $($_.Exception.Message)" }
+          } else { Write-Host '::warning::No contractor login secret set - skipping contractor pages' }
+          if ($env:EMPLOYEE_EMAIL) {
+            try { ./capture-pages.ps1 -Role emp -Email $env:EMPLOYEE_EMAIL -Pass $env:EMPLOYEE_PASS -Promote }
+            catch { Write-Host "::warning::Employee capture failed - $($_.Exception.Message)" }
+          } else { Write-Host '::warning::No employee login secret set - skipping employee pages' }
+
+      - name: Record what changed + commit (builds the Daily Log)
+        shell: pwsh
+        run: |
+          git config user.name  'page-refresh-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add pages-live
+          # changed captured pages (exclude the log file itself and non-html)
+          $changed = @(git diff --cached --name-only |
+            Where-Object { $_ -match '^pages-live/.+\.html$' } |
+            ForEach-Object { Split-Path $_ -Leaf } | Sort-Object)
+          if ($changed.Count -eq 0) { Write-Host 'No page changes vs yesterday.'; exit 0 }
+          $awst = (Get-Date).ToUniversalTime().AddHours(8).ToString('yyyy-MM-dd')   # 6am AWST = the morning shown
+          Write-Host "Pages changed ($awst):`n$($changed -join "`n")"
+
+          # --- plain-text diff per page (visible text, old vs new) so the Daily Log shows WHAT changed ---
+          function Get-TextLines([string]$html){
+            if (-not $html) { return @() }
+            $h = $html -replace '(?is)<script.*?</script>',' ' -replace '(?is)<style.*?</style>',' '
+            $h = $h -replace '(?i)<(br|/p|/div|/li|/tr|/h[1-6]|/td|/option|/section|/header)\s*/?>', "`n"
+            $h = $h -replace '<[^>]+>',' '
+            $h = [System.Net.WebUtility]::HtmlDecode($h)
+            return @($h -split "`n" | ForEach-Object { ($_ -replace '\s+',' ').Trim() } | Where-Object { $_.Length -gt 1 })
+          }
+          function Trunc([string]$s){ if($s.Length -gt 180){ return $s.Substring(0,180)+'…' } return $s }
+          $changesArr = @()
+          foreach($f in $changed){
+            $newH=''; try { $newH = Get-Content "pages-live/$f" -Raw -ErrorAction Stop } catch {}
+            $oldH = (git show "HEAD:pages-live/$f" 2>$null) -join "`n"
+            $oldL = Get-TextLines $oldH; $newL = Get-TextLines $newH
+            $added=@(); $removed=@()
+            if($oldL.Count -or $newL.Count){
+              $d = Compare-Object -ReferenceObject @($oldL) -DifferenceObject @($newL)
+              $added   = @($d | Where-Object { $_.SideIndicator -eq '=>' } | ForEach-Object { Trunc $_.InputObject } | Select-Object -First 12)
+              $removed = @($d | Where-Object { $_.SideIndicator -eq '<=' } | ForEach-Object { Trunc $_.InputObject } | Select-Object -First 12)
+            }
+            $changesArr += [pscustomobject]@{ file=$f; added=$added; removed=$removed }
+          }
+
+          # prepend today's entry to the rolling log the board reads
+          $logPath = 'pages-live/refresh-log.json'
+          $log = @()
+          if (Test-Path $logPath) { try { $log = @(Get-Content $logPath -Raw | ConvertFrom-Json) } catch { $log = @() } }
+          $log = @($log | Where-Object { $_.date -ne $awst })            # replace today on a re-run
+          $entry = [pscustomobject]@{ date = $awst; count = $changed.Count; files = $changed; changes = $changesArr }
+          $log = @($entry) + $log
+          ($log | ConvertTo-Json -Depth 8 -AsArray) | Set-Content $logPath -Encoding utf8
+          git add pages-live
+          git commit -m "Daily page refresh $awst"
+          git push
+
+      - name: Deploy to the workbench (Cloudflare Pages)
+        shell: pwsh
+        env:
+          CLOUDFLARE_API_TOKEN:  ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 14d2fb99ae902acf9ce452f2ee7671dc
+        run: |
+          npx --yes wrangler@4 pages deploy pages-live --project-name=contco-workbench --branch=production --commit-dirty=true

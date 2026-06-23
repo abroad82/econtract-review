@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>contco ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Page Workbench</title>
+<style>
+  :root{--red:#e8281e;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#f8fafc}
+  .topbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+  .topbar h1{font-size:1rem;margin:0 6px 0 0}.topbar h1 .b{color:var(--red)}
+  select,button,input,textarea{font-family:inherit;font-size:.85rem}
+  select{padding:6px 8px;border:1px solid #cbd5e1;border-radius:6px}
+  #picker{min-width:340px}
+  .btn{padding:6px 11px;border:none;border-radius:6px;font-weight:600;cursor:pointer;font-size:.8rem}
+  .btn-gray{background:#eef2f7;color:#334151}
+  .btn-ghost{background:#fff;color:#334151;text-decoration:none;border:1px solid var(--line)}
+  .btn-add{background:#0d9488;color:#fff}
+  .btn-up{background:#2563eb;color:#fff}
+  .saved{color:#059669;font-size:.78rem}
+  .conn{font-size:.74rem;font-weight:700;padding:2px 9px;border-radius:999px}
+  .conn.on{background:#dcfce7;color:#166534}.conn.off{background:#fef9c3;color:#854d0e}
+  .zoom{display:flex;align-items:center;gap:4px;margin-left:auto;background:#f1f5f9;border-radius:8px;padding:3px 6px}
+  .zoom button{width:26px;height:26px;border:1px solid var(--line);background:#fff;border-radius:5px;cursor:pointer;font-size:14px;font-weight:700}
+  .zoom span{min-width:42px;text-align:center;font-size:.8rem;font-weight:600}
+  .wrap{padding:14px;max-width:1600px;margin:0 auto}
+  .panes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pane{background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;height:72vh;overflow:hidden}
+  .pane h3{margin:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;background:#fbfdff}
+  .pane h3 .tabs button{margin-left:6px;border:1px solid var(--line);background:#fff;border-radius:5px;padding:3px 9px;cursor:pointer;font-size:.72rem}
+  .pane h3 .tabs button.active{background:var(--red);color:#fff;border-color:var(--red)}
+  .codebadge{font-size:.72rem;font-weight:800;letter-spacing:.02em;color:#fff;background:#334155;border-radius:5px;padding:2px 8px;text-transform:none}
+  .pageWrap{flex:1;overflow:auto;background:#e9eef5;position:relative}
+  .pageWrap iframe{width:1280px;height:3000px;border:0;background:#fff;transform-origin:top left;display:block}
+  textarea#editor{flex:1;width:100%;border:0;padding:12px;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.45;resize:none;outline:none}
+  .hide{display:none!important}
+  .placeholder{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:30px;gap:8px}
+  .livehint{font-size:.72rem;color:#92400e;background:#fffbeb;border-top:1px solid #fde68a;padding:5px 10px}
+  .cmp{font-size:.74rem;padding:4px 6px;border:1px solid var(--line);border-radius:5px}
+  .notes{background:#fff;border:1px solid var(--line);border-radius:10px;margin-top:14px;padding:14px}
+  .notes h3{margin:0 0 10px;font-size:.95rem}
+  .note-add{display:grid;grid-template-columns:1fr 2fr 70px auto;gap:8px;margin-bottom:12px}
+  .note-add input,.note-add textarea,.note-add select{padding:8px;border:1px solid #cbd5e1;border-radius:6px;width:100%}
+  .note-add textarea{min-height:38px;resize:vertical}
+  .note{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px 12px;margin-bottom:8px;background:#fff}
+  .note.p1{border-left:5px solid #dc2626}.note.p2{border-left:5px solid #f59e0b}.note.p3{border-left:5px solid #94a3b8}
+  .note .body{flex:1;min-width:0}
+  .note .nt{font-weight:700}.note .nm{color:#374151;white-space:pre-wrap;margin-top:3px;font-size:.86rem}
+  .badge{font-size:.66rem;font-weight:800;padding:2px 7px;border-radius:999px;color:#fff;display:inline-block}
+  .b-p1{background:#dc2626}.b-p2{background:#f59e0b}.b-p3{background:#94a3b8}
+  .b-pass{background:#059669}.b-fail{background:#dc2626}
+  .note .acts{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+  .note .acts button{font-size:.7rem;border:1px solid var(--line);background:#f8fafc;border-radius:5px;padding:3px 8px;cursor:pointer;font-weight:600}
+  .note .acts .pass.on{background:#059669;color:#fff;border-color:#059669}
+  .note .acts .fail.on{background:#dc2626;color:#fff;border-color:#dc2626}
+  .note .acts .del{color:#b91c1c}
+  .meta{color:var(--muted);font-size:.76rem}
+  /* jobs (v2) */
+  .job-add{margin-bottom:14px}
+  .ja-top{display:flex;gap:8px;margin-bottom:10px}
+  .ja-top #jTitle{flex:1}
+  .ja-top input,.ja-top select{padding:8px;border:1px solid #cbd5e1;border-radius:6px;font-size:.82rem;font-family:inherit}
+  .ja-top button{white-space:nowrap}
+  .ja-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .ja-field{display:flex;flex-direction:column;gap:4px}
+  .ja-field label{font-size:.64rem;text-transform:uppercase;letter-spacing:.03em;color:#6b7280;font-weight:800}
+  .ja-field textarea{min-height:50px;resize:vertical;padding:8px;border:1px solid #cbd5e1;border-radius:6px;font:inherit;font-size:.82rem}
+  .job{border:1px solid var(--line);border-radius:9px;margin-bottom:10px;background:#fff;overflow:hidden}
+  .job-head{display:flex;align-items:center;gap:8px;padding:9px 12px;flex-wrap:wrap;border-left:5px solid #94a3b8}
+  .job.p1 .job-head{border-left-color:#dc2626}.job.p2 .job-head{border-left-color:#f59e0b}.job.p3 .job-head{border-left-color:#94a3b8}
+  .job-title{font-weight:700;flex:1;min-width:150px}
+  .b-type{background:#475569}.b-stage{background:#0d9488}
+  .job.stage-todo .b-stage{background:#64748b}.job.stage-in_progress .b-stage{background:#7c3aed}.job.stage-ready .b-stage{background:#d97706}
+  .job.stage-passed .b-stage{background:#059669}.job.stage-live .b-stage{background:#2563eb}.job.stage-deferred .b-stage{background:#9ca3af}
+  .job-actions{display:flex;gap:6px;align-items:center}
+  .job-actions select{font-size:.72rem;padding:3px 5px;border:1px solid var(--line);border-radius:5px}
+  .job-actions .del{font-size:.7rem;color:#b91c1c;border:1px solid var(--line);background:#f8fafc;border-radius:5px;padding:3px 8px;cursor:pointer}
+  .job-actions .edit{font-size:.7rem;color:#1d4ed8;border:1px solid var(--line);background:#f8fafc;border-radius:5px;padding:3px 8px;cursor:pointer}
+  .job-edit{padding:10px 12px}
+  .job-edit .je-head{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+  .job-edit .je-head select{font-size:.72rem;padding:4px 5px;border:1px solid var(--line);border-radius:5px}
+  .job-edit .je-head .eTitle{flex:1;font:inherit;font-size:.85rem;font-weight:700;padding:5px 8px;border:1px solid #cbd5e1;border-radius:5px}
+  .job-edit .job-cols td textarea{width:100%;border:1px solid #cbd5e1;border-radius:5px;padding:5px;font:inherit;font-size:.8rem;min-height:48px;resize:vertical}
+  .job-edit .je-btns{display:flex;gap:8px;margin-top:9px}
+  .job-edit .eSave{font-size:.75rem;font-weight:700;color:#fff;background:#059669;border:none;border-radius:6px;padding:6px 16px;cursor:pointer}
+  .job-edit .eCancel{font-size:.75rem;color:#374151;background:#f1f5f9;border:1px solid var(--line);border-radius:6px;padding:6px 14px;cursor:pointer}
+  .job-cols{width:100%;border-collapse:collapse;font-size:.8rem}
+  .job-cols th{text-align:left;background:#f8fafc;color:#6b7280;font-size:.64rem;text-transform:uppercase;letter-spacing:.03em;padding:5px 10px;border-top:1px solid var(--line);width:33%}
+  .job-cols td{padding:7px 10px;vertical-align:top;border-top:1px solid var(--line);white-space:pre-wrap}
+  .job-cols td textarea{width:100%;border:1px solid #cbd5e1;border-radius:5px;padding:5px;font:inherit;font-size:.8rem;min-height:48px;resize:vertical}
+  .askai{display:flex;gap:8px;margin-bottom:6px}
+  .askai input{flex:1;padding:9px;border:1px solid #c4b5fd;border-radius:8px;font-size:.86rem;background:#faf5ff}
+  .askai button{background:#7c3aed;color:#fff;border:none;border-radius:8px;padding:0 16px;font-weight:700;cursor:pointer;font-size:.82rem;white-space:nowrap}
+  .ai-note{font-size:.76rem;color:#7c3aed;margin:0 0 12px;min-height:14px}
+  .fires-strip{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:14px 0 0;padding:8px 12px;background:#fff;border:1px solid var(--line);border-radius:10px}
+  .fires-strip .lbl{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;margin-right:4px}
+  .fires-strip a{font-size:11.5px;font-weight:700;text-decoration:none;border-radius:999px;padding:3px 10px}
+  .fires-strip a.pop{background:#f5f3ff;border:1px solid #ddd6fe;color:#5b21b6}
+  .fires-strip a.mail{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+  .fires-strip.empty{display:none}
+  .comment-add{display:grid;grid-template-columns:160px 1fr auto;gap:8px;margin-bottom:12px}
+  .comment-add input,.comment-add textarea{padding:8px;border:1px solid #cbd5e1;border-radius:6px;width:100%;font-family:inherit}
+  .comment-add textarea{min-height:38px;resize:vertical}
+  .comment{border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin-bottom:8px;background:#fff}
+  .comment .who{font-weight:700;font-size:.82rem}.comment .when{color:var(--muted);font-size:.7rem;margin-left:6px}
+  .comment .ctext{font-size:.86rem;margin-top:3px;white-space:pre-wrap}
+  .comment .cdel{float:right;font-size:.68rem;color:#b91c1c;border:1px solid var(--line);background:#f8fafc;border-radius:5px;padding:2px 7px;cursor:pointer}
+  .modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:50}
+  .modal-card{background:#fff;border-radius:12px;padding:20px 22px;width:440px;max-width:92vw;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal-card h3{margin:0 0 16px}
+  .modal-card label{display:block;font-size:.78rem;font-weight:700;color:#374151;margin-bottom:12px}
+  .modal-card input,.modal-card select{display:block;width:100%;margin-top:5px;padding:9px;border:1px solid #cbd5e1;border-radius:6px;font-weight:400;font-size:.85rem}
+  .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <h1><span class="b">e-</span>contract Workbench <span id="count" class="meta"></span></h1>
+  <span id="conn" class="conn off">ÃƒÂ¢Ã¢â‚¬â€Ã‚Â connectingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦</span>
+  <select id="picker"></select>
+  <span id="userState" title="Which user and login state this page is for" style="font-size:12px;font-weight:800;padding:4px 11px;border-radius:14px;white-space:nowrap"></span>
+  <button class="btn btn-add" id="addPage">+ New blank page</button>
+  <button class="btn btn-gray" id="editPage">ÃƒÂ¢Ã…â€œÃ…Â½ Edit / move</button>
+  <button class="btn" id="deletePage" style="background:#fee2e2;color:#b91c1c">ÃƒÂ°Ã…Â¸Ã¢â‚¬â€Ã¢â‚¬Ëœ Delete page</button>
+  <button class="btn btn-up" id="uploadLeftBtn">Upload HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left</button>
+  <button class="btn btn-up" id="uploadBtn">Upload HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ right</button>
+  <button class="btn btn-gray" id="promoteBtn">Promote right ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left</button>
+  <input type="file" id="fileInput" accept=".html,.htm,text/html" style="display:none">
+  <a id="openLive" class="btn btn-ghost" href="#" target="_blank">Live ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€</a>
+  <button class="btn btn-gray" id="exportBtn">Export new HTML</button>
+  <span id="savedMsg" class="saved"></span>
+  <div class="zoom"><button id="zOut">ÃƒÂ¢Ã‹â€ Ã¢â‚¬â„¢</button><span id="zVal">50%</span><button id="zIn">+</button><button id="zFit" style="width:auto;padding:0 8px;font-size:11px;">Fit</button></div>
+  <a href="index.html" class="btn" style="background:#e8281e;color:#fff;text-decoration:none">ÃƒÂ¢Ã¢â‚¬Â Ã‚Â Review Board</a>
+</div>
+
+<div class="wrap">
+  <div class="panes">
+    <!-- LEFT -->
+    <div class="pane">
+      <h3>
+        <span style="display:flex;align-items:center;gap:8px;">Left <span class="codebadge" id="leftCode"></span></span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          <select id="leftMode" class="cmp">
+            <option value="html">Saved HTML (captured)</option>
+            <option value="draft">Updated HTML (team draft)</option>
+            <option value="live">Live page (public pages only)</option>
+          </select>
+          <span id="leftMeta" class="meta"></span>
+          <button id="leftToSot" class="cmp" style="cursor:pointer" title="Make the current Saved HTML this page's Source of Truth">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Source of Truth</button>
+          <button id="clearLeft" class="cmp hide" style="cursor:pointer;color:#b91c1c">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ clear draft</button>
+        </span>
+      </h3>
+      <div class="pageWrap" id="leftWrap"><iframe id="leftFrame"></iframe></div>
+      <div id="leftBlank" class="placeholder hide"></div>
+      <div id="leftHint" class="livehint hide">Logged-in pages can't render inside a frame (browser cookie rules). <a id="leftHintLink" href="#" target="_blank"><b>Open this live page in a new tab ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€</b></a></div>
+    </div>
+    <!-- RIGHT -->
+    <div class="pane">
+      <h3>
+        <span style="display:flex;align-items:center;gap:8px;">Right <span class="codebadge" id="rightCode"></span></span>
+        <span style="display:flex;align-items:center;gap:6px;">
+          <select id="rightMode" class="cmp">
+            <option value="new">ÃƒÂ¢Ã…â€œÃ…Â½ New HTML (team draft)</option>
+            <option value="sot">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â Source of Truth (build to this)</option>
+            <option value="html">Saved HTML (captured)</option>
+            <option value="live">Live page (public pages only)</option>
+          </select>
+          <button id="toSot" class="cmp" title="Copy the current New HTML into this page's Source of Truth" style="cursor:pointer">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â New HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Source of Truth</button>
+          <span id="rtabs" class="tabs"><button id="tabEdit" class="active">Edit</button><button id="tabPrev">Preview</button></span>
+          <span id="sotFlag" class="meta hide" style="color:#065f46;font-weight:800">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â Source of Truth</span>
+        </span>
+      </h3>
+      <textarea id="editor" placeholder="Write or paste the NEW HTML for this page here, then hit Preview.&#10;&#10;Or click 'Upload HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ right' in the toolbar to load a .html file straight into this draft.&#10;Saved to the shared team database; 'Export new HTML' downloads it as a file."></textarea>
+      <div class="pageWrap hide" id="rightWrap"><iframe id="rightFrame"></iframe></div>
+      <div id="rightBlank" class="placeholder hide"></div>
+      <div id="rightHint" class="livehint hide">Logged-in pages can't render inside a frame (browser cookie rules). <a id="rightHintLink" href="#" target="_blank"><b>Open this live page in a new tab ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â€</b></a></div>
+    </div>
+  </div>
+
+  <div id="firesStrip" class="fires-strip empty"></div>
+
+  <div class="notes">
+    <h3>Jobs for this page <span id="notesFor" class="meta"></span></h3>
+    <div class="askai">
+      <input id="aiQ" placeholder="ÃƒÂ¢Ã…â€œÃ‚Â¨ Ask AI about this page ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â e.g. ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œcheck spellingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â, ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œwhat could break here?ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â, ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œdraft a job toÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â">
+      <button id="aiAsk">ÃƒÂ¢Ã…â€œÃ‚Â¨ Ask</button>
+    </div>
+    <div class="ai-note" id="aiNote"></div>
+    <div class="job-add">
+      <div class="ja-top">
+        <input id="jTitle" placeholder="Job title (e.g. 'Brand colour should be blue')">
+        <select id="jType" title="Type"><option value="repair">Repair</option><option value="build">Build</option></select>
+        <select id="jPri" title="Priority"><option value="P1">P1</option><option value="P2" selected>P2</option><option value="P3">P3</option></select>
+        <button class="btn" style="background:var(--red);color:#fff" id="addJob">+ Add job</button>
+      </div>
+      <div class="ja-fields">
+        <div class="ja-field"><label>Action ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â what to do / test</label><textarea id="jAction"></textarea></div>
+        <div class="ja-field"><label>Expected result</label><textarea id="jExpected"></textarea></div>
+        <div class="ja-field"><label>Actual result</label><textarea id="jActual"></textarea></div>
+      </div>
+      <div class="ja-shots">
+        <div id="jShotBox" class="shot-box" tabindex="0">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â· Click here, then paste your screenshot (Ctrl+V) &nbsp;Ãƒâ€šÃ‚Â·&nbsp; <span id="jShotPick" style="text-decoration:underline;cursor:pointer">or upload a file</span></div>
+        <input id="jShotFile" type="file" accept="image/*" class="hide">
+        <div id="jShots" class="shot-thumbs"></div>
+      </div>
+    </div>
+    <div id="jobList"></div>
+  </div>
+
+  <div class="notes">
+    <h3>Comments <span id="cFor" class="meta"></span></h3>
+    <div class="comment-add">
+      <input id="cName" placeholder="Your name (optional)">
+      <textarea id="cText" placeholder="Add a comment for the team about this pageÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"></textarea>
+      <button class="btn" style="background:#334151;color:#fff" id="addComment">Post</button>
+    </div>
+    <div id="commentList"></div>
+  </div>
+</div>
+
+<div id="modal" class="modal-bg hide">
+  <div class="modal-card">
+    <h3 id="modalTitle">New page</h3>
+    <label>Banner / section
+      <select id="mSection"></select>
+    </label>
+    <label id="mNewWrap" class="hide">New banner name <span class="meta">(tip: start with a number to order it, e.g. "8 Ãƒâ€šÃ‚Â· Marketing")</span>
+      <input id="mNewSection" placeholder="e.g. 8 Ãƒâ€šÃ‚Â· Marketing pages">
+    </label>
+    <label>Sub-section heading <span class="meta">(optional ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â groups pages under a title)</span>
+      <input id="mSub" placeholder="optional group title">
+    </label>
+    <label>Page name
+      <input id="mName" placeholder="Page name">
+    </label>
+    <label>Page code <span class="meta">(auto ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â follows the section's numbering)</span>
+      <input id="mCode" readonly style="background:#f3f4f6;font-weight:700;letter-spacing:.02em">
+    </label>
+    <div class="modal-actions">
+      <button id="mCancel" class="btn btn-gray">Cancel</button>
+      <button id="mSave" class="btn" style="background:var(--red);color:#fff">Save</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ja-shots{margin-top:8px}
+  .shot-box{border:1.5px dashed #cbd5e1;border-radius:7px;padding:8px 10px;font-size:11.5px;color:#64748b;background:#f8fafc;text-align:center;outline:none}
+  .shot-box:focus{border-color:#0e7490;color:#0e7490;background:#ecfeff}
+  .shot-thumbs{display:flex;flex-wrap:wrap;gap:6px}
+  .shot-thumbs:not(:empty){margin:6px 0}
+  .shot-thumb{position:relative;display:inline-block}
+  .shot-thumb img{height:56px;width:auto;border:1px solid #e5e7eb;border-radius:5px;cursor:zoom-in;display:block}
+  .shot-thumb .rm{position:absolute;top:-7px;right:-7px;background:#e8281e;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:12px;line-height:16px;cursor:pointer;padding:0}
+  .shot-lb{position:fixed;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;z-index:99999;cursor:zoom-out}
+  .shot-lb img{max-width:94%;max-height:94%;box-shadow:0 8px 50px rgba(0,0,0,.6);border-radius:6px}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="pages.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(i){return document.getElementById(i);};
+
+  // ---- Supabase connection (anon/public key is browser-safe) ----
+  var SB_URL="https://eqkwdhidstghlsdmipqq.supabase.co";
+  var SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxa3dkaGlkc3RnaGxzZG1pcHFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxOTYwMzgsImV4cCI6MjA5Nzc3MjAzOH0.s1lozgGT0yJnFdZ88-hDotCi78U99CWF5MXjy3K_byQ";
+  var sb=null; try{ sb=window.supabase.createClient(SB_URL,SB_KEY); }catch(e){ sb=null; }
+  var online=false;
+  function setConn(ok){ online=ok; var c=$('conn'); if(ok){c.className="conn on";c.textContent="ÃƒÂ¢Ã¢â‚¬â€Ã‚Â team-synced";} else {c.className="conn off";c.textContent="ÃƒÂ¢Ã¢â‚¬â€Ã‚Â offline (local only)";} }
+  setConn(false);
+
+  var picker=$('picker'),leftMode=$('leftMode'),rightMode=$('rightMode'),
+      leftFrame=$('leftFrame'),leftWrap=$('leftWrap'),leftBlank=$('leftBlank'),leftMeta=$('leftMeta'),leftHint=$('leftHint'),leftHintLink=$('leftHintLink'),leftCode=$('leftCode'),
+      rightFrame=$('rightFrame'),rightWrap=$('rightWrap'),rightBlank=$('rightBlank'),rightHint=$('rightHint'),rightHintLink=$('rightHintLink'),rightCode=$('rightCode'),
+      editor=$('editor'),rtabs=$('rtabs'),tabEdit=$('tabEdit'),tabPrev=$('tabPrev'),
+      openLive=$('openLive'),savedMsg=$('savedMsg'),notesFor=$('notesFor'),noteList=$('noteList'),zVal=$('zVal');
+
+  function codeOf(p){ if(p.c) return p.c; if(p.f){var s=p.f.replace(/\.html?$/i,'');return s.indexOf('_')>=0?s.split('_')[0]:s;} return "ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â"; }
+  // the prominent "who + what state" badge so you always know which user / login state this page is
+  function setUserState(p){
+    var g=(p&&p.g)||'';
+    var user = /Principal Contractor/i.test(g)?'Principal Contractor' : /Sub-contractor/i.test(g)?'Sub-contractor' : /Employee/i.test(g)?'Employee' : /Onboarding/i.test(g)?'Onboarding' : /Shared/i.test(g)?'Shared (any user)' : /Logged Out/i.test(g)?'Public visitor' : g.replace(/^[0-9]+[a-z]?\s*Ãƒâ€šÃ‚Â·\s*/,'');
+    var lin = !/Logged Out/i.test(g);
+    var el=document.getElementById('userState'); if(!el) return;
+    el.textContent='ÃƒÂ°Ã…Â¸Ã¢â‚¬ËœÃ‚Â¤ '+user+'   '+(lin?'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬Å“ Logged IN':'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂÃ¢â‚¬â„¢ Logged OUT');
+    el.style.background = lin?'#dcfce7':'#f3f4f6';
+    el.style.color = lin?'#065f46':'#4b5563';
+  }
+  // which pop-ups / emails fire on each page ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ jump straight to them in the registers
+  var FIRES={
+    "LO05":{e:["EM01"]},"LO06":{e:["EM01"]},"LO07":{e:["EM02"]},
+    "SC02":{p:["POP04"],e:["EM04"]},"EMP02":{p:["POP04"],e:["EM04"]},"EMP02L":{p:["POP04"],e:["EM04"]},
+    "SC03":{p:["POP07","POP05"]},"SC04":{e:["EM07"]},"PCjd":{p:["POP06","POP07"]},"PCjdq":{p:["POP06","POP07"]},"PCown":{p:["POP05","POP06"]},
+    "PC06":{e:["ONB1"]},"PC07":{e:["EM20"]},"PC09":{e:["EM16"]},
+    "PC10":{p:["POP12"]},"PC-requests":{p:["POP08","POP09"],e:["EM10","EM11"]},"PC-requests-short":{p:["POP08","POP09"],e:["EM10","EM11"]},"PC-requests-full":{p:["POP08","POP09"],e:["EM10","EM11"]},
+    "PCsc-sent-contractor":{p:["POP10","POP11"]},"EMP09":{p:["POP10","POP11"]},"EMP10":{p:["POP10","POP11"]},"EMP11":{p:["POP12"]},"EMP12":{p:["POP12"]},
+    "EMP05":{e:["EM04"]},"EMP05L":{p:["POP07"]},"EMP05a":{p:["POP06"],e:["EM13"]},
+    "SH00":{p:["POP13","POP14","POP15"]},"SH01":{p:["POP21","POP22"]},"SH01b":{p:["POP21","POP22"]},"SH02":{p:["POP21","POP22"]},
+    "SH04":{p:["POP23","POP24","POP25"]},"SH04c":{p:["POP23","POP24","POP25"]},"SH05":{p:["POP26"]},
+    "SH06":{p:["POP18"],e:["EM19"]},"SH07":{p:["POP17"]},"SH08":{p:["POP16"],e:["EM17"]},"SH09":{p:["POP20"]},
+    "STAR1":{e:["EM23"]},"STAR2":{e:["EM22"]},"STAR3":{e:["EM23"]},"STAR4":{e:["EM22"]},
+    "ONB1":{e:["ONB1"]},"ONB2":{e:["ONB2"]},"ONB3":{e:["ONB3"]},"ONB4":{e:["ONB4"]}
+  };
+  function renderFires(code){
+    var f=FIRES[code]||{}, fs=$('firesStrip'), h="";
+    if((f.p&&f.p.length)||(f.e&&f.e.length)){
+      h='<span class="lbl">Fires on this page:</span>';
+      (f.p||[]).forEach(function(c){ h+='<a class="pop" href="popups-register.html#'+c+'" target="_blank">ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬ '+c+'</a>'; });
+      (f.e||[]).forEach(function(c){ h+='<a class="mail" href="email-list.html#'+c+'" target="_blank">ÃƒÂ¢Ã…â€œÃ¢â‚¬Â° '+c+'</a>'; });
+      fs.className='fires-strip';
+    } else { fs.className='fires-strip empty'; }
+    fs.innerHTML=h;
+  }
+
+  // ================= shared storage layer (Supabase + localStorage cache) =================
+  function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+  function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+  function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
+
+  // -- custom pages (local-first; Supabase syncs the team; 'section' column optional) --
+  function localCustom(){ try{ return JSON.parse(lsGet('wb_custom_local')||'[]'); }catch(e){ return []; } }
+  function saveLocalCustom(a){ lsSet('wb_custom_local', JSON.stringify(a)); }
+  async function fetchCustom(){
+    var local=localCustom(), byId={};
+    local.forEach(function(l){ byId[l.id]=l; });
+    if(sb){ try{
+      var r=await sb.from('custom_pages').select('*').order('created_at',{ascending:true});
+      if(!r.error){ setConn(true);
+        var merged=[];
+        (r.data||[]).forEach(function(x){
+          var l=byId[x.id];
+          merged.push({ id:x.id, code:x.code, name:x.name,
+                        subsection:(x.subsection!=null?x.subsection:(l&&l.subsection))||"",
+                        section:(x.section!=null?x.section:(l&&l.section))||"7 Ãƒâ€šÃ‚Â· New / Build" });
+          delete byId[x.id];
+        });
+        Object.keys(byId).forEach(function(k){ merged.push(byId[k]); }); // local-only, not yet in DB
+        return merged;
+      }
+    }catch(e){} }
+    setConn(false); return local;
+  }
+  // -- drafts (side = 'left' | 'right') --
+  async function getDraft(pageId,side){
+    var ck='wb_'+side+'_'+pageId;
+    if(sb){ try{
+      var r=await sb.from('drafts').select('html').eq('page_id',pageId).eq('side',side).maybeSingle();
+      if(!r.error){ var h=r.data?r.data.html:""; lsSet(ck,h); setConn(true); return h; }
+    }catch(e){} }
+    setConn(false); return lsGet(ck)||"";
+  }
+  async function setDraft(pageId,side,html){
+    lsSet('wb_'+side+'_'+pageId,html);
+    if(sb){ try{ var r=await sb.from('drafts').upsert({page_id:pageId,side:side,html:html,updated_at:new Date().toISOString()},{onConflict:'page_id,side'}); setConn(!r.error); }catch(e){ setConn(false); } }
+  }
+  async function delDraft(pageId,side){
+    lsDel('wb_'+side+'_'+pageId);
+    if(sb){ try{ await sb.from('drafts').delete().eq('page_id',pageId).eq('side',side); }catch(e){} }
+  }
+  // -- notes --
+  async function getNotes(pageId){
+    if(sb){ try{
+      var r=await sb.from('notes').select('*').eq('page_id',pageId).order('created_at',{ascending:true});
+      if(!r.error){ lsSet('wb_notes_'+pageId,JSON.stringify(r.data||[])); setConn(true); return r.data||[]; }
+    }catch(e){} }
+    setConn(false); try{return JSON.parse(lsGet('wb_notes_'+pageId)||'[]');}catch(e){return [];}
+  }
+  async function addNoteRow(pageId,n){ if(sb){ try{ await sb.from('notes').insert({page_id:pageId,title:n.title,message:n.message,priority:n.priority,status:''}); }catch(e){} } }
+  async function setNoteStatus(id,status){ if(sb){ try{ await sb.from('notes').update({status:status}).eq('id',id); }catch(e){} } }
+  async function delNoteRow(id){ if(sb){ try{ await sb.from('notes').delete().eq('id',id); }catch(e){} } }
+
+  // ================= page list =================
+  var P=[];
+  function buildList(custom){
+    P=(window.WB_PAGES||[]).slice();
+    (custom||[]).forEach(function(c){ P.push({g:c.section||"7 Ãƒâ€šÃ‚Â· New / Build",s:c.subsection||"",c:c.code,n:c.name,id:c.id,custom:true}); });
+    P.forEach(function(p,i){ if(!p.id) p.id=p.f?p.f:("blank::"+p.g+"::"+p.n); p._i=i; });
+    $('count').textContent="Ãƒâ€šÃ‚Â· "+P.filter(function(p){return p.f && !/New \/ Build/.test(p.g);}).length+" captured pages";
+  }
+  function nextNewCode(){ var max=0; P.forEach(function(p){var m=/^NEW(\d+)$/.exec(codeOf(p)); if(m) max=Math.max(max,+m[1]);}); return "NEW"+(max+1); }
+  // code auto-numbering keyed to the section, so a new page gets the next code in its family
+  function sectionPrefix(g){ g=g||"";
+    if(/Logged Out/i.test(g)) return "LO";
+    if(/Principal/i.test(g)) return "PC";
+    if(/Sub-?contractor/i.test(g)) return "SC";
+    if(/Employee/i.test(g)) return "EMP";
+    if(/Onboarding/i.test(g)) return "ONB";
+    if(/Shared/i.test(g)) return "SH";
+    if(/PWA/i.test(g)) return "PWA";
+    if(/Star rating/i.test(g)) return "STAR";
+    if(/New \/ Build|New Build/i.test(g)) return "NEW";
+    var w=g.replace(/^\s*\d+\s*Ãƒâ€šÃ‚Â·\s*/,'').replace(/[^A-Za-z ]/g,'').split(/\s+/).filter(Boolean);
+    return (w.map(function(x){return x[0];}).join('')||'NEW').toUpperCase().slice(0,4);
+  }
+  function nextCodeInSection(g){
+    var pre=sectionPrefix(g), max=0, re=new RegExp('^'+pre+'0*(\\d+)$','i');
+    P.forEach(function(p){ var m=re.exec(codeOf(p)); if(m) max=Math.max(max,parseInt(m[1],10)); });
+    var n=max+1, pad=(["LO","PC","SC","EMP","SH"].indexOf(pre)>=0 && n<10)?('0'+n):(''+n);
+    return pre+pad;
+  }
+  function refreshModalCode(){
+    var g=$('mSection').value==="__new__" ? ($('mNewSection').value.trim()||"New / Build") : $('mSection').value;
+    $('mCode').value = (modalMode==="edit" && modalEditId) ? codeOf(cur()) : nextCodeInSection(g);
+  }
+  function buildPicker(keepId){
+    picker.innerHTML=""; var seen={};
+    P.forEach(function(p){
+      if(!seen[p.g]){var og=document.createElement('optgroup');og.label=p.g;picker.appendChild(og);seen[p.g]=og;}
+      var o=document.createElement('option');o.value=String(p._i);o.textContent="["+codeOf(p)+"]  "+(p.s?p.s+" Ãƒâ€šÃ‚Â· ":"")+p.n;seen[p.g].appendChild(o);
+    });
+    if(keepId){ for(var i=0;i<P.length;i++){ if(P[i].id===keepId){picker.value=String(i);break;} } }
+  }
+  async function rebuild(keepId){ buildList(await fetchCustom()); buildPicker(keepId); }
+  function cur(){ return P[+picker.value] || P[0]; }
+
+  // ================= add / delete page =================
+  // distinct banner/section names, in display order
+  function sectionsList(){ var seen=[]; P.forEach(function(p){ if(seen.indexOf(p.g)<0) seen.push(p.g); }); return seen; }
+  var modalMode="add", modalEditId=null;
+  function openModal(mode,p){
+    modalMode=mode; modalEditId=(p&&p.id)||null;
+    $('modalTitle').textContent = mode==="add" ? "New page" : "Edit / move page";
+    var sel=$('mSection'); sel.innerHTML="";
+    sectionsList().forEach(function(g){ var o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o); });
+    var nb=document.createElement('option'); nb.value="__new__"; nb.textContent="ÃƒÂ¢Ã…Â¾Ã¢â‚¬Â¢ New bannerÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"; sel.appendChild(nb);
+    if(mode==="edit" && p){ sel.value=sectionsList().indexOf(p.g)>=0?p.g:"7 Ãƒâ€šÃ‚Â· New / Build"; $('mSub').value=p.s||""; $('mName').value=p.n||""; }
+    else { sel.value="7 Ãƒâ€šÃ‚Â· New / Build"; $('mSub').value=""; $('mName').value=""; }
+    $('mNewWrap').classList.add('hide'); $('mNewSection').value="";
+    refreshModalCode();
+    $('modal').classList.remove('hide'); $('mName').focus();
+  }
+  $('mSection').onchange=function(){ $('mNewWrap').classList.toggle('hide', $('mSection').value!=="__new__"); refreshModalCode(); };
+  $('mNewSection').addEventListener('input', refreshModalCode);
+  $('mCancel').onclick=function(){ $('modal').classList.add('hide'); };
+  $('mSave').onclick=async function(){
+    var name=$('mName').value.trim(); if(!name){ alert("Please enter a page name."); return; }
+    var section=$('mSection').value;
+    if(section==="__new__"){ section=$('mNewSection').value.trim(); if(!section){ alert("Enter a name for the new banner."); return; } }
+    var sub=$('mSub').value.trim();
+    if(modalMode==="add"){
+      var code=nextCodeInSection(section); var id="custom::"+Date.now();
+      var row={id:id,code:code,name:name,section:section,subsection:sub};
+      var lc=localCustom(); lc.push(row); saveLocalCustom(lc);                 // local-first: always works
+      if(sb){ try{ var r=await sb.from('custom_pages').insert(row);
+        if(r.error){ await sb.from('custom_pages').insert({id:id,code:code,name:name,subsection:sub}); } }catch(e){} }
+      $('modal').classList.add('hide'); await rebuild(id); await load();
+    } else {
+      var lc2=localCustom(), hit=-1;
+      for(var j=0;j<lc2.length;j++){ if(lc2[j].id===modalEditId){ hit=j; break; } }
+      if(hit>=0){ lc2[hit].name=name; lc2[hit].section=section; lc2[hit].subsection=sub; }
+      else { lc2.push({id:modalEditId,code:codeOf(cur()),name:name,section:section,subsection:sub}); }
+      saveLocalCustom(lc2);
+      if(sb && modalEditId){ try{ var ru=await sb.from('custom_pages').update({name:name,section:section,subsection:sub}).eq('id',modalEditId);
+        if(ru.error){ await sb.from('custom_pages').update({name:name,subsection:sub}).eq('id',modalEditId); } }catch(e){} }
+      $('modal').classList.add('hide'); await rebuild(modalEditId); await load();
+    }
+  };
+  $('addPage').onclick=function(){ openModal("add"); };
+  $('editPage').onclick=function(){ var p=cur(); if(!p.custom){ alert("Only pages you added can be moved/renamed. Captured site pages are fixed as the source of truth."); return; } openModal("edit",p); };
+  $('deletePage').onclick=async function(){
+    var p=cur();
+    if(!p.custom){ alert("Only pages you added (the New / Build slots) can be deleted ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â captured site pages stay as the source of truth.\n\nTo remove an uploaded LEFT draft on this page instead, use 'ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢ clear draft' next to the left dropdown."); return; }
+    if(!confirm('Delete page "'+p.n+'" ['+codeOf(p)+']?\nThis removes it for the whole team, including its drafts and notes.')) return;
+    saveLocalCustom(localCustom().filter(function(x){return x.id!==p.id;}));   // remove local-first entry
+    if(sb){ try{
+      await sb.from('custom_pages').delete().eq('id',p.id);
+      await sb.from('drafts').delete().eq('page_id',p.id);
+      await sb.from('notes').delete().eq('page_id',p.id);
+    }catch(e){} }
+    lsDel('wb_left_'+p.id);lsDel('wb_right_'+p.id);lsDel('wb_notes_'+p.id);
+    await rebuild(); picker.selectedIndex=0; await load();
+  };
+
+  // ================= upload / promote / clear =================
+  var uploadTarget="right";
+  $('uploadBtn').onclick=function(){ uploadTarget="right"; $('fileInput').click(); };
+  $('uploadLeftBtn').onclick=function(){ uploadTarget="left"; $('fileInput').click(); };
+  $('fileInput').onchange=function(e){
+    var f=e.target.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=async function(){
+      if(uploadTarget==="left"){
+        await setDraft(cur().id,'left',r.result); leftMode.value="draft"; await renderLeft();
+        savedMsg.textContent="loaded ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"; setTimeout(function(){savedMsg.textContent="";},1600);
+      } else if(!cur().f){   // build-only page: upload goes straight to the Source of Truth (the build target)
+        editor.value=r.result; rightMode.value="sot"; await setDraft(cur().id+'::sot','right',r.result);
+        $('sotFlag').classList.remove('hide'); tabPrev.classList.add('active'); tabEdit.classList.remove('active'); renderRight();
+        savedMsg.textContent="loaded ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Source of Truth ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"; setTimeout(function(){savedMsg.textContent="";},1600);
+      } else {
+        editor.value=r.result; await setDraft(cur().id,'right',r.result);
+        rightMode.value="new"; tabPrev.classList.add('active'); tabEdit.classList.remove('active'); renderRight();
+      }
+    };
+    r.readAsText(f); e.target.value="";
+  };
+  $('promoteBtn').onclick=async function(){
+    if(!editor.value.trim()){ alert("The right-side draft is empty ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â nothing to promote."); return; }
+    await setDraft(cur().id,'left',editor.value); leftMode.value="draft"; await renderLeft();
+    savedMsg.textContent="promoted ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"; setTimeout(function(){savedMsg.textContent="";},1600);
+  };
+  // ÃƒÂ¢Ã…â€œÃ¢â‚¬Â Set the current New HTML as this page's Source of Truth (the version the dev builds to; always editable)
+  $('toSot').onclick=async function(){
+    var nh=await getDraft(cur().id,'right');
+    if(!nh.trim()){ alert("New HTML is empty ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â nothing to set as the Source of Truth."); return; }
+    if(!confirm("Set the current New HTML as this page's Source of Truth (the version the dev builds to)?\n\nYou can still edit it afterwards.")) return;
+    await setDraft(cur().id+'::sot','right',nh);
+    rightMode.value='sot'; editor.value=nh; tabPrev.classList.add('active'); tabEdit.classList.remove('active'); $('sotFlag').classList.remove('hide'); renderRight();
+    savedMsg.textContent="set as Source of Truth ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"; setTimeout(function(){savedMsg.textContent="";},1800);
+  };
+  // ÃƒÂ¢Ã…â€œÃ¢â‚¬Â Make the current Saved HTML (the captured live page on the LEFT) this page's Source of Truth ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â if it's already right
+  $('leftToSot').onclick=async function(){
+    var p=cur(), m=leftMode.value, html='';
+    if(m==='draft'){ html=await getDraft(p.id,'left'); }
+    else if(m==='live'){ alert("Switch the left to 'Saved HTML (captured)' first ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the live page can't be read straight into the Source of Truth."); return; }
+    else { if(!p.f){ alert("No Saved HTML for this page (it's a new page) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â build it on the right instead."); return; } try{ html=await (await fetch(p.f,{cache:'no-store'})).text(); }catch(e){ html=''; } }
+    if(!html||!html.trim()){ alert("Nothing to set as the Source of Truth."); return; }
+    if(!confirm("Make the current Saved HTML this page's Source of Truth?\n\nIt becomes the version the dev builds to ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â you can still edit it afterwards.")) return;
+    await setDraft(p.id+'::sot','right',html);
+    rightMode.value='sot'; editor.value=html; tabPrev.classList.add('active'); tabEdit.classList.remove('active'); $('sotFlag').classList.remove('hide'); renderRight();
+    savedMsg.textContent="Saved HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Source of Truth ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"; setTimeout(function(){savedMsg.textContent="";},1900);
+  };
+  $('clearLeft').onclick=async function(){
+    if(!confirm("Remove the uploaded/updated HTML on the LEFT for this page? The captured original is untouched.")) return;
+    await delDraft(cur().id,'left'); leftMode.value="html"; await renderLeft();
+  };
+
+  // ================= jobs (team-shared via Supabase 'jobs' table, local fallback) =================
+  var STAGES=[['todo','To Do'],['in_progress','In Progress'],['ready','Ready to Test'],['passed','Passed'],['live','Live'],['deferred','Deferred']];
+  function stageLabel(s){ for(var i=0;i<STAGES.length;i++){ if(STAGES[i][0]===s) return STAGES[i][1]; } return s; }
+  function esc(t){ var d=document.createElement('div'); d.textContent=t==null?'':t; return d.innerHTML; }
+  function jKey(id){ return 'wbv2_jobs_'+id; }
+  function localJobs(id){ try{ return JSON.parse(localStorage.getItem(jKey(id))||'[]'); }catch(e){ return []; } }
+  function saveLocalJobs(id,a){ localStorage.setItem(jKey(id), JSON.stringify(a)); }
+  // Jobs are stored in the shared 'notes' table (no extra setup) so the whole team shares one space.
+  function uuid(){ try{ if(window.crypto&&crypto.randomUUID) return crypto.randomUUID(); }catch(e){} return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){var r=Math.random()*16|0,v=c=='x'?r:(r&3|8);return v.toString(16);}); }
+  var VALID_STAGE={todo:1,in_progress:1,ready:1,passed:1,live:1,deferred:1};
+  function jobFromRow(r){ var m={}; try{m=JSON.parse(r.message||'{}');}catch(e){} return {id:r.id,page_id:r.page_id,title:r.title||'',priority:r.priority||'P2',stage:(VALID_STAGE[r.status]?r.status:'todo'),type:m.type||'repair',action:m.action||'',expected:m.expected||'',actual:m.actual||'',shots:(Array.isArray(m.shots)?m.shots:[])}; }
+  function rowFromJob(j){ return {id:j.id,page_id:j.page_id,title:j.title,priority:j.priority,status:j.stage,message:JSON.stringify({kind:'job',type:j.type,action:j.action,expected:j.expected,actual:j.actual,shots:j.shots||[]})}; }
+  // ---- screenshot helpers (paste/upload -> downscaled JPEG dataURL, stored with the job) ----
+  function shrinkImage(blob,cb){ var url=URL.createObjectURL(blob),img=new Image(); img.onload=function(){ var maxW=1280,s=Math.min(1,maxW/img.width); var c=document.createElement('canvas'); c.width=Math.round(img.width*s); c.height=Math.round(img.height*s); c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(url); try{ cb(c.toDataURL('image/jpeg',0.72)); }catch(e){ cb(null); } }; img.onerror=function(){ URL.revokeObjectURL(url); cb(null); }; img.src=url; }
+  function imageFromPaste(e){ var items=(e.clipboardData||{}).items||[]; for(var i=0;i<items.length;i++){ if(items[i].type&&items[i].type.indexOf('image')===0) return items[i].getAsFile(); } return null; }
+  function lightbox(src){ var d=document.createElement('div'); d.className='shot-lb'; var im=document.createElement('img'); im.src=src; d.appendChild(im); d.onclick=function(){ d.remove(); }; document.body.appendChild(d); }
+  function thumbHtml(src,i){ return '<span class="shot-thumb"><img src="'+src+'" data-i="'+i+'"><button class="rm" data-i="'+i+'" title="remove">ÃƒÆ’Ã¢â‚¬â€</button></span>'; }
+  function rowIsComment(x){ var m={}; try{m=JSON.parse(x.message||'{}');}catch(e){} return m.kind==='comment'; }
+  async function fetchJobs(pageId){
+    var local=localJobs(pageId), byId={}; local.forEach(function(j){ byId[j.id]=j; });
+    if(sb){ try{
+      var r=await sb.from('notes').select('*').eq('page_id',pageId).order('created_at',{ascending:true});
+      if(!r.error){ setConn(true);
+        var merged=[]; (r.data||[]).forEach(function(x){ if(rowIsComment(x)) return; var j=jobFromRow(x); merged.push(j); delete byId[j.id]; });
+        Object.keys(byId).forEach(function(k){ merged.push(byId[k]); });
+        saveLocalJobs(pageId, merged); return merged;
+      }
+    }catch(e){} }
+    setConn(false); return local;
+  }
+  async function putJob(job){
+    var a=localJobs(job.page_id).filter(function(j){ return j.id!==job.id; }); a.push(job); saveLocalJobs(job.page_id,a);
+    if(sb){ try{ await sb.from('notes').upsert(rowFromJob(job)); }catch(e){} }
+  }
+  async function removeJob(pageId,id){
+    saveLocalJobs(pageId, localJobs(pageId).filter(function(j){ return j.id!==id; }));
+    if(sb){ try{ await sb.from('notes').delete().eq('id',id); }catch(e){} }
+  }
+
+  async function renderJobs(){
+    var id=cur().id, a=await fetchJobs(id), list=$('jobList');
+    list.innerHTML = a.length ? "" : '<p class="meta">No jobs yet for this page. Add one above.</p>';
+    a.forEach(function(j){
+      var pri=(j.priority||'P2'), stg=(j.stage||'todo'), type=(j.type||'repair');
+      var d=document.createElement('div'); d.className='job '+pri.toLowerCase()+' stage-'+stg;
+      var opts=STAGES.map(function(s){ return '<option value="'+s[0]+'"'+(s[0]===stg?' selected':'')+'>'+s[1]+'</option>'; }).join('');
+      d.innerHTML=
+        '<div class="job-head">'+
+          '<span class="badge b-'+pri.toLowerCase()+'">'+pri+'</span>'+
+          '<span class="badge b-type">'+(type==='build'?'BUILD':'REPAIR')+'</span>'+
+          '<span class="badge b-stage">'+stageLabel(stg)+'</span>'+
+          '<span class="job-title">'+esc(j.title||'(untitled)')+'</span>'+
+          '<span class="job-actions"><button class="edit">edit</button><select class="stageSel" title="Status">'+opts+'</select>'+
+          '<button class="del">delete</button></span>'+
+        '</div>'+
+        '<table class="job-cols"><tr><th>Action</th><th>Expected Result</th><th>Actual Result</th></tr>'+
+          '<tr><td>'+esc(j.action)+'</td><td>'+esc(j.expected)+'</td>'+
+          '<td><textarea class="actual" placeholder="Fill in when testedÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦">'+esc(j.actual)+'</textarea></td></tr>'+
+        '</table>'+
+        '<div class="shot-thumbs jcard-shots">'+(j.shots||[]).map(function(s,i){return thumbHtml(s,i);}).join('')+'</div>'+
+        '<div class="shot-box jcard-paste" tabindex="0">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â· click here &amp; paste a screenshot (Ctrl+V) to attach to this job</div>';
+      d.querySelector('.stageSel').onchange=function(){ j.stage=this.value; putJob(j); renderJobs(); };
+      d.querySelector('.actual').onchange=function(){ j.actual=this.value; putJob(j); };
+      d.querySelector('.del').onclick=function(){ if(!confirm('Delete this job?')) return; removeJob(id,j.id).then(renderJobs); };
+      d.querySelector('.edit').onclick=function(){
+        var priOpts=['P1','P2','P3'].map(function(p){return '<option value="'+p+'"'+(p===pri?' selected':'')+'>'+p+'</option>';}).join('');
+        var typeOpts=[['repair','REPAIR'],['build','BUILD']].map(function(t){return '<option value="'+t[0]+'"'+(t[0]===type?' selected':'')+'>'+t[1]+'</option>';}).join('');
+        d.innerHTML=
+          '<div class="job-edit">'+
+            '<div class="je-head"><select class="ePri">'+priOpts+'</select><select class="eType">'+typeOpts+'</select>'+
+              '<input class="eTitle" value="'+esc(j.title||'')+'" placeholder="Job titleÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦"></div>'+
+            '<table class="job-cols"><tr><th>Action</th><th>Expected Result</th><th>Actual Result</th></tr>'+
+              '<tr><td><textarea class="eAction" placeholder="What to doÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦">'+esc(j.action)+'</textarea></td>'+
+              '<td><textarea class="eExpected" placeholder="Expected outcomeÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦">'+esc(j.expected)+'</textarea></td>'+
+              '<td><textarea class="eActual" placeholder="Fill in when testedÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦">'+esc(j.actual)+'</textarea></td></tr></table>'+
+            '<div class="je-btns"><button class="eSave">Save</button><button class="eCancel">Cancel</button></div>'+
+          '</div>';
+        d.querySelector('.eCancel').onclick=renderJobs;
+        d.querySelector('.eSave').onclick=function(){
+          var t=d.querySelector('.eTitle').value.trim(); if(!t){ alert('Give the job a title.'); return; }
+          j.title=t; j.priority=d.querySelector('.ePri').value; j.type=d.querySelector('.eType').value;
+          j.action=d.querySelector('.eAction').value.trim();
+          j.expected=d.querySelector('.eExpected').value.trim();
+          j.actual=d.querySelector('.eActual').value.trim();
+          putJob(j).then(renderJobs);
+        };
+      };
+      d.querySelector('.jcard-shots').onclick=function(e){ var x=e.target; if(x.classList.contains('rm')){ j.shots.splice(+x.getAttribute('data-i'),1); putJob(j); renderJobs(); } else if(x.tagName==='IMG'){ lightbox(x.src); } };
+      d.querySelector('.jcard-paste').addEventListener('paste',function(e){ var f=imageFromPaste(e); if(f){ e.preventDefault(); shrinkImage(f,function(durl){ if(durl){ j.shots=(j.shots||[]).concat([durl]); putJob(j); renderJobs(); } }); } });
+      list.appendChild(d);
+    });
+  }
+  function renderNotes(){ renderJobs(); }   // load() calls renderNotes(); keep it working
+  $('addJob').onclick=async function(){
+    var t=$('jTitle').value.trim(); if(!t){ alert('Give the job a title.'); return; }
+    var job={ id:uuid(), page_id:cur().id, title:t,
+              type:$('jType').value, priority:$('jPri').value, stage:'todo',
+              action:$('jAction').value.trim(), expected:$('jExpected').value.trim(), actual:$('jActual').value.trim(),
+              shots:newShots.slice() };
+    await putJob(job);
+    $('jTitle').value='';$('jAction').value='';$('jExpected').value='';$('jActual').value='';$('jType').value='repair';$('jPri').value='P2';
+    newShots=[]; renderNewShots();
+    renderJobs();
+  };
+  // ---- screenshots attached to the NEW job being composed ----
+  var newShots=[];
+  function renderNewShots(){ var el=$('jShots'); if(el) el.innerHTML=newShots.map(function(s,i){return thumbHtml(s,i);}).join(''); }
+  function addNewShot(blob){ if(!blob) return; shrinkImage(blob,function(durl){ if(durl){ newShots.push(durl); renderNewShots(); } }); }
+  (function(){ var box=$('jShotBox'); if(!box) return;
+    box.addEventListener('paste',function(e){ var f=imageFromPaste(e); if(f){ e.preventDefault(); addNewShot(f); } });
+    $('jShotPick').onclick=function(ev){ ev.stopPropagation(); $('jShotFile').click(); };
+    $('jShotFile').onchange=function(e){ var f=e.target.files[0]; if(f) addNewShot(f); e.target.value=''; };
+    $('jShots').onclick=function(e){ var t=e.target; if(t.classList.contains('rm')){ newShots.splice(+t.getAttribute('data-i'),1); renderNewShots(); } else if(t.tagName==='IMG'){ lightbox(t.src); } };
+  })();
+
+  // ===== Ask AI (prototype: drafts a job straight into the fields for THIS page) =====
+  function draftJob(q,p){
+    var t=(q||'').toLowerCase(), code=codeOf(p);
+    if(/spell|grammar|typo|wording|copy/.test(t)) return {title:"Proofread & fix copy ["+code+"]",type:"repair",priority:"P3",action:"Proofread all copy on this page and fix any spelling, grammar or wording issues.",expected:"No spelling/grammar/wording errors on the page.",actual:""};
+    if(/consist|brand|colour|color|style|label/.test(t)) return {title:"Consistency check ["+code+"]",type:"repair",priority:"P2",action:"Check wording, button labels, brand and colours against the rest of the section.",expected:"This page matches the agreed style and wording used elsewhere.",actual:""};
+    if(/broken|bug|break|error|dead|insecure|secure|test|work/.test(t)) return {title:"Test for breakage ["+code+"]",type:"repair",priority:"P2",action:"Test the buttons, links and forms on this page for anything broken or insecure.",expected:"All actions work; nothing broken or exposing data.",actual:""};
+    return {title:(q.length>50?q.slice(0,50)+"ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦":q),type:"repair",priority:"P2",action:q,expected:"(define the expected outcome)",actual:""};
+  }
+  $('aiAsk').onclick=function(){
+    var q=$('aiQ').value.trim(); if(!q){ return; }
+    var note=$('aiNote'); note.textContent="ÃƒÂ¢Ã…â€œÃ‚Â¨ thinkingÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦";
+    setTimeout(function(){
+      var d=draftJob(q,cur());
+      $('jTitle').value=d.title; $('jType').value=d.type; $('jPri').value=d.priority;
+      $('jAction').value=d.action; $('jExpected').value=d.expected; $('jActual').value=d.actual||'';
+      note.textContent="ÃƒÂ¢Ã…â€œÃ‚Â¨ Drafted a job below ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â review and click ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ+ Add jobÃƒÂ¢Ã¢â€šÂ¬Ã‚Â.  (Prototype ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the live version reads the page and writes real findings.)";
+      $('aiQ').value='';
+    },650);
+  };
+  $('aiQ').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); $('aiAsk').click(); } });
+
+  // ===== Comments (shared via the notes table, kind:'comment') =====
+  function cKey(id){ return 'wb_comments_'+id; }
+  function localComments(id){ try{return JSON.parse(localStorage.getItem(cKey(id))||'[]');}catch(e){return[];} }
+  function saveLocalComments(id,a){ localStorage.setItem(cKey(id),JSON.stringify(a)); }
+  async function fetchComments(pageId){
+    var local=localComments(pageId), byId={}; local.forEach(function(c){ byId[c.id]=c; });
+    if(sb){ try{
+      var r=await sb.from('notes').select('*').eq('page_id',pageId).order('created_at',{ascending:true});
+      if(!r.error){ setConn(true); var out=[];
+        (r.data||[]).forEach(function(x){ if(!rowIsComment(x)) return; var m={}; try{m=JSON.parse(x.message||'{}');}catch(e){}
+          out.push({id:x.id,author:m.author||'',text:m.text||'',ts:x.created_at}); delete byId[x.id]; });
+        Object.keys(byId).forEach(function(k){ out.push(byId[k]); }); saveLocalComments(pageId,out); return out;
+      }
+    }catch(e){} }
+    setConn(false); return local;
+  }
+  async function addCommentRow(pageId,author,text){
+    var id=uuid(), c={id:id,author:author,text:text,ts:new Date().toISOString()};
+    var a=localComments(pageId); a.push(c); saveLocalComments(pageId,a);
+    if(sb){ try{ await sb.from('notes').upsert({id:id,page_id:pageId,title:(author||'Comment'),priority:'',status:'',message:JSON.stringify({kind:'comment',author:author,text:text})}); }catch(e){} }
+  }
+  async function delCommentRow(pageId,id){
+    saveLocalComments(pageId, localComments(pageId).filter(function(c){return c.id!==id;}));
+    if(sb){ try{ await sb.from('notes').delete().eq('id',id); }catch(e){} }
+  }
+  async function renderComments(){
+    var id=cur().id, a=await fetchComments(id), list=$('commentList');
+    list.innerHTML=a.length?"":'<p class="meta">No comments yet.</p>';
+    a.forEach(function(c){
+      var d=document.createElement('div'); d.className='comment';
+      var when=''; try{ when=new Date(c.ts).toLocaleString(); }catch(e){}
+      d.innerHTML='<button class="cdel">delete</button><span class="who"></span><span class="when">'+esc(when)+'</span><div class="ctext"></div>';
+      d.querySelector('.who').textContent=c.author||'Anon';
+      d.querySelector('.ctext').textContent=c.text||'';
+      d.querySelector('.cdel').onclick=function(){ delCommentRow(id,c.id).then(renderComments); };
+      list.appendChild(d);
+    });
+  }
+  $('addComment').onclick=async function(){ var tx=$('cText').value.trim(); if(!tx) return; await addCommentRow(cur().id,$('cName').value.trim(),tx); $('cText').value=''; renderComments(); };
+
+  // ================= zoom =================
+  var z=0.5;
+  function applyZoom(){var s='scale('+z+')';leftFrame.style.transform=s;rightFrame.style.transform=s;zVal.textContent=Math.round(z*100)+"%";}
+  function fit(){var w=leftWrap.clientWidth||640;z=Math.max(0.2,Math.min(1.5,(w-4)/1280));applyZoom();}
+  $('zIn').onclick=function(){z=Math.min(1.5,Math.round((z+0.1)*100)/100);applyZoom();};
+  $('zOut').onclick=function(){z=Math.max(0.2,Math.round((z-0.1)*100)/100);applyZoom();};
+  $('zFit').onclick=fit;
+
+  // ================= LEFT render =================
+  async function renderLeft(){
+    var p=cur(), m=leftMode.value;
+    leftWrap.classList.add('hide');leftBlank.classList.add('hide');leftHint.classList.add('hide');$('clearLeft').classList.add('hide');
+    if(m==='live'){
+      if(p.live){ leftFrame.removeAttribute('srcdoc');leftFrame.src='/__live?u='+encodeURIComponent(p.live);leftWrap.classList.remove('hide');leftHintLink.href=p.live;leftHint.classList.remove('hide');leftMeta.textContent="live"; }
+      else { leftBlank.textContent="No live URL for this page.";leftBlank.classList.remove('hide');leftMeta.textContent=""; }
+    } else if(m==='draft'){
+      var d=await getDraft(p.id,'left');
+      if(d){ leftFrame.removeAttribute('src');leftFrame.srcdoc=d;leftWrap.classList.remove('hide');leftMeta.textContent="team draft";$('clearLeft').classList.remove('hide'); }
+      else { leftBlank.textContent="No updated HTML yet ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â use 'Upload HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left', or build on the right and 'Promote right ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ left'.";leftBlank.classList.remove('hide');leftMeta.textContent="(no draft)"; }
+    } else {
+      if(p.f){ leftFrame.removeAttribute('srcdoc');leftFrame.src=p.f;leftWrap.classList.remove('hide');leftMeta.textContent=p.f; }
+      else { leftBlank.textContent="ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â No live page ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â the left is an extraction from the live site, and this page isn't on it. Build it on the Source of Truth (right) ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢";leftBlank.classList.remove('hide');leftMeta.textContent="(no live page)"; }
+    }
+    applyZoom();
+  }
+  leftMode.onchange=renderLeft;
+
+  // ================= RIGHT render =================
+  // the editor edits the New HTML (side 'right') OR the Source of Truth (page id + '::sot'), depending on mode
+  function editorKey(){ return rightMode.value==='sot' ? cur().id+'::sot' : cur().id; }
+  function renderRight(){
+    var p=cur(), m=rightMode.value;
+    editor.classList.add('hide');rightWrap.classList.add('hide');rightBlank.classList.add('hide');rightHint.classList.add('hide');
+    $('toSot').classList.remove('hide');   // "New HTML ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Source of Truth" is always available
+    if(m==='new'||m==='sot'){
+      rtabs.classList.remove('hide');
+      if(tabPrev.classList.contains('active')){ rightFrame.removeAttribute('src');rightFrame.srcdoc=editor.value;rightWrap.classList.remove('hide'); }
+      else { editor.classList.remove('hide'); }
+    } else if(m==='live'){
+      rtabs.classList.add('hide');
+      if(p.live){ rightFrame.removeAttribute('srcdoc');rightFrame.src='/__live?u='+encodeURIComponent(p.live);rightWrap.classList.remove('hide');rightHintLink.href=p.live;rightHint.classList.remove('hide'); }
+      else { rightBlank.textContent="No live URL for this page.";rightBlank.classList.remove('hide'); }
+    } else {
+      rtabs.classList.add('hide');
+      if(p.f){ rightFrame.removeAttribute('srcdoc');rightFrame.src=p.f;rightWrap.classList.remove('hide'); }
+      else { rightBlank.textContent="No saved HTML for this page.";rightBlank.classList.remove('hide'); }
+    }
+    applyZoom();
+  }
+  rightMode.onchange=async function(){ if(rightMode.value==='new'||rightMode.value==='sot'){ editor.value=await getDraft(editorKey(),'right'); } renderRight(); };
+  tabEdit.onclick=function(){tabEdit.classList.add('active');tabPrev.classList.remove('active');renderRight();};
+  tabPrev.onclick=function(){tabPrev.classList.add('active');tabEdit.classList.remove('active');renderRight();};
+
+  // editor autosave -> shared draft (debounced)
+  var t; editor.addEventListener('input',function(){ clearTimeout(t); t=setTimeout(async function(){ await setDraft(editorKey(),'right',editor.value); savedMsg.textContent=(rightMode.value==='sot'?"Source of Truth saved ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“":"saved ÃƒÂ¢Ã…â€œÃ¢â‚¬Å“"); setTimeout(function(){savedMsg.textContent="";},1400); },800); });
+
+  $('exportBtn').onclick=function(){var b=new Blob([editor.value||""],{type:"text/html"});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download="NEW_"+codeOf(cur())+"_"+cur().id.replace(/[^\w.-]/g,'_').replace(/\.html$/,'')+".html";a.click();};
+
+  // ================= load a page =================
+  async function load(){
+    var p=cur(); savedMsg.textContent="";
+    var isNew=/New \/ Build/.test(p.g), code=codeOf(p);
+    leftCode.textContent=code; rightCode.textContent=code; setUserState(p);
+    openLive.href=p.live||"#"; openLive.style.opacity=p.live?1:.4;
+    $('deletePage').disabled=!p.custom; $('deletePage').style.opacity=p.custom?1:.45; $('deletePage').style.cursor=p.custom?"pointer":"not-allowed";
+    $('editPage').disabled=!p.custom; $('editPage').style.opacity=p.custom?1:.45; $('editPage').style.cursor=p.custom?"pointer":"not-allowed";
+
+    leftMode.value="html"; await renderLeft();
+    var sot=await getDraft(p.id+'::sot','right');
+    if(sot && sot.trim()){
+      rightMode.value="sot"; editor.value=sot;
+      tabPrev.classList.add('active'); tabEdit.classList.remove('active');   // a page WITH a Source of Truth opens straight to its rendered preview
+    } else if(!p.f){
+      rightMode.value="sot"; editor.value=await getDraft(p.id+'::sot','right');   // build-only page (no live extraction) -> build straight into the Source of Truth
+      tabEdit.classList.add('active'); tabPrev.classList.remove('active');
+    } else if(isNew && p.f){
+      rightMode.value="html"; editor.value=await getDraft(p.id,'right');
+    } else {
+      rightMode.value="new"; editor.value=await getDraft(p.id,'right');
+      tabEdit.classList.add('active'); tabPrev.classList.remove('active');
+    }
+    $('sotFlag').classList.toggle('hide', !(sot && sot.trim()));
+    renderRight();
+
+    notesFor.textContent="Ãƒâ€šÃ‚Â· ["+code+"] "+p.g+" ÃƒÂ¢Ã¢â€šÂ¬Ã‚Âº "+(p.s?p.s+" Ãƒâ€šÃ‚Â· ":"")+p.n;
+    $('aiNote').textContent=""; $('cFor').textContent="Ãƒâ€šÃ‚Â· ["+code+"] "+p.n; renderFires(code);
+    await renderNotes();
+    renderComments();
+  }
+  picker.onchange=load;
+
+  // ===== "Follow the flow": clicking a link inside a captured page jumps the workbench to that page =====
+  function paramsOf(urlStr){ try{ var u=new URL(urlStr); var o={}; u.searchParams.forEach(function(v,k){o[k]=v;}); return {path:(u.pathname.replace(/\/+$/,'')||'/'), q:o, qn:u.searchParams.toString()}; }catch(e){ return null; } }
+  // best match: same path, and the candidate's query params are all present in the target -> prefer the MOST specific (most params)
+  function matchPage(abs){
+    var t=paramsOf(abs); if(!t) return -1;
+    var curp=(typeof cur==='function')?cur():null;
+    var curFam=curp?famOf(curp):'', curState=curp?stateOf(curp):'';
+    var cn0=curp?(((curp.n||'')+' '+codeOf(curp)).toLowerCase()):'';
+    var wantFull=cn0.indexOf('full')>=0, wantShort=cn0.indexOf('short')>=0;
+    // exact-path candidates (candidate query is a subset of target) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â scored by specificity + login state + family
+    var best=-1, bestScore=-1;
+    for(var i=0;i<P.length;i++){
+      if(!P[i].live) continue;
+      var c=paramsOf(P[i].live); if(!c || c.path!==t.path) continue;
+      var ok=true, cnt=0;
+      for(var k in c.q){ if(t.q[k]===c.q[k]) cnt++; else { ok=false; break; } }
+      if(!ok) continue;
+      var score=cnt*10 + (c.qn===t.qn?5:0);
+      if(curState && stateOf(P[i])===curState) score+=3;   // Home '/' etc. -> the logged-in version when in a logged-in flow
+      if(curFam && famOf(P[i])===curFam) score+=2;
+      if(score>bestScore){ bestScore=score; best=i; }
+    }
+    if(best>=0) return best;
+    // template fallback for dynamic-id paths: /search/work/796, /user/view/470, /myaccount/edit_job/809 ...
+    var tt=t.path.replace(/\/\d+$/,'/#');
+    if(tt!==t.path){
+      var pick=-1, ps=-1;
+      for(var j=0;j<P.length;j++){
+        if(!P[j].live) continue;
+        var cp=paramsOf(P[j].live); if(!cp || cp.path.replace(/\/\d+$/,'/#')!==tt) continue;
+        var cnj=(((P[j].n||'')+' '+codeOf(P[j])).toLowerCase());
+        var sc=0;
+        if(curp && P[j].g===curp.g) sc+=4;
+        if(curFam && famOf(P[j])===curFam) sc+=2;
+        if(curState && stateOf(P[j])===curState) sc+=6;   // keep logged-in flow logged-in (PCjd not SC03)
+        if(wantFull && cnj.indexOf('full')>=0) sc+=8;  if(wantShort && cnj.indexOf('short')>=0) sc+=8;
+        if(wantFull && cnj.indexOf('short')>=0) sc-=3; if(wantShort && cnj.indexOf('full')>=0) sc-=3;
+        if(sc>ps){ ps=sc; pick=j; }
+      }
+      if(pick>=0) return pick;
+    }
+    return -1;
+  }
+  // employee vs contractor "family" of a page, so a profile/detail link in the Employee flow lands on the EMPLOYEE one
+  function famOf(p){
+    if(!p) return '';
+    var g=(p.g||''), n=(p.n||''), live=(p.live||''), c=(codeOf(p)||''), hay=(g+' '+n);
+    // the SUBJECT of the page wins over the code prefix: "Find an Employee" pages live under PC* codes but are about employees
+    if(/find an employee/i.test(hay) || /find=employee/i.test(live)) return 'emp';
+    if(/find a contractor/i.test(hay)) return 'con';
+    if(/^EMP/i.test(c)) return 'emp';
+    if(/employee/i.test(hay) && !/contractor/i.test(hay)) return 'emp';   // Profile ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Employee, Shared ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Employee
+    if(/contractor/i.test(hay) && !/employee/i.test(hay)) return 'con';   // Profile ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Contractor, Shared ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Contractor
+    if(/^(SC|PC)/i.test(c)) return 'con';
+    if(/employee/i.test(hay)) return 'emp';
+    if(/contractor/i.test(hay)) return 'con';
+    return '';
+  }
+  function stateOf(p){ return (/Logged Out/i.test((p&&p.g)||'')) ? 'out' : 'in'; }   // logged-out (section 1) vs logged-in
+  function flashFollow(msg,warn){ savedMsg.textContent=msg; savedMsg.style.color=warn?'#b91c1c':'#065f46'; savedMsg.style.fontWeight='700'; setTimeout(function(){savedMsg.textContent='';savedMsg.style.color='';savedMsg.style.fontWeight='';}, warn?4500:1800); }
+  function hookFollow(frame){
+    var doc; try{ doc=frame.contentDocument; }catch(e){ return; }   // cross-origin (live mode) -> skip
+    if(!doc || doc.__followed) return; doc.__followed=true;
+    doc.addEventListener('click', function(ev){
+      // in-page variant toggle (same URL, different page id) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Create-a-Job: Direct Hire <-> Quote Required
+      if(ev.target && ev.target.closest){
+        var _lab=ev.target.closest('label[for]');
+        var _inp=ev.target.closest('input[name="labour_type"]') || (_lab && doc.getElementById(_lab.getAttribute('for')));
+        if(_inp && _inp.getAttribute && _inp.getAttribute('name')==='labour_type'){
+          var _vt=(_inp.value==='1')?'PC05q':'PC05';
+          for(var _v=0;_v<P.length;_v++){ if(codeOf(P[_v])===_vt){
+            ev.preventDefault(); ev.stopPropagation();
+            if(codeOf(cur())!==_vt){ picker.value=String(P[_v]._i); load(); flashFollow('ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ followed to ['+_vt+'] '+P[_v].n); }
+            return;
+          } }
+        }
+      }
+      var a=(ev.target && ev.target.closest) ? ev.target.closest('a') : null;
+      var href=a?a.getAttribute('href'):null;
+      if(!href){ var el=ev.target; while(el && el.getAttribute){ var oc=el.getAttribute('onclick')||''; var mm=oc.match(/location(?:\.href)?\s*=\s*['"]([^'"]+)['"]/)||oc.match(/location\.assign\(\s*['"]([^'"]+)['"]/); if(mm){ href=mm[1]; break; } el=el.parentNode; } }
+      if(!href){ // action buttons (Apply / direct hire, Hire a worker) carry no link, only a value=id ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â follow to the relevant page so the flow is walkable & can be made a Source of Truth
+        var _ab=ev.target.closest ? ev.target.closest('.job_apply,.hire_worker') : null;
+        if(_ab){ var _id=_ab.getAttribute('value') || ((_ab.className.match(/(?:job_apply|hire_worker)(\d+)/)||[])[1]);
+          if(_id){ href = /hire_worker/.test(_ab.className) ? (L+'user/view/'+_id) : (L+'search/work/'+_id); } }
+      }
+      if(!href || href.charAt(0)==='#' || /^(javascript|mailto|tel):/i.test(href)) return;
+      var abs; try{ abs=new URL(href, doc.baseURI).href; }catch(e){ return; }
+      if(abs.indexOf('e-contract.com.au')<0) return;       // only follow internal contco links
+      ev.preventDefault(); ev.stopPropagation();
+      // "View Principal Contractor" / "View employer" -> the Employer Profile (the job poster), not a contractor/employee profile
+      var _atxt=(a && (a.textContent||'')).replace(/\s+/g,' ').trim();
+      if(/\/user\/view\/\d+/.test(abs) && /view\s+(principal\s+contractor|employer)/i.test(_atxt)){
+        for(var _e=0;_e<P.length;_e++){ if(codeOf(P[_e])==='EMPLOYER'){ picker.value=String(P[_e]._i); load(); flashFollow('ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ followed to [EMPLOYER] '+P[_e].n); return; } }
+      }
+      var idx=matchPage(abs);
+      if(idx>=0){ picker.value=String(P[idx]._i); load(); flashFollow('ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ followed to ['+codeOf(P[idx])+'] '+P[idx].n); }
+      else { flashFollow('ÃƒÂ¢Ã…Â¡Ã‚Â  NOT in inventory: '+abs.replace(/^https?:\/\/contco\.com\.au/,'')+'  ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â needs adding', true); }
+    }, true);
+    // follow form submits too (e.g. the FIND! search) -> jump to the matching results page
+    doc.addEventListener('submit', function(ev){
+      var form=ev.target; if(!form || form.tagName!=='FORM') return;
+      var absA; try{ absA=new URL(form.getAttribute('action')||doc.baseURI, doc.baseURI).href; }catch(e){ return; }
+      if(absA.indexOf('e-contract.com.au')<0) return;
+      ev.preventDefault(); ev.stopPropagation();
+      var url=absA;
+      if((form.getAttribute('method')||'get').toLowerCase()==='get'){
+        var ps=[]; Array.prototype.forEach.call(form.elements,function(el){
+          if(!el.name || el.disabled) return;
+          if((el.type==='checkbox'||el.type==='radio') && !el.checked) return;
+          if(el.type==='submit'||el.type==='button'||el.type==='file') return;
+          ps.push(encodeURIComponent(el.name)+'='+encodeURIComponent(el.value==null?'':el.value));
+        });
+        var base=absA.split('#')[0]; url=base+(ps.length?((base.indexOf('?')>=0?'&':'?')+ps.join('&')):'');
+      }
+      var idx=matchPage(url);
+      if(idx>=0){ picker.value=String(P[idx]._i); load(); flashFollow('ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ followed (form) to ['+codeOf(P[idx])+'] '+P[idx].n); }
+      else { flashFollow('ÃƒÂ¢Ã…Â¡Ã‚Â  form target NOT in inventory: '+url.replace(/^https?:\/\/contco\.com\.au/,'')+' ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â needs adding', true); }
+    }, true);
+  }
+
+  // keep the page id in sync with whatever the LEFT (Saved HTML) panel is actually showing ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+  // fixes browser back/forward (and any in-iframe navigation) leaving the page label stale
+  function syncLabelFromFrame(frame){
+    if(leftMode.value!=='html') return;                 // only when showing the captured Saved HTML
+    var path; try{ path=frame.contentWindow.location.pathname; }catch(e){ return; }   // cross-origin live page -> skip
+    var file=decodeURIComponent((path||'').split('/').pop()||'');
+    if(!file || !/\.html?$/i.test(file)) return;         // srcdoc / non-page -> skip
+    if(cur().f===file) return;                           // already on the right page (normal forward follow)
+    for(var i=0;i<P.length;i++){ if(P[i].f===file){ picker.value=String(P[i]._i); load(); flashFollow('ÃƒÂ¢Ã¢â‚¬Â Ã‚Â© now on ['+codeOf(P[i])+'] '+P[i].n); return; } }
+  }
+
+  // ================= realtime (live team sync) =================
+  function subscribeRealtime(){
+    if(!sb) return;
+    sb.channel('wb-live')
+      .on('postgres_changes',{event:'*',schema:'public',table:'notes'},function(payload){
+        var row=payload.new||payload.old; if(row && row.page_id===cur().id){ renderNotes(); renderComments(); }
+      })
+      .on('postgres_changes',{event:'*',schema:'public',table:'drafts'},function(payload){
+        var row=payload.new||payload.old; if(!row) return;
+        var sot=cur().id+'::sot';
+        if(row.page_id!==cur().id && row.page_id!==sot) return;
+        if(row.side==='left'){ if(leftMode.value==='draft') renderLeft(); return; }
+        if(document.activeElement===editor) return;        // don't clobber while typing
+        var rowIsSot=(row.page_id===sot), viewingSot=(rightMode.value==='sot');
+        if(rowIsSot===viewingSot){ getDraft(editorKey(),'right').then(function(h){ editor.value=h; if((rightMode.value==='new'||rightMode.value==='sot')&&tabPrev.classList.contains('active')) renderRight(); }); }
+      })
+      .on('postgres_changes',{event:'*',schema:'public',table:'custom_pages'},function(){ rebuild(cur().id); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'jobs'},function(payload){ var row=payload.new||payload.old; if(row && row.page_id===cur().id) renderJobs(); })
+      .subscribe();
+  }
+
+  // ================= boot =================
+  (async function init(){
+    await rebuild();
+    // deep-link: workbench.html?page=CODE opens that exact page (from the Page List / Job Board)
+    var qp=new URLSearchParams(location.search).get('page'), sel=0;
+    if(qp){ for(var qi=0;qi<P.length;qi++){ if(codeOf(P[qi]).toLowerCase()===qp.toLowerCase()){ sel=qi; break; } } }
+    picker.value=String(sel);
+    // Create-a-Job / Need-Someone-Now variant pages all render the same captured form; show the correct variant SELECTED so each is visually distinct.
+    // To add a future variant page: one line here (labour: '0'|'1' for Direct Hire/Quote, or tab: '2'|'1' for Short/Full employee).
+    var WB_VARIANTS = {
+      'PC05':{labour:'0'}, 'PC05q':{labour:'1'}, 'PC07':{labour:'0'},      // contractor: Direct Hire / Quote
+      'PC06':{tab:'2'}, 'PC06f':{tab:'1'}, 'PC07e':{tab:'2'}, 'PC07f':{tab:'1'}   // employee: Short Term / Full Time
+    };
+    function setVariantRadio(frame){
+      var v=WB_VARIANTS[codeOf(cur())]; if(!v) return;
+      var doc; try{ doc=frame.contentDocument; }catch(e){ return; } if(!doc) return;
+      if(v.labour!=null){
+        var dh=doc.querySelector('input[name="labour_type"][value="0"]'), qr=doc.querySelector('input[name="labour_type"][value="1"]'), quote=doc.querySelectorAll('.quote_required');
+        if(v.labour==='1'){ if(qr)qr.checked=true; if(dh)dh.checked=false; for(var i=0;i<quote.length;i++){ quote[i].classList.remove('hide'); quote[i].style.display=''; } }
+        else { if(dh)dh.checked=true; if(qr)qr.checked=false; for(var j=0;j<quote.length;j++){ quote[j].classList.add('hide'); } }
+      }
+      if(v.tab!=null){
+        var tabs=doc.querySelectorAll('.employee-job-tabs .form-tab'), want=doc.querySelector('.employee-job-tabs [data-employee-job-type="'+v.tab+'"]');
+        if(want){ for(var k=0;k<tabs.length;k++) tabs[k].classList.remove('active'); want.classList.add('active');
+          try{ want.click(); }catch(e){} }   // let the page's own JS reveal the matching Short/Full fields
+      }
+    }
+    leftFrame.addEventListener('load', function(){ hookFollow(leftFrame); syncLabelFromFrame(leftFrame); setVariantRadio(leftFrame); });
+    rightFrame.addEventListener('load', function(){ hookFollow(rightFrame); setVariantRadio(rightFrame); });
+    await load();
+    // fit once layout has actually settled (and again on full load / resize)
+    requestAnimationFrame(fit);
+    setTimeout(fit,150); setTimeout(fit,600); setTimeout(fit,1500);
+    window.addEventListener('load', fit);
+    var rt; window.addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(fit,150); });
+    subscribeRealtime();
+  })();
+})();
+</script>
+</body>
+</html>

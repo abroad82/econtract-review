@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>e-contract — Review Board (front door)</title>
+<style>
+  :root{--red:#ef4444;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;
+        --pages:#2563eb;--mail:#0e7490;--pop:#059669;--flow:#7c3aed;--track:#b45309;--bench:#b91c1c}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:#f9fafb;line-height:1.45}
+  header.top{background:var(--red);color:#fff;padding:20px 24px}
+  header.top h1{margin:0;font-size:22px}
+  header.top p{margin:6px 0 0;font-size:13.5px;opacity:.93;max-width:820px}
+  .wrap{padding:20px 24px;max-width:1000px;margin:0 auto}
+  .hero{display:flex;align-items:center;gap:18px;background:#fff;border:1px solid var(--line);border-left:6px solid var(--bench);border-radius:14px;padding:18px 20px;margin-bottom:6px}
+  .hero .ic{font-size:34px}
+  .hero .txt{flex:1}
+  .hero h3{margin:0 0 4px;font-size:18px}
+  .hero p{margin:0;font-size:13px;color:#4b5563}
+  .hero a.open{font-size:14px;padding:11px 20px}
+  h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin:26px 0 8px;padding-left:10px;border-left:4px solid var(--line);color:var(--muted)}
+  h2.pages{border-left-color:var(--pages);color:var(--pages)}
+  h2.track{border-left-color:var(--track);color:var(--track)}
+  table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:#fafafa}
+  td.icon{width:34px;font-size:18px;text-align:center}
+  td.name{font-weight:700;font-size:14px;white-space:nowrap}
+  td.desc{color:#4b5563;font-size:12.5px}
+  td.act{width:120px;text-align:right;white-space:nowrap}
+  td.count{width:118px;color:var(--muted);font-size:11.5px;white-space:nowrap}
+  a.open{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-size:12px;font-weight:600;padding:6px 13px;border-radius:7px}
+  a.open:hover{filter:brightness(.93)}
+  .intro{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:13px;margin-bottom:18px}
+  .intro b{color:#374151}
+  .note{font-size:12px;color:var(--muted);margin-top:26px;border-top:1px dashed var(--line);padding-top:12px}
+  .note b{color:#374151}
+  .tag{display:inline-block;font-size:10px;padding:1px 7px;border-radius:8px;border:1px solid var(--line);background:#f3f4f6;color:#374151;margin-left:6px;vertical-align:middle}
+  .tag.soon{background:#fffbeb;color:#854d0e;border-color:#fde68a}
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>e-contract — Review Board</h1>
+  <p>Review board for the <b>e-contract.com.au pre-launch landing</b>. Everything runs off the <b>Workbench</b> — open any captured page, review it, leave comments and raise jobs. The lists below populate from it.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    This board covers the <b>13 logged-out landing pages</b> a visitor sees (e.g. from your video) — Home, Register your interest, the browse hubs, sample jobs &amp; profiles, Create-a-Job. <b>When the full site moves over from Beta,</b> the page list simply expands — the daily re-capture picks up whatever is live, and the contco board's email / pop-up / flow sections can be added then.
+  </div>
+
+  <div style="background:#fff7ed;border:1px solid #fed7aa;border-left:5px solid #ea580c;border-radius:12px;padding:13px 18px;font-size:13px;color:#7c2d12;margin-bottom:18px">
+    ⚠️ <b>Pre-launch behaviour:</b> nothing on the landing can be "completed". Every finalise action — <b>Publicly Post</b>, <b>Send to Contacts</b>, <b>Submit Quote</b>, sign-up — is intentionally blocked and <b>redirects to “Register your interest”</b>. Visitors can browse and fill the forms; the only outcome is capturing interest. So review here is about <b>wording, layout and the journey</b> — not transactions.
+  </div>
+
+  <!-- HERO: the workbench -->
+  <div class="hero">
+    <div class="ic">🛠️</div>
+    <div class="txt">
+      <h3>The Workbench <span class="tag soon">local only · team-sync pending</span></h3>
+      <p>The control centre. Pick any page → see the real captured page, build/repair a new version beside it, and raise <b>jobs</b> (P1/P2/P3, status, Action / Expected / Actual). Comments + jobs currently save in your browser; they sync to the whole team once the database is connected.</p>
+    </div>
+    <a class="open" style="background:var(--bench)" href="workbench.html">Open Workbench ↗</a>
+  </div>
+
+  <h2 class="sec pages">Pages</h2>
+  <table>
+    <tr>
+      <td class="icon">📄</td>
+      <td class="name">Page List</td>
+      <td class="desc">All captured landing pages as a flat list — <b>Entry &amp; Register</b> · <b>Browse (sample data)</b> · <b>Post-a-job</b>. Click any one to open it in the Workbench.</td>
+      <td class="count">13 pages</td>
+      <td class="act"><a class="open" href="page-list.html">Open ↗</a></td>
+    </tr>
+    <tr>
+      <td class="icon">🗺️</td>
+      <td class="name">Flow Chart</td>
+      <td class="desc">The visual map of the landing pages and the flow between them. <span class="tag soon">layout tidy to come</span></td>
+      <td class="count">the map</td>
+      <td class="act"><a class="open" href="flow-chart.html">Open ↗</a></td>
+    </tr>
+  </table>
+
+  <h2 class="sec" style="border-left-color:var(--bench);color:var(--bench)">Testing &amp; Tracking</h2>
+  <table>
+    <tr>
+      <td class="icon">🛠️</td>
+      <td class="name">Workbench</td>
+      <td class="desc">Per-page workspace — captured HTML · a new design beside it · <b>jobs</b> (Repair/Build, P1/P2/P3, status, Action/Expected/Actual). The one place work happens.</td>
+      <td class="count">13 pages</td>
+      <td class="act"><a class="open" style="background:var(--bench)" href="workbench.html">Open ↗</a></td>
+    </tr>
+    <tr>
+      <td class="icon">📋</td>
+      <td class="name">Job Board</td>
+      <td class="desc">The jobs as a board — To Build → In Progress → Ready To Test → Passed → Live → Deferred, filter by P1/P2/P3.</td>
+      <td class="count">6 lanes</td>
+      <td class="act"><a class="open" style="background:#111827" href="job-board.html">Open ↗</a></td>
+    </tr>
+    <tr>
+      <td class="icon">🗂️</td>
+      <td class="name">Jobs Tracker</td>
+      <td class="desc">Every fix and new build in one prioritised list — which job is next, and what's done.</td>
+      <td class="count">list</td>
+      <td class="act"><a class="open" href="jobs-tracker.html">Open ↗</a></td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <b>Local-only right now:</b> comments + jobs save in your browser. Once the dedicated Supabase is connected this flips to <b>team-synced</b> — everyone shares the same comments/jobs.<br>
+    <b>Scope:</b> this is the pre-launch landing (logged-out pages + sample data). The contco-style Emails / Pop-ups / Navigation / Storyboard sections aren't included because the landing doesn't have that content yet — they become relevant when the full site moves over from Beta.
+  </div>
+</div>
+</body>
+</html>
