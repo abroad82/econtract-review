@@ -2,10 +2,13 @@
 <html>
 <head><base href="https://e-contract.com.au/">
 <title>e-contract - Create a Job</title>
-<link rel="manifest" href="/manifest.webmanifest">
+<!-- Manifest is served per-host so staging/beta/live install as separately
+     labelled apps instead of three identical "e-contract" icons. -->
+<link rel="manifest" href="/pwa/manifest">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- iOS takes the home-screen name from THIS meta, not the manifest. -->
 <meta name="apple-mobile-web-app-title" content="e-contract">
 <link rel="apple-touch-icon" href="/application/images/logo_icon.png">
 
@@ -21,8 +24,8 @@
 <!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782286682" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792620294"></script-->
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792706720"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -38,7 +41,7 @@ $( ".menuitem" ).click(function() {
 });
 });
 </script>
-<script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/function.js?v=1782157965" charset="utf-8"></script>
+<script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/function.js?v=1792669105" charset="utf-8"></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -60,13 +63,13 @@ $(function(){
 });
 </script>
 
-<script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1782157965"></script>
-<script defer src="/pwa-android.js?v=1782157966"></script>
-<script defer src="/pwa-ios.js?v=1782157966"></script>
+<script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1792669105"></script>
+<script defer src="/pwa-android.js?v=1792669105"></script>
+<script defer src="/pwa-ios.js?v=1792669105"></script>
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'f47af462e45381ae55668ac399d6ebd5'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'2046aa25eb4de546b20d613b7b675165'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -85,17 +88,58 @@ $(function(){
 </script>
 </head>
 
-<body>
-    <!-- EMAIL VERIFICATION BANNER -->
+<body class="ecp-myaccount-create_quick_job">
+    <!-- EMAIL VERIFICATION BANNER removed: the verify reminder now lives in the login + signup pop-ups. -->
+
 
 <div class="header">
   <div class="header_top">
     <div class="wrap">
-      <div class="logo aanimate"> <a href="https://e-contract.com.au/"><img src="https://e-contract.com.au/application/images/logo.png" /></a> </div>
-      <div class="header-phone aanimate">
-        <h2>
-                    <a class="register-interest-btn" href="https://e-contract.com.au/register-interest-employee">Register your interest</a>
-                  </h2></div>
+            <a href="javascript:void(0);" class="ec-back aanimate" aria-label="Go back"
+         onclick="if(window.history.length&gt;1){window.history.back();}else{location.href='https://e-contract.com.au/';}return false;">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg><span>Back</span>
+      </a>
+      <style>
+      .header .ec-back{float:left;display:inline-flex;align-items:center;gap:3px;margin:13px 10px 0 0;
+        padding:4px 8px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:7px;
+        font-size:12px;font-weight:600;line-height:1;color:#374151;text-decoration:none;white-space:nowrap;}
+      .header .ec-back:hover{background:#e9ebee;}
+      .header .ec-back svg{width:15px;height:15px;fill:#374151;display:block;}
+      @media (max-width:759px){
+        .header .header_top .wrap{display:flex;align-items:center;}
+        .header .ec-back{float:none;margin:0 7px 0 0;padding:4px 7px;font-size:11px;flex:0 0 auto;}
+        .header .ec-back svg{width:14px;height:14px;}
+      }
+      </style>
+            <div class="logo aanimate"> <a href="https://e-contract.com.au/"><img src="https://e-contract.com.au/application/images/logo.png" /></a> </div>
+            <div class="header-phone aanimate">
+                <h2><a href="https://e-contract.com.au/user/login">Login</a> | <a href="https://e-contract.com.au/signup?open=signup">Sign Up</a></h2>
+              </div>
+      <style>
+      .header-phone .acct-bell{position:relative;display:inline-block;vertical-align:middle;margin-right:12px;color:#333;line-height:0;}
+      .header-phone .acct-bell:hover{color:#000;}
+      .header-phone .acct-bell-badge{position:absolute;top:-7px;right:-8px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center;}
+      .top-nav li a{position:relative;}
+      .top-nav .ec-topnav-badge{position:absolute;top:-7px;right:-8px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center;}
+      .header-phone .acct-menu{position:relative;display:inline-block;vertical-align:middle;}
+      .header-phone .acct-toggle{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-family:inherit;font-size:14px;font-weight:500;color:#333;line-height:1;cursor:pointer;}
+      .header-phone .acct-caret{display:inline-block;color:#8a8f98;font-size:11px;margin-left:5px;transition:transform .2s ease;}
+      .header-phone .acct-menu.open .acct-caret{transform:rotate(180deg);}
+      .header-phone .acct-dropdown{position:absolute;top:calc(100% + 8px);right:0;min-width:190px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);list-style:none;margin:0;padding:6px 0;display:none;z-index:1200;text-align:left;}
+      .header-phone .acct-menu.open .acct-dropdown{display:block;}
+      .header-phone .acct-dropdown li{margin:0;}
+      .header-phone .acct-dropdown a{display:block;padding:11px 18px;font-size:14px;font-weight:500;color:#333;text-decoration:none;white-space:nowrap;}
+      .header-phone .acct-dropdown a:hover{background:#f6f6f7;}
+      </style>
+      <script>
+      (function(){
+        var t = document.querySelector('.header-phone .acct-toggle');
+        if(!t){return;}
+        var m = t.parentNode;
+        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); });
+        document.addEventListener('click', function(){ if(m.className.indexOf('open')!==-1){ m.className='acct-menu'; t.setAttribute('aria-expanded','false'); } });
+      })();
+      </script>
       <div class="clear"> </div>
     </div>
   </div>
@@ -104,8 +148,6 @@ $(function(){
       <div class="top-nav aanimate">
         <ul>
                     <li ><a href="https://e-contract.com.au/">Home</a></li>
-                    <li ><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
-                    <li ><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
                     
           <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
           
@@ -126,14 +168,37 @@ $(function(){
 <div class="mobile-menu-drawer">
     <ul>
                     <li><a href="https://e-contract.com.au/">Home</a></li>
-                    <li><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
-                    <li><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
                     <li><a href="https://e-contract.com.au/tips-hints">Site Info</a></li>
         
                     <li class="divider"></li>
-            <li><a href="https://e-contract.com.au/register-interest-employee">Register your interest</a></li>
+            <li><a href="https://e-contract.com.au/user/login?open=login">Login</a></li>
+            <li><a href="https://e-contract.com.au/signup?open=signup">Sign Up</a></li>
             </ul>
 </div>
+
+<style>
+.mobile-menu-drawer .mm-group-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:0;margin:0;font-family:inherit;font-size:16px;font-weight:600;color:#333;text-align:left;cursor:pointer;}
+.mobile-menu-drawer .mm-caret{color:#999;font-size:18px;line-height:1;transition:transform .2s ease;}
+.mobile-menu-drawer .mm-group.open .mm-caret{transform:rotate(90deg);}
+.mobile-menu-drawer .mm-sub{list-style:none;margin:12px 0 0;padding:0;display:none;}
+.mobile-menu-drawer .mm-group.open .mm-sub{display:block;}
+.mobile-menu-drawer .mm-sub li{margin:0 0 22px;padding-left:16px;}
+.mobile-menu-drawer .mm-sub{margin-top:16px;}
+.mobile-menu-drawer .mm-sub a{font-weight:600;font-size:15px;}
+.mobile-menu-drawer .mm-notif-badge{display:inline-block;min-width:18px;height:18px;padding:0 5px;margin-left:8px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle;}
+</style>
+<script>
+(function(){
+  var tg = document.querySelectorAll('.mobile-menu-drawer .mm-group-toggle');
+  for (var i = 0; i < tg.length; i++) {
+    tg[i].addEventListener('click', function(){
+      var g = this.parentNode, open = g.className.indexOf('open') === -1;
+      g.className = open ? 'mm-group open' : 'mm-group';
+      this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+})();
+</script>
 
       
       <!--div class="header-search">
@@ -249,9 +314,68 @@ $(function(){
 <div class="wrap create_job form-page">
   <div class="content_top">
     <div class="grid1">
+<style>
+/* choose-first action gate — shared across Hire/Find flow pages. Reuses brand colours,
+   aligned to page content width, responsive (wide = 3 across / mobile = stacked). */
+.cfg-gate,.cfg-gate *{box-sizing:border-box;}
+.cfg-gate{margin:4px 0 20px;font-family:'Roboto',sans-serif;max-width:100%;}
+.cfg-gate-title{font-size:21px;font-weight:700;color:#111;text-align:left;margin:0 0 3px;line-height:1.2;}
+.cfg-gate-sub{font-size:13.5px;color:#6b7280;text-align:left;margin:0 0 15px;}
+.cfg-cards{display:flex;flex-direction:column;gap:13px;}
+.cfg-card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:1px solid #e5e7eb;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.07);padding:18px 16px;cursor:pointer;text-decoration:none;font-family:inherit;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}
+.cfg-card:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,0,0,.12);border-color:#ff4136;text-decoration:none;}
+.cfg-card.cfg-active{border-color:#ff4136;background:#fff5f3;}
+.cfg-tx{flex:1;min-width:0;}
+.cfg-tt{display:block;font-size:16px;font-weight:700;color:#111;margin:0 0 2px;}
+.cfg-ss{display:block;font-size:12.5px;color:#6b7280;line-height:1.4;}
+.cfg-arr{color:#c9c9c9;font-size:22px;flex-shrink:0;line-height:1;}
+.cfg-card:hover .cfg-arr{color:#ff4136;}
+@media (min-width:880px){
+  .cfg-cards{flex-direction:row;align-items:stretch;gap:14px;}
+  .cfg-card{flex:1 1 0;min-width:0;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;gap:10px;padding:22px 18px;}
+  .cfg-card .cfg-tx{flex:0 0 auto;width:100%;}
+  .cfg-card .cfg-tt{font-size:17px;}
+  .cfg-card .cfg-ss{font-size:13px;}
+  .cfg-card .cfg-arr{display:none;}
+}
+@media (max-width:600px){
+  .cfg-gate{margin:4px 0 16px;}
+  .cfg-card{padding:14px;gap:12px;}
+}
+</style>
+<div class="cfg-gate">
+  <h1 class="cfg-gate-title">Hire Sub-Contractors</h1>
+  <p class="cfg-gate-sub">What would you like to do?</p>
+  <div class="cfg-cards">
+        <a href="https://e-contract.com.au/search/find_me_worker#cfg-browse" class="cfg-card">
+          <span class="cfg-tx"><span class="cfg-tt">Search</span><span class="cfg-ss">Find + Hire Sub-Contractors</span></span>
+      <span class="cfg-arr">&rsaquo;</span>
+    </a>
+    <a href="https://e-contract.com.au/myaccount/create_job#cfg-jobform" class="cfg-card">
+      <span class="cfg-tx"><span class="cfg-tt">Create a Job</span><span class="cfg-ss">Post a job and let Sub-Contractors find you</span></span>
+      <span class="cfg-arr">&rsaquo;</span>
+    </a>
+      </div>
+    <script>
+  /* arriving on a create page via the gate: scroll down to that page's form.
+     Fire after full load (mobile-safe: layout settled, no early-scroll snap-back). */
+  (function(){
+    if(window.location.hash!=='#cfg-jobform'){return;}
+    function go(){var el=document.getElementById('cfg-jobform');if(el){el.scrollIntoView({behavior:'smooth',block:'start'});}}
+    if(document.readyState==='complete'){setTimeout(go,150);}
+    else{window.addEventListener('load',function(){setTimeout(go,150);});}
+  })();
+  </script>
+</div>
+<div id="cfg-jobform"></div>
+<style>
+.rate-field{display:flex;align-items:center;gap:6px;}
+.rate-field input.rate{flex:0 0 130px;width:130px;text-align:right;}
+.rate-field .rate-currency,.rate-field .rate-suffix{color:#666;}
+</style>
       <div class="grides">
-                <h1 class="page-title">Need Someone Now - Create a Job <span class="page-title-variant">— for a sub contractor</span></h1>
-        <h4 class="mb10 text-bold">Direct hire only - Job within 5days<br />This job will be emailed to contractors Matching 'Region' + 'Job Title'. Max 5 days.</h4>
+                <h1 class="page-title">URGENT - JOB POST <span class="page-title-variant">&mdash; find a sub-contractor</span></h1>
+        <h4 class="mb10 text-bold">This job will be emailed to Sub-Contractors who match the 'Region' + 'Job Title'. Start date within 5 days.</h4>
                 <div class="contact-form">
           <div class="signnup-pop" style="display:none;"><span id="errorVal">
                         </span> <a href="javascript:void(0);" class="pop-close"><img src="../application/images/cross.png" alt="" /></a> </div>
@@ -265,8 +389,8 @@ $(function(){
   <div class="form-section-title">Job Details</div>
   <div class="form-grid">
     <div class="form-field full-width">
-      <label class="field-label">Job Reference</label>
-      <input type="text" placeholder="Enter job reference" name="title" id="title" />
+      <label class="field-label">Job Title</label>
+      <input type="text" placeholder="Enter job title" name="title" id="title" />
     </div>
   </div>
   <div class="form-grid" style="margin-top:16px;">
@@ -274,7 +398,7 @@ $(function(){
       <label class="field-label">State</label>
       <select id="state_id" name="state_id">
         <option value="0">Any State</option>
-        <option value="2">Australian Capital Territory</option><option value="3">New South Wales</option><option value="4">Northern Territory</option><option value="5">Other Territories</option><option value="6">Outside Australia</option><option value="7">Queensland</option><option value="8">South Australia</option><option value="9">Tasmania</option><option value="10">Victoria</option><option value="11">Western Australia</option>      </select>
+        <option value="2">Australian Capital Territory</option><option value="3">New South Wales</option><option value="4">Northern Territory</option><option value="5">Other Territories</option><option value="7">Queensland</option><option value="8">South Australia</option><option value="9">Tasmania</option><option value="10">Victoria</option><option value="11">Western Australia</option>      </select>
     </div>
     <div class="form-field location-search-field" style="position:relative;">
       <label class="field-label">Location</label>
@@ -287,8 +411,8 @@ $(function(){
   </div>
   <div class="form-grid" style="margin-top:16px;">
     <div class="form-field full-width">
-      <label class="field-label">Exact Location</label>
-      <input autocomplete="off" type="text" name="exact_location" placeholder="Information Supplied when Accepted" class="exact_location" />
+      <label class="field-label">Job Location</label>
+      <input autocomplete="off" type="text" name="exact_location" placeholder="supplied when agreement made" class="exact_location" />
     </div>
   </div>
   <div class="form-grid" style="margin-top:16px;">
@@ -320,7 +444,7 @@ $(function(){
         <label class="field-label">Industry</label>
         <select autocomplete="off" class="industry" rel="1" name="industry_id[]">
           <option value=""> Industry </option>
-          <option value="10">Construction/Building</option>        </select>
+          <option value="36">Building & Construction</option><option value="37">Civil & Infrastructure</option><option value="40">Industrial & Maintenance</option><option value="41">Mechanical / Automotive</option><option value="39">Mining & Resources</option><option value="38">Transport & Logistics</option>        </select>
       </div>
       <div class="form-field job-title-field">
         <label class="field-label">Job Title</label>
@@ -330,25 +454,243 @@ $(function(){
       </div>
       <div class="form-field skills-required-field">
         <label class="field-label">Skills Required</label>
-        <div class="form-skills-box checkbox mspecific1">Skills Required</div>
+        <div class="form-skills-box checkbox mspecific1" data-popout="1" data-popout-title="Skills Required" data-popout-placeholder="Select skills">Skills Required</div>
       </div>
     </div>
     <div class="form-grid" style="margin-top:16px;">
-      <div class="form-field">
-        <label class="field-label">Start</label>
-        <input type="text" placeholder="from date" readonly autocomplete="one-time-code" name="date_from[]" class="from_date" value="22-10-2026">
-      </div>
-      <div class="form-field">
-        <label class="field-label">Finish</label>
-        <input type="text" name="date_to[]" placeholder="to date" readonly autocomplete="one-time-code" class="to_date">
-      </div>
+      <div class="form-field full-width tap-when-field">
+  <label class="field-label">When — tap the days you need</label>
+  <div class="tap-startby-note">* First day must be on or before 28 Oct 2026</div>  <label class="tapcal-weekly"><input type="checkbox" id="tapcalWeekly"> Same days every week <span class="tapcal-weekly-hint">(repeats your chosen days for ~3 months)</span></label>
+  <div id="tapcalWrap" class="tapcal" data-preselected='[]' data-today="2026-10-23" data-start-by="2026-10-28" data-no-default="1">
+    <div class="tapcal-head">
+      <button type="button" class="tapcal-nav" data-nav="-1" aria-label="Previous month">&#8249;</button>
+      <span class="tapcal-title" id="tapcalTitle"></span>
+      <button type="button" class="tapcal-nav" data-nav="1" aria-label="Next month">&#8250;</button>
+    </div>
+    <div class="tapcal-dow"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+    <div class="tapcal-grid" id="tapcalGrid"></div>
+    <div class="tapcal-summary" id="tapcalSummary"></div>
+    <div class="tapcal-error" id="tapcalError">Please tap at least one day.</div>
+  </div>
+  <input type="hidden" name="date_from[]" id="tapcalFrom" value="">
+  <input type="hidden" name="date_to[]" id="tapcalTo" value="">
+  <input type="hidden" name="job_dates" id="tapcalDates" value="">
+</div>
+
+<style>
+.tap-startby-note{color:#ff4136;font-weight:600;font-size:13px;margin:2px 0 8px;}
+.tapcal-weekly{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:#1a2332;margin:2px 0 10px;cursor:pointer;max-width:360px;}
+.tapcal-weekly input{width:16px;height:16px;margin:0;flex:none;}
+.tapcal-weekly-hint{color:#94a3b8;font-weight:400;font-size:12px;}
+.tapcal{border:1px solid #e2e8f0;border-radius:12px;padding:12px;max-width:360px;background:#fff;font-family:'Roboto',sans-serif;}
+.tapcal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.tapcal-title{font-size:14px;font-weight:600;color:#1a2332;}
+.tapcal-nav{width:30px;height:30px;border:none;background:#f1f5f9;border-radius:7px;font-size:18px;line-height:1;color:#4a5568;cursor:pointer;}
+.tapcal-nav:hover{background:#e2e8f0;color:#ff4136;}
+.tapcal-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;}
+.tapcal-dow span{text-align:center;font-size:10px;font-weight:700;color:#94a3b8;}
+.tapcal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.tapcal-day{aspect-ratio:1/1;min-height:34px;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:13px;color:#1a2332;cursor:pointer;border:1.5px solid transparent;background:transparent;}
+.tapcal-day:hover{background:#f1f5f9;}
+.tapcal-day.is-muted{color:#cbd5e0;cursor:default;}
+.tapcal-day.is-muted:hover{background:transparent;}
+.tapcal-day.is-today{border-color:#1a2332;}
+.tapcal-day.is-selected{background:#ff4136;color:#fff;border-color:#ff4136;font-weight:600;}
+.tapcal-day.is-selected:hover{background:#e0342b;}
+.tapcal-summary{margin-top:10px;font-size:15px;font-weight:700;color:#1a2332;min-height:18px;}
+.tapcal-hint{margin-top:2px;font-size:11px;color:#94a3b8;}
+.tapcal-error{margin-top:6px;font-size:12px;font-weight:600;color:#ff4136;display:none;}
+.tapcal-error.show{display:block;}
+</style>
+
+<script type="text/javascript">
+(function(){
+  var wrap = document.getElementById('tapcalWrap');
+  if(!wrap || wrap.getAttribute('data-tapcal-init') === '1'){ return; }
+  wrap.setAttribute('data-tapcal-init','1');
+
+  var grid = document.getElementById('tapcalGrid');
+  var titleEl = document.getElementById('tapcalTitle');
+  var summaryEl = document.getElementById('tapcalSummary');
+  var errorEl = document.getElementById('tapcalError');
+  var fromInput = document.getElementById('tapcalFrom');
+  var toInput = document.getElementById('tapcalTo');
+  var datesInput = document.getElementById('tapcalDates');
+
+  var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var monthShort = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  var todayKey = wrap.getAttribute('data-today') || '';
+  var startByKey = wrap.getAttribute('data-start-by') || '';
+  var noDefault = wrap.getAttribute('data-no-default') === '1';
+  var weeklyCheckbox = document.getElementById('tapcalWeekly');
+  var WEEKLY_HORIZON_DAYS = 91; // "same days every week" fills ~3 months forward
+  var selected = {};
+  try {
+    var pre = JSON.parse(wrap.getAttribute('data-preselected') || '[]');
+    for(var i=0;i<pre.length;i++){ selected[pre[i]] = true; }
+  } catch(e){}
+
+  function pad(n){ return (n<10?'0':'')+n; }
+  function ymd(y,m,d){ return y+'-'+pad(m+1)+'-'+pad(d); }
+  function parseKey(k){ var p=(k||'').split('-'); return {y:parseInt(p[0],10),m:parseInt(p[1],10)-1,d:parseInt(p[2],10)}; }
+  function toDDMMYYYY(k){ var p=parseKey(k); return pad(p.d)+'-'+pad(p.m+1)+'-'+p.y; }
+  function sortedKeys(){ var a=[]; for(var k in selected){ if(selected[k]) a.push(k); } a.sort(); return a; }
+  function labelKey(k){ var p=parseKey(k); return p.d+' '+monthShort[p.m]+' '+p.y; }
+  function showError(msg){ errorEl.innerHTML = msg; errorEl.className = 'tapcal-error show'; }
+  function clearError(){ errorEl.className = 'tapcal-error'; }
+  function startsTooLate(keys){ return startByKey && keys.length && keys[0] > startByKey; }
+  function keyToDate(k){ var p=parseKey(k); return new Date(p.y, p.m, p.d); }
+  function dateToKey(dt){ return ymd(dt.getFullYear(), dt.getMonth(), dt.getDate()); }
+  function weekdayOf(k){ return keyToDate(k).getDay(); }
+  function weeklyMode(){ return weeklyCheckbox && weeklyCheckbox.checked; }
+  // Fill/clear the SAME weekday as startKey, from startKey FORWARD only (never
+  // backwards), for ~3 months. Anchored on the day the user chose.
+  function setWeekdayWeeklyFrom(startKey, on){
+    if(!startKey){ return; }
+    var weekday = keyToDate(startKey).getDay();
+    var cursor = keyToDate(startKey);
+    var end = keyToDate(startKey); end.setDate(end.getDate() + WEEKLY_HORIZON_DAYS);
+    for(; cursor <= end; cursor.setDate(cursor.getDate()+1)){
+      if(cursor.getDay() === weekday){
+        var k = dateToKey(cursor);
+        if(on){ selected[k] = true; } else { delete selected[k]; }
+      }
+    }
+  }
+
+  var view = parseKey(sortedKeys()[0] || todayKey);
+  var viewY = view.y, viewM = view.m;
+
+  function updateHidden(){
+    var keys = sortedKeys();
+    if(keys.length){
+      fromInput.value = toDDMMYYYY(keys[0]);
+      toInput.value = toDDMMYYYY(keys[keys.length-1]);
+      datesInput.value = keys.join(',');
+      var first = parseKey(keys[0]), last = parseKey(keys[keys.length-1]);
+      var range = keys.length === 1
+        ? (first.d+' '+monthShort[first.m]+' '+first.y)
+        : (first.d+' '+monthShort[first.m]+' – '+last.d+' '+monthShort[last.m]+' '+last.y);
+      summaryEl.innerHTML = keys.length+' day'+(keys.length>1?'s':'')+' selected · '+range;
+    } else if(noDefault){
+      fromInput.value = '';
+      toInput.value = '';
+      datesInput.value = '';
+      summaryEl.innerHTML = '';
+    } else {
+      fromInput.value = toDDMMYYYY(todayKey);
+      toInput.value = toDDMMYYYY(todayKey);
+      datesInput.value = '';
+      summaryEl.innerHTML = '';
+    }
+    if(startsTooLate(keys)){
+      showError('Your first day must be on or before ' + labelKey(startByKey) + ' — pick an earlier start.');
+    } else if(keys.length){
+      clearError();
+    }
+  }
+
+  function render(){
+    titleEl.innerHTML = monthNames[viewM]+' '+viewY;
+    grid.innerHTML = '';
+    var firstDow = (new Date(viewY, viewM, 1).getDay()+6)%7;
+    var daysInMonth = new Date(viewY, viewM+1, 0).getDate();
+    var b;
+    for(b=0;b<firstDow;b++){ grid.appendChild(document.createElement('div')); }
+    for(var d=1; d<=daysInMonth; d++){
+      var key = ymd(viewY, viewM, d);
+      var cell = document.createElement('div');
+      cell.className = 'tapcal-day';
+      cell.innerHTML = d;
+      if(todayKey && key < todayKey){
+        cell.className += ' is-muted';
+      } else {
+        cell.setAttribute('data-key', key);
+        if(key === todayKey){ cell.className += ' is-today'; }
+        if(selected[key]){ cell.className += ' is-selected'; }
+      }
+      grid.appendChild(cell);
+    }
+  }
+
+  grid.addEventListener('click', function(e){
+    var cell = e.target;
+    while(cell && cell !== grid && !cell.getAttribute('data-key')){ cell = cell.parentNode; }
+    if(!cell || cell === grid){ return; }
+    var key = cell.getAttribute('data-key');
+    if(!key){ return; }
+    if(weeklyMode()){
+      setWeekdayWeeklyFrom(key, !selected[key]);
+    } else {
+      if(selected[key]){ delete selected[key]; } else { selected[key] = true; }
+    }
+    render();
+    updateHidden();
+    // Lets a sibling script (e.g. the Urgent selector on create_job.php) react to a
+    // deliberate date tap without this partial knowing anything about it.
+    wrap.dispatchEvent(new CustomEvent('tapcalchange'));
+  });
+
+  if(weeklyCheckbox){
+    weeklyCheckbox.addEventListener('change', function(){
+      if(weeklyCheckbox.checked){
+        var keys = sortedKeys();
+        for(var i=0;i<keys.length;i++){ setWeekdayWeeklyFrom(keys[i], true); }
+      } else {
+        // Unticking clears all selected days — start fresh.
+        selected = {};
+      }
+      render();
+      updateHidden();
+      // Same notification as a direct day tap — the weekly toggle also changes the
+      // selected dates, so sibling scripts (the Urgent selector) must hear about it.
+      wrap.dispatchEvent(new CustomEvent('tapcalchange'));
+    });
+  }
+
+  var navs = wrap.getElementsByClassName('tapcal-nav');
+  for(var n=0;n<navs.length;n++){
+    navs[n].addEventListener('click', function(){
+      var step = parseInt(this.getAttribute('data-nav'),10) || 0;
+      viewM += step;
+      if(viewM < 0){ viewM = 11; viewY--; }
+      else if(viewM > 11){ viewM = 0; viewY++; }
+      render();
+    });
+  }
+
+  var form = wrap;
+  while(form && form.tagName !== 'FORM'){ form = form.parentNode; }
+  if(form){
+    form.addEventListener('submit', function(e){
+      if(wrap.offsetParent === null){ return; } // hidden (quote mode) — skip
+      var keys = sortedKeys();
+      var block = false;
+      if(keys.length === 0){
+        showError('Please tap at least one day.');
+        block = true;
+      } else if(startsTooLate(keys)){
+        showError('Your first day must be on or before ' + labelKey(startByKey) + ' — pick an earlier start.');
+        block = true;
+      }
+      if(block){
+        if(wrap.scrollIntoView){ wrap.scrollIntoView(); }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+  }
+
+  render();
+  updateHidden();
+})();
+</script>
     </div>
     <div class="form-grid" style="margin-top:10px;">
       <div class="form-field full-width">
-        <label class="field-label">Including</label>
+        <label class="field-label">This job may also involve</label>
         <div class="form-including-group">
-          <label for="include_saturday"><input id="include_saturday" type="checkbox" name="include_saturday" value="1" /> <span>Saturday</span></label>
-          <label for="include_sunday"><input id="include_sunday" type="checkbox" name="include_sunday" value="1" /> <span>Sunday</span></label>
           <label for="possible_weekend_work"><input id="possible_weekend_work" type="checkbox" name="possible_weekend_work" value="1" /> <span>Possible weekend work</span></label>
           <label for="possible_overtime"><input id="possible_overtime" type="checkbox" name="possible_overtime" value="1" /> <span>Possible overtime</span></label>
         </div>
@@ -371,8 +713,96 @@ $(function(){
     <div class="form-grid" style="margin-top:16px;">
       <div class="form-field">
         <label class="field-label">Rate</label>
-        <select class="rate" name="rate[]">
-          <option value="">-select rate-</option><option value="20">$20 exc GST/hr</option><option value="25">$25 exc GST/hr</option><option value="30">$30 exc GST/hr</option><option value="35">$35 exc GST/hr</option><option value="40">$40 exc GST/hr</option><option value="45">$45 exc GST/hr</option><option value="50">$50 exc GST/hr</option><option value="55">$55 exc GST/hr</option><option value="60">$60 exc GST/hr</option><option value="65">$65 exc GST/hr</option><option value="70">$70 exc GST/hr</option><option value="75">$75 exc GST/hr</option><option value="80">$80 exc GST/hr</option><option value="85">$85 exc GST/hr</option><option value="90">$90 exc GST/hr</option><option value="95">$95 exc GST/hr</option><option value="100">$100 exc GST/hr</option><option value="105">$105 exc GST/hr</option><option value="110">$110 exc GST/hr</option><option value="115">$115 exc GST/hr</option><option value="120">$120 exc GST/hr</option><option value="125">$125 exc GST/hr</option><option value="130">$130 exc GST/hr</option><option value="135">$135 exc GST/hr</option><option value="140">$140 exc GST/hr</option><option value="145">$145 exc GST/hr</option><option value="150">$150 exc GST/hr</option><option value="155">$155 exc GST/hr</option><option value="160">$160 exc GST/hr</option><option value="165">$165 exc GST/hr</option><option value="170">$170 exc GST/hr</option><option value="175">$175 exc GST/hr</option><option value="180">$180 exc GST/hr</option><option value="185">$185 exc GST/hr</option><option value="190">$190 exc GST/hr</option><option value="195">$195 exc GST/hr</option><option value="200">$200 exc GST/hr</option><option value="205">$205 exc GST/hr</option><option value="210">$210 exc GST/hr</option><option value="215">$215 exc GST/hr</option><option value="220">$220 exc GST/hr</option><option value="225">$225 exc GST/hr</option><option value="230">$230 exc GST/hr</option><option value="235">$235 exc GST/hr</option><option value="240">$240 exc GST/hr</option><option value="245">$245 exc GST/hr</option><option value="250">$250 exc GST/hr</option><option value="255">$255 exc GST/hr</option><option value="260">$260 exc GST/hr</option><option value="265">$265 exc GST/hr</option><option value="270">$270 exc GST/hr</option><option value="275">$275 exc GST/hr</option><option value="280">$280 exc GST/hr</option><option value="285">$285 exc GST/hr</option><option value="290">$290 exc GST/hr</option><option value="295">$295 exc GST/hr</option><option value="300">$300 exc GST/hr</option><option value="305">$305 exc GST/hr</option><option value="310">$310 exc GST/hr</option><option value="315">$315 exc GST/hr</option><option value="320">$320 exc GST/hr</option><option value="325">$325 exc GST/hr</option><option value="330">$330 exc GST/hr</option><option value="335">$335 exc GST/hr</option><option value="340">$340 exc GST/hr</option><option value="345">$345 exc GST/hr</option><option value="350">$350 exc GST/hr</option><option value="355">$355 exc GST/hr</option><option value="360">$360 exc GST/hr</option><option value="365">$365 exc GST/hr</option><option value="370">$370 exc GST/hr</option><option value="375">$375 exc GST/hr</option><option value="380">$380 exc GST/hr</option><option value="385">$385 exc GST/hr</option><option value="390">$390 exc GST/hr</option><option value="395">$395 exc GST/hr</option><option value="400">$400 exc GST/hr</option><option value="405">$405 exc GST/hr</option><option value="410">$410 exc GST/hr</option><option value="415">$415 exc GST/hr</option><option value="420">$420 exc GST/hr</option><option value="425">$425 exc GST/hr</option><option value="430">$430 exc GST/hr</option><option value="435">$435 exc GST/hr</option><option value="440">$440 exc GST/hr</option><option value="445">$445 exc GST/hr</option><option value="450">$450 exc GST/hr</option><option value="455">$455 exc GST/hr</option><option value="460">$460 exc GST/hr</option><option value="465">$465 exc GST/hr</option><option value="470">$470 exc GST/hr</option><option value="475">$475 exc GST/hr</option><option value="480">$480 exc GST/hr</option><option value="485">$485 exc GST/hr</option><option value="490">$490 exc GST/hr</option><option value="495">$495 exc GST/hr</option><option value="500">$500 exc GST/hr</option>        </select>
+                        <div class="ec-rb" id="ecRateBasis">
+          <label><input type="radio" name="rate_basis" value="tbc" /> <span>To be confirmed</span></label>
+          <label><input type="radio" name="rate_basis" value="flat" /> <span>Flat rate</span></label>
+          <label><input type="radio" name="rate_basis" value="overtime" /> <span>Overtime rates applied</span></label>
+        </div>
+        <style>
+        /* .form-field is a column flex container (style.css:1039): the ticks sit BELOW the
+           rate box without moving any markup. */
+        .form-field .rate-field{order:1;}
+        .form-field .employee-rate-inclusions{order:2;margin:10px 0 0;}
+        .ec-rb{display:flex;gap:8px;flex-wrap:wrap;padding:2px 0;margin-bottom:10px;}
+        .ec-rb label{display:inline-flex;align-items:center;gap:6px;font-size:0.78em;color:#4b5563;cursor:pointer;padding:6px 13px;border:1px solid #d8dbe0;border-radius:999px;background:#fff;white-space:nowrap;}
+        .ec-rb label:hover{border-color:#ff4136;}
+        .ec-rb input{margin:0;width:12px;height:12px;accent-color:#ff4136;}
+        .ec-rb input:checked + span{color:#ff4136;font-weight:600;}
+        .ec-rb label:has(input:checked){border-color:#ff4136;background:#fff5f5;}
+        </style>
+        <div class="form-including-group employee-rate-inclusions" style="margin-bottom:10px;">
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="super"  /> <span>Super</span></label>
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="long_service"  /> <span>Long Service</span></label>
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="sickdays"  /> <span>Sick/carer's leave</span></label>
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="public_holidays"  /> <span>Public holidays</span></label>
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="holiday_pay"  /> <span>Annual leave</span></label>
+          <label><input type="checkbox" name="employee_rate_inclusions[]" value="rdo"  /> <span>RDO's</span></label>
+        </div>
+        <div class="rate-field">
+          <span class="rate-currency">$</span>
+          <input type="number" autocomplete="off" class="rate" name="rate[]" inputmode="decimal"
+                 min="0" step="0.01" value="">
+          <span class="rate-suffix">/hr exc GST</span>
+        </div>
+        <script>
+        /* Same wiring as create_job.php: nothing picked or "To be confirmed" locks the box
+           (readonly, so rate[] still posts); TBC also empties it. A blank rate renders as
+           "To Be Confirmed" everywhere, so nothing new is stored. */
+        /* Same award reason as create_job.php. Quick job carries no data-floor-ft, so this
+           always reads as the casual line -- which is right: a quick post is short-term by
+           definition (start within 5 days). */
+        window.ecRateMinMessage = function(input){
+          var min = parseFloat(input.getAttribute('min'));
+          if(isNaN(min) || min <= 0){ return ''; }
+          var ft = parseFloat(input.getAttribute('data-floor-ft'));
+          if(!isNaN(ft) && min === ft){
+            return 'Minimum wage for full time is $' + min.toFixed(2) + '.';
+          }
+          return 'Minimum casual rate for this employee is $' + min.toFixed(2) + '.';
+        };
+        window.ecRateBasisVal = function(){
+          var r = document.getElementsByName('rate_basis');
+          for(var i=0;i<r.length;i++){ if(r[i].checked){ return r[i].value; } }
+          return '';
+        };
+        window.ecRateTbc = function(){ return window.ecRateBasisVal() === 'tbc'; };
+        (function(){
+          var wrap = document.getElementById('ecRateBasis');
+          if(!wrap){ return; }
+          var radios = wrap.getElementsByTagName('input');
+          function apply(){
+            var field = wrap.parentNode.getElementsByTagName('input'), input = null;
+            for(var i=0;i<field.length;i++){
+              if(field[i].type === 'number' && field[i].className.indexOf('rate') !== -1){ input = field[i]; break; }
+            }
+            if(!input){ return; }
+            var basis = window.ecRateBasisVal();
+            var box = input.parentNode; /* .rate-field */
+            if(basis === '' || basis === 'tbc'){
+              if(basis === 'tbc'){ input.value = ''; }
+              box.style.display = 'none';
+              var err = box.getElementsByTagName('small');
+              while(err.length){ err[0].parentNode.removeChild(err[0]); }
+            }else{
+              box.style.display = '';
+              input.readOnly = false;
+              input.style.background = '';
+              input.style.color = '';
+            }
+          }
+          for(var i=0;i<radios.length;i++){ radios[i].onchange = apply; }
+          apply();
+
+          var field2 = wrap.parentNode.getElementsByTagName('input'), rateBox = null;
+          for(var i=0;i<field2.length;i++){
+            if(field2[i].type === 'number' && field2[i].className.indexOf('rate') !== -1){ rateBox = field2[i]; break; }
+          }
+          if(rateBox){
+            rateBox.oninvalid = function(){ this.setCustomValidity(window.ecRateMinMessage(this)); };
+            rateBox.oninput = function(){ this.setCustomValidity(''); };
+          }
+        })();
+        </script>
       </div>
     </div>
     <div class="form-grid" style="margin-top:16px;">
@@ -391,7 +821,7 @@ $(function(){
       <label class="field-label">Tools</label>
       <select name="employee_requirement_tools">
         <option value="">Select</option>
-        <option value="none">None</option>
+        <option value="none">None required</option>
         <option value="basic">Basic</option>
         <option value="intermediate">Intermediate</option>
         <option value="full">Full</option>
@@ -401,8 +831,8 @@ $(function(){
       <label class="field-label">Vehicle</label>
       <select name="employee_requirement_vehicle">
         <option value="">Select</option>
-        <option value="none">None</option>
-        <option value="any">Any Vehicle</option>
+        <option value="none">None required</option>
+        <option value="any">Must have own transport</option>
         <option value="van">Van</option>
         <option value="ute">Ute</option>
         <option value="car">Car</option>
@@ -415,13 +845,53 @@ $(function(){
     <div class="form-field">
       <label class="field-label">References required</label>
       <select name="employee_requirement_references">
-        <option value="" selected="selected">Select</option><option value="none">None</option><option value="1">1 or more</option><option value="2">2 or more</option><option value="3">3 or more</option>      </select>
+        <option value="" selected="selected">Select</option><option value="none">None required</option><option value="1">1 or more</option><option value="2">2 or more</option><option value="3">3 or more</option>      </select>
     </div>
   </div>
 </div>
 
+<!-- Subcontractor Onboarding (coming-soon stub) -->
+<style>
+  .contractor-onboarding-section .ob-panel{display:none;margin-top:14px;padding:14px;border-radius:6px;border:1px solid #e5e7eb;background:#f9fafb;border-left:3px solid #6b7280;}
+  .contractor-onboarding-section .ob-panel.active{display:block;}
+  .contractor-onboarding-section .ob-panel h4{font-size:14px;margin:0 0 8px;color:#111827;}
+  .contractor-onboarding-section .ob-panel p{font-size:13px;line-height:1.55;margin:0;color:#374151;}
+  .contractor-onboarding-section .ob-note{font-size:12px;line-height:1.55;color:#78350f;background:#fef9e7;border-left:3px solid #f59e0b;padding:12px 14px;border-radius:4px;margin-top:16px;}
+</style>
+<div class="form-section contractor-onboarding-section">
+  <div class="form-section-title">Subcontractor Onboarding <small>(optional)</small></div>
+  <p class="form-help" style="margin-bottom:12px;">Digital subcontractor onboarding through e-contract is <strong>coming soon</strong>. For now, you onboard the subcontractor yourself after the agreement is accepted.</p>
+  <div class="form-grid">
+    <div class="form-field full-width">
+      <label class="field-label">Use e-contract Subcontractor Onboarding?</label>
+      <select name="employee_onboarding_pack" id="employee_onboarding_pack">
+        <option value="">Select</option>
+        <option value="yes" disabled>Yes &mdash; coming soon (not available to select yet)</option>
+        <option value="person">No &mdash; I will onboard the subcontractor myself</option>
+      </select>
+    </div>
+  </div>
+  <div class="ob-panel" id="onboarding_panel_person">
+    <h4>Onboarding the subcontractor yourself</h4>
+    <p>You have chosen to onboard this subcontractor yourself, after the agreement is accepted. e-contract will not collect, verify or store any onboarding documents for this job. You remain responsible for verifying the subcontractor's ABN, insurances, licences, White Card and bank details outside the platform.</p>
+  </div>
+  <div class="ob-note"><strong>Please verify your obligations</strong> regarding <strong>workers compensation</strong>, <strong>long service leave</strong> and <strong>superannuation</strong> before engaging a subcontractor &mdash; these may apply depending on the engagement and your state. <strong>You remain responsible for verifying all information regarding this subcontractor.</strong> e-contract assists with digital document preparation and transmission only and does not provide legal advice.</div>
+</div>
+<script>
+(function(){
+  var sel=document.getElementById('employee_onboarding_pack');
+  if(!sel){return;}
+  var person=document.getElementById('onboarding_panel_person');
+  function refresh(){ if(person){ person.className = (sel.value==='person') ? 'ob-panel active' : 'ob-panel'; } }
+  sel.onchange=refresh; refresh();
+})();
+</script>
+
 <div class="form-actions">
-  <input class="form-btn-primary" name="action_button" type="submit" value="Publicly post">
+  <button class="form-btn-primary btn-stack" type="button" data-requires-login="1" data-login-label="Publicly post">
+    <span class="fb-main">Publicly post</span>
+    <span class="fb-sub">Visible to all users</span>
+  </button>
 </div>
               </div>
               <!-- End Border Bottom Table here -->
@@ -453,7 +923,7 @@ $(function(){
                   </table></td>
               </tr>
               <tr>
-                <td><input class="form-btn-primary" name="action_button" type="submit" value="Send"></td>
+                <td><input class="form-btn-primary" type="button" value="Send" data-requires-login="1"></td>
               </tr>
             </table>
             <div class="clear"></div>
@@ -471,26 +941,38 @@ $(function(){
       
 
 
-<aside class="sidebar" data-right-profile-sidebar="1" aria-label="My Profile">
-    <div class="sidebar-tabs" role="tablist">
-                <a href="https://e-contract.com.au/tips-hints" class="tab active" role="tab">Site Info</a>
-    </div>
-
-    
-    <div class="sidebar-panel active" data-panel="extras" role="tabpanel">
-        <ul class="sidebar-menu">
-            <li><a class="menu-row" href="https://e-contract.com.au/tips-hints"><span class="row-label">Site Info</span></a></li>
-        </ul>
-    </div>
-</aside>
 
 <script type="text/javascript">
 $(document).ready(function(){
 
-    $('.sidebar[data-right-profile-sidebar] .sidebar-tabs .tab').on('click', function(){
-        var target = $(this).data('target');
+    // Roll the existing per-group unread counts up onto the tab pills (My Jobs / Contacts)
+    // and any mobile pills sharing the .ec-agg-* class. Reuses ajax_profile_counts — no new
+    // counting, no new endpoint.
+    window.ecOrganiserAgg = function(res){
+        if (!res) { return; }
+        function setAgg(cls, val){
+            var els = document.getElementsByClassName(cls);
+            for (var i = 0; i < els.length; i++){
+                if (val > 0){ els[i].innerHTML = val; els[i].style.display = 'inline-block'; }
+                else { els[i].innerHTML = ''; els[i].style.display = 'none'; }
+            }
+        }
+        // Role-aware: only sum the sections THIS view actually shows, so the tab total always
+        // maps to a badge you can find (employee view = Short/Full Term; contractor view =
+        // work applications + sub-contractor + employee jobs). Mixing both roles' fields was
+        // what produced a tab number pointing at a section not on screen.
+        var mj;
+                mj = (parseInt(res.find_me_work_new,10)||0) + (parseInt(res.find_me_a_worker_new,10)||0) + (parseInt(res.find_employee_unread,10)||0);
+                var ct = (parseInt(res.unread_contacts,10)||0) + (parseInt(res.unread_message,10)||0);
+        setAgg('ec-agg-myjobs', mj);
+        setAgg('ec-agg-contacts', ct);
+    };
 
-        $('.sidebar[data-right-profile-sidebar] .sidebar-tabs .tab').removeClass('active');
+    $('.sidebar[data-right-profile-sidebar] .osub-tabs .osub-tab').on('click', function(){
+        var target = $(this).data('target');
+        if (!target) { return; } // Calendar is a link tab — let it navigate.
+
+        $('.sidebar[data-right-profile-sidebar] .osub-tabs .osub-tab').removeClass('active');
         $('.sidebar[data-right-profile-sidebar] .sidebar-panel').removeClass('active');
 
         $(this).addClass('active');
@@ -572,6 +1054,9 @@ $(document).ready(function(){
                     return;
                 }
 
+                // 2026-10-21 (Rob): the OS app-icon number is no longer re-synced
+                // here. A push sets it (sw.js); the Notifications page clears it.
+
                 showCount("#count_find_me_work_total", res.find_me_work, "");
                 showCount("#count_find_me_work_new", res.find_me_work_new, "my_unread_message_count");
                 showCount("#count_sent_application_to_work", res.sent_application_to_work, "");
@@ -641,6 +1126,13 @@ $(document).ready(function(){
                 showCount("#count_unread_message", res.unread_message, "my_unread_message_count");
                 showCount("#count_contacts", res.contacts, "");
                 showCount("#count_unread_contacts", res.unread_contacts, "my_unread_message_count");
+                showCount("#count_contact_requests_new", res.contact_requests, "");
+                showCount("#count_contacts_contractor", res.contacts_contractor, "");
+                showCount("#count_unread_contacts_contractor", res.unread_contacts_contractor, "my_unread_message_count");
+                showCount("#count_contacts_employee", res.contacts_employee, "");
+                showCount("#count_unread_contacts_employee", res.unread_contacts_employee, "my_unread_message_count");
+
+                if (window.ecOrganiserAgg) { window.ecOrganiserAgg(res); }
             }
         });
     }
@@ -814,6 +1306,13 @@ function checkForm(){
 
 $('.error_signup').remove();
 
+// Subcontractor onboarding choice is mandatory before posting (Yes is disabled until the feature launches)
+if($('#employee_onboarding_pack').length && $('#employee_onboarding_pack').is(':visible')){
+    if($('#employee_onboarding_pack').val() == ''){
+        $('#employee_onboarding_pack').after('<small class="error_signup">Please choose an onboarding option.</small>');
+    }
+}
+
 
 
 /*$( ".about" ).each(function() {
@@ -888,27 +1387,7 @@ if($('.exact_location').val() == ''){
 
 }
 
-if($('.about').val() == ''){
-
-	$('.about').after('<small class="error_signup">Required.</small>');
-
-}
-
-if($("select[name='employee_requirement_tools']").val() == ''){
-    $("select[name='employee_requirement_tools']").after('<small class="error_signup">Required.</small>');
-}
-
-if($("select[name='employee_requirement_vehicle']").val() == ''){
-    $("select[name='employee_requirement_vehicle']").after('<small class="error_signup">Required.</small>');
-}
-
-if($("select[name='employee_requirement_references']").val() == ''){
-    $("select[name='employee_requirement_references']").after('<small class="error_signup">Required.</small>');
-}
-
-if($('.skills-required-field:visible .form-skills-box.mspecific1').length > 0 && $( ".skills-required-field:visible .form-skills-box.mspecific1 input:checked" ).length == 0 ){
-    $('.skills-required-field:visible .form-skills-box.mspecific1').after('<small class="error_signup">Required.</small>');
-}
+// About / Tools / Vehicle / References / Skills — now optional per locked decisions 2026-06-27
 
 
 
@@ -980,10 +1459,20 @@ $( ".time_to" ).each(function() {
 	}
 });
 
+// A rate basis must be chosen. Outside the .rate loop below on purpose -- with nothing
+// picked the box is hidden, so that loop skips it and would let the job through with no
+// rate answer at all.
+if($('#ecRateBasis:visible').length && (typeof ecRateBasisVal === 'function') && ecRateBasisVal() === ''){
+	$('#ecRateBasis').after('<small class="error_signup">Please choose a rate option.</small>');
+}
 $( ".rate" ).each(function() {
 	if(!$(this).is(":hidden")){
-		if($(this).val() == '' || $(this).val() == '0'){
-            $(this).after('<small class="error_signup">Required.</small>');
+		// "To be confirmed" posts a deliberately blank rate -- don't demand a number.
+		if(typeof ecRateTbc === 'function' && ecRateTbc()){ return; }
+		var floor = parseFloat($(this).attr('min')) || 0;
+		var v = parseFloat($(this).val());
+		if($(this).val() === '' || isNaN(v) || v < floor){
+            $(this).after('<small class="error_signup">' + ((typeof ecRateMinMessage === 'function') ? ecRateMinMessage(this) : ('Minimum rate is $'+floor.toFixed(2)+'/hr.')) + '</small>');
   		}
 	}
 });
@@ -993,8 +1482,18 @@ $( ".rate" ).each(function() {
 
 
 
-	if($('.error_signup').length > 0){ $('#error_creat_job').html('<small class="error_signup">Please fill the below required fields.</small>'); $("html, body").animate({ scrollTop: 0 }, "slow"); return false; }
+	// red-highlight the field wrapper of every flagged message
+	$('.create_job .error_signup').each(function(){ var $ff=$(this).closest('.form-field'); $ff.addClass('has-error'); $ff.find('.field-label .ec-req').first().addClass('ec-fail'); });
 
+	if($('.create_job .error_signup').length > 0){
+		var ecN = $('.create_job .error_signup').length;
+		$('#error_creat_job').addClass('show').text(ecN + ' field' + (ecN > 1 ? 's' : '') + ' still need completing — they’re highlighted in red below.');
+		var $ecFirst = $('.create_job .has-error, .create_job .error_signup').first();
+		if($ecFirst.length){ $("html, body").animate({ scrollTop: $ecFirst.offset().top - 120 }, "slow"); }
+		return false;
+	}
+
+	$('#error_creat_job').removeClass('show').text('');
 	return true;
 
 }
@@ -1008,6 +1507,23 @@ $(function() {
 $( ".from_date" ).datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true,minDate: '0', maxDate: 5});
 $( 'input[name="date_to[]"]' ).datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true,minDate: '0'});
 
+});
+
+// Required-field "Required" pills + live error-clearing (job-form standard, 2026-06-27)
+$(function(){
+    function ecPill($lbl){ if($lbl.length && $lbl.find('.ec-req').length == 0){ $lbl.append('<span class="ec-req">Required</span>'); } }
+    function ecPillFor(sel){ $(sel).each(function(){ ecPill($(this).closest('.form-field').find('.field-label').first()); }); }
+    ecPillFor('#title, #state_id, #location_search, .exact_location, .industry, .specific, .quantity, .rate, .from_date, .to_date, .time_from, .time_to');
+});
+$('.create_job').on('input change', 'input, select, textarea', function(){
+    var $ff = $(this).closest('.form-field');
+    if($ff.hasClass('has-error')){
+        var v = $.trim('' + $(this).val());
+        if(v != '' && v != '0'){ $ff.removeClass('has-error'); $ff.find('.field-label .ec-req').removeClass('ec-fail'); $ff.find('.error_signup').remove(); $ff.children('.error_signup').remove(); }
+    }
+    var ecN = $('.create_job .error_signup').length;
+    if(ecN == 0){ $('#error_creat_job').removeClass('show').text(''); }
+    else if($('#error_creat_job').hasClass('show')){ $('#error_creat_job').text(ecN + ' field' + (ecN > 1 ? 's' : '') + ' still need completing — they’re highlighted in red below.'); }
 });
 
 
@@ -1177,15 +1693,327 @@ $(function(){
 });
 
 </script>
-<link rel="stylesheet" href="https://e-contract.com.au/application/css/jquery-ui.css">
-<script src="https://e-contract.com.au/application/js/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<style>
+/* --- pop-out multi-select: collapsed trigger --- */
+.ec-msp-trigger{
+  display:flex; flex-wrap:nowrap; align-items:center; gap:6px;
+  /* Rob 2026-08-07 ("make the same change everywhere"): the single-line
+     36px treatment that started on the phone find pages is now the DEFAULT
+     for every page using this picker. */
+  min-height:36px; padding:5px 38px 5px 12px;
+  border:1.5px solid #d1d5db; border-radius:8px; background:#fff;
+  cursor:pointer; position:relative; box-sizing:border-box;
+}
+.ec-msp-trigger:hover, .ec-msp-trigger:focus{ border-color:#ff4136; outline:none; }
+.ec-msp-trigger:after{
+  content:''; position:absolute; right:15px; top:50%;
+  width:8px; height:8px; margin-top:-6px;
+  border-right:2px solid #6b7280; border-bottom:2px solid #6b7280;
+  transform:rotate(45deg);
+}
+.ec-msp-placeholder{ color:#9ca3af; font-size:.9em; }
+/* Real chips (or the placeholder) render inside this wrap, never directly
+   inside .ec-msp-trigger. SINGLE LINE everywhere (Rob 2026-08-07): at most
+   2 real chips, each truncating with an ellipsis instead of wrapping, the
+   "+N" badge carrying the rest -- the treatment born on the phone find
+   pages, now the default for every page. */
+.ec-msp-chips-wrap{
+  display:flex; flex-wrap:nowrap; align-items:center; gap:6px;
+  flex:1 1 auto; min-width:0;
+  max-height:30px; /* 1 chip row; backstop only -- nowrap already prevents a 2nd row */
+  overflow:hidden;
+}
+.ec-msp-chip{
+  display:inline-flex; align-items:center; padding:4px 10px;
+  font-size:.8125em; font-weight:500; line-height:1.3;
+  /* Rob 2026-08-07: the chips shown in the TRIGGER are plain -- no colour
+     once selected and displayed here. The red selected-state stays inside
+     the pop-out modal only (.ec-msp-sel below, untouched). */
+  color:#374151; background:#fff;
+  border:1.5px solid #d1d5db; border-radius:6px;
+}
+.ec-msp-chips-wrap .ec-msp-chip{
+  flex:0 1 auto; min-width:0;
+  max-width:calc(50% - 3px); /* 2 chips share the row so each truncates instead of wrapping */
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ec-msp-chips-wrap .ec-msp-chip:nth-child(n+3){ display:none; }
+/* "+N" overflow badge, shown everywhere the real-chip cap bites (Rob
+   2026-08-07). It is a flex SIBLING of .ec-msp-chips-wrap (not a child
+   inside it), so the wrap's height clip can never clip the badge. The
+   :empty rule keeps it hidden whenever 2 or fewer chips are selected --
+   syncTrigger() only writes text past the cap, and MSP_MOBILE_CHIP_CAP
+   matches the :nth-child cap above so the number is always honest. */
+.ec-msp-chip-overflow{ display:inline-flex; flex:0 0 auto; }
+.ec-msp-chip-overflow:empty{ display:none !important; }
+
+/* --- pop-out multi-select: overlay + modal (mirrors ec-fmodal) --- */
+.ec-msp-overlay{
+  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(17,24,39,.55); z-index:100000;
+  align-items:center; justify-content:center; padding:20px; box-sizing:border-box;
+}
+.ec-msp-overlay.ec-msp-open{ display:flex; }
+.ec-msp{
+  background:#fff; border-radius:14px; box-shadow:0 12px 48px rgba(0,0,0,.28);
+  width:100%; max-width:680px; max-height:85vh;
+  display:flex; flex-direction:column; overflow:hidden;
+  border-top:5px solid #e8281e; box-sizing:border-box;
+}
+.ec-msp-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:15px 20px; border-bottom:1px solid #eef0f2; flex:0 0 auto;
+}
+.ec-msp-title{ font-size:1rem; font-weight:600; color:#111827; margin:0; }
+.ec-msp-close{
+  background:none; border:none; font-size:1.6rem; line-height:1;
+  color:#9ca3af; cursor:pointer; padding:0 4px;
+}
+.ec-msp-close:hover{ color:#111827; }
+.ec-msp-body{ padding:14px 18px; overflow-y:auto; -webkit-overflow-scrolling:touch; flex:1 1 auto; }
+/* empty-state hint (opt-in via data-popout-empty), e.g. Skills box before a Trade/Role is chosen */
+.ec-msp-empty{ padding:6px 2px; color:#6b7280; font-size:.9em; line-height:1.4; }
+.ec-msp-foot{ padding:14px 18px; border-top:1px solid #eef0f2; flex:0 0 auto; }
+.ec-msp-apply{
+  display:block; width:100%; padding:13px;
+  background:#e8281e; color:#fff; font-size:.95rem; font-weight:700;
+  text-align:center; border:none; border-radius:9px; cursor:pointer;
+}
+.ec-msp-apply:hover{ background:#c41e16; }
+
+/* The moved box shows its FULL list inside the modal (no cramped scroll window).
+   NB: the box also carries the .checkbox class, which pins height:105px + its own
+   scroll — we must unset height/overflow here so the box grows to its content and
+   the modal body handles any scrolling. */
+.ec-msp-body .form-skills-box{
+  height:auto !important; max-height:none !important; width:auto !important;
+  overflow:visible !important;
+  border:none !important; background:transparent !important;
+  padding:0 !important; opacity:1 !important; z-index:auto !important;
+  display:block !important;
+}
+
+/* The whole chip is the tap target, and it shows a reliable "selected" highlight
+   via the .ec-msp-sel class (not the CSS :has() selector, which some browsers
+   lack) so you can see what's ticked without hunting for the small checkbox. */
+.ec-msp-body .form-skills-box label{ cursor:pointer; }
+.ec-msp-body .form-skills-box label input[type="checkbox"]{ pointer-events:none; }
+.ec-msp-body .form-skills-box label.ec-msp-sel{
+  border-color:#ff4136 !important; background:#fff5f5 !important;
+  color:#ff4136 !important; font-weight:500;
+}
+
+body.ec-msp-noscroll{ overflow:hidden; }
+
+@media (max-width:560px){
+  /* Phone: box grows to fit the options shown, but is capped at 577px tall so
+     it stays inside the screen with the page still visible behind it. */
+  .ec-msp-overlay{ padding:10px; align-items:center; }
+  /* AGREED SPEC (tag popout-final-2026-07-04): 10px margin, 577px max height.
+     max-width is the ONLY change (Rob 2026-08-07, "still wider than the
+     screen"): 100% resolves against the PAGE, so if anything on the page is
+     wider than the phone the fixed overlay stretches with it and the modal
+     follows. 100vw is the SCREEN, so the modal can never exceed it -- minus
+     the same 10px margin each side. Height and margin untouched. */
+  .ec-msp{ max-width:calc(100vw - 20px); max-height:577px; border-radius:14px; }
+}
+</style>
+<script type="text/javascript">
+(function($){
+  if(typeof $ === 'undefined'){ return; }
+
+  function chipText($lbl){
+    var $c = $lbl.clone();
+    $c.find('input').remove();
+    return $.trim($c.text());
+  }
+
+  // Remove stray text nodes (e.g. AJAX "Select Regions" / "Skills I Have" labels)
+  // so only the option chips show inside the pop-out.
+  function stripStrayText($box){
+    $box.contents().filter(function(){
+      return this.nodeType === 3 && $.trim(this.nodeValue) !== '';
+    }).remove();
+  }
+
+  // Reflect each checkbox's state onto its whole chip (label) so the selected
+  // state is visible regardless of :has() support.
+  function markSelected($box){
+    $box.find('label').each(function(){
+      var $l = $(this);
+      $l.toggleClass('ec-msp-sel', $l.find('input[type="checkbox"]').prop('checked') === true);
+    });
+  }
+
+  function syncTrigger($chipsWrap, $overflowBadge, $box, placeholder){
+    var chips = [];
+    $box.find('input[type="checkbox"]:checked').each(function(){
+      var $lbl = $(this).closest('label');
+      var t = $lbl.length ? chipText($lbl) : '';
+      if(t !== ''){ chips.push(t); }
+    });
+    $chipsWrap.empty();
+    if(chips.length === 0){
+      $chipsWrap.append($('<span class="ec-msp-placeholder"></span>').text(placeholder));
+      $overflowBadge.text('');
+    } else {
+      for(var i = 0; i < chips.length; i++){
+        $chipsWrap.append($('<span class="ec-msp-chip"></span>').text(chips[i]));
+      }
+      // Additive, opt-in "+N" overflow badge for pages that cap how many REAL
+      // chips they show (e.g. phone Find Work / Find Worker). Text stays empty
+      // (and so hidden, see the :empty rule) unless a page's CSS both reveals
+      // the badge AND hides real chips past the same cap -- MSP_MOBILE_CHIP_CAP
+      // must match that page's CSS :nth-child cap so the number stays honest
+      // (exactly this many real chips are ever shown, so total-cap is exact,
+      // never an over- or under-count).
+      var MSP_MOBILE_CHIP_CAP = 2;
+      if(chips.length > MSP_MOBILE_CHIP_CAP){
+        $overflowBadge.text('+' + (chips.length - MSP_MOBILE_CHIP_CAP));
+      } else {
+        $overflowBadge.text('');
+      }
+    }
+  }
+
+  function enhance($box){
+    if($box.data('ecMspDone')){ return; }
+    $box.data('ecMspDone', true);
+
+    var title = $box.attr('data-popout-title');
+    if(!title){ title = $box.closest('.form-field').find('.field-label').first().text(); }
+    title = $.trim(title) || 'Select';
+    var placeholder = $box.attr('data-popout-placeholder') || ('Select ' + title.toLowerCase());
+
+    var $trigger = $('<div class="ec-msp-trigger" tabindex="0" role="button" aria-haspopup="dialog"></div>');
+    var $chipsWrap = $('<div class="ec-msp-chips-wrap"></div>');
+    var $overflowBadge = $('<span class="ec-msp-chip ec-msp-chip-overflow"></span>');
+    $trigger.append($chipsWrap).append($overflowBadge);
+    var $overlay = $(
+      '<div class="ec-msp-overlay">' +
+        '<div class="ec-msp" role="dialog" aria-modal="true">' +
+          '<div class="ec-msp-head"><h3 class="ec-msp-title"></h3>' +
+            '<button type="button" class="ec-msp-close" aria-label="Close">&times;</button></div>' +
+          '<div class="ec-msp-body"></div>' +
+          '<div class="ec-msp-foot"><button type="button" class="ec-msp-apply">Apply</button></div>' +
+        '</div>' +
+      '</div>');
+    $overlay.find('.ec-msp-title').text(title);
+
+    // Insert the trigger AND the overlay right where the box lives, then move the
+    // (unchanged) box into the overlay body. Keeping everything in the box's
+    // original spot means the box stays a descendant of its own field/wrapper, so
+    // any page logic that shows/hides the field by looking for .form-skills-box
+    // inside it (e.g. toggleJobMetaFields) — and the form submission — keeps working.
+    $box.before($trigger);
+    $box.before($overlay);
+    $overlay.find('.ec-msp-body').append($box);
+
+    // Optional empty-state hint: shown in the body ONLY while the box has no
+    // checkboxes yet (e.g. the Skills box before a Trade/Role is picked, so the
+    // user knows why it's empty). Opt-in per box via data-popout-empty. It is a
+    // body sibling of the box (not a child), so AJAX .html() refills of the box
+    // never remove it; refresh() toggles its visibility by the checkbox count.
+    var emptyMsg = $.trim($box.attr('data-popout-empty') || '');
+    var $emptyHint = null;
+    if(emptyMsg){
+      $emptyHint = $('<div class="ec-msp-empty"></div>').text(emptyMsg);
+      $overlay.find('.ec-msp-body').append($emptyHint);
+    }
+
+    var observer = null;
+    function refresh(){
+      if(observer){ observer.disconnect(); }
+      stripStrayText($box);
+      markSelected($box);
+      syncTrigger($chipsWrap, $overflowBadge, $box, placeholder);
+      if($emptyHint){ $emptyHint.toggle($box.find('input[type="checkbox"]').length === 0); }
+      if(observer){ observer.observe($box.get(0), { childList:true }); }
+    }
+
+    function open(){ $overlay.addClass('ec-msp-open'); $('body').addClass('ec-msp-noscroll'); }
+    function close(){
+      $overlay.removeClass('ec-msp-open');
+      $('body').removeClass('ec-msp-noscroll');
+      refresh(); // every close reflects the current ticks in the collapsed trigger
+    }
+
+    // Toggle THIS chip's own checkbox on click. We do NOT rely on the native
+    // label/for behaviour: job forms render several boxes with duplicate ids
+    // (a hidden repeat template + the visible rows), so a label's for= can target
+    // the wrong, hidden checkbox. Toggling the nested input directly is
+    // duplicate-id-proof and makes the whole chip one reliable tap target.
+    // (The checkbox has pointer-events:none, so every click lands on the label.)
+    $box.on('click', 'label', function(e){
+      var cb = $(this).find('input[type="checkbox"]').get(0);
+      if(!cb){ return; }
+      e.preventDefault();
+      cb.checked = !cb.checked;
+      $(cb).trigger('change');
+    });
+
+    // Reflect the checkbox state onto the whole chip immediately.
+    $box.on('change', 'input[type="checkbox"]', function(){
+      $(this).closest('label').toggleClass('ec-msp-sel', this.checked);
+    });
+
+    $trigger.on('click', open);
+    $trigger.on('keydown', function(e){
+      if(e.which === 13 || e.which === 32){ e.preventDefault(); open(); }
+    });
+    $overlay.find('.ec-msp-apply').on('click', close);
+    $overlay.find('.ec-msp-close').on('click', close);
+    $overlay.on('click', function(e){ if(e.target === this){ close(); } });
+    $(document).on('keydown', function(e){
+      if(e.which === 27 && $overlay.hasClass('ec-msp-open')){ close(); }
+    });
+
+    // Re-sync the collapsed trigger whenever AJAX refills the box.
+    if(window.MutationObserver){
+      observer = new MutationObserver(function(){ refresh(); });
+    }
+    refresh();
+  }
+
+  // Enhance every un-enhanced pop-out box within root (default: whole document).
+  function enhanceWithin(root){
+    var $root = (root && root.jquery) ? root : $(root || document);
+    $root.find('.form-skills-box[data-popout]').each(function(){ enhance($(this)); });
+    if($root.is('.form-skills-box[data-popout]')){ enhance($root); }
+  }
+
+  // Strip the pop-out wrapping from any enhanced boxes inside root and restore the
+  // plain box to its place. Use this on a freshly-cloned block (whose cloned trigger
+  // is dead) so it can be re-enhanced cleanly with enhanceWithin().
+  function resetWithin(root){
+    $(root).find('.ec-msp-trigger').each(function(){
+      var $trigger = $(this);
+      var $overlay = $trigger.next('.ec-msp-overlay');
+      var $box = $overlay.find('.form-skills-box').first();
+      if($box.length){
+        $box.removeData('ecMspDone');
+        $trigger.before($box);
+      }
+      $overlay.remove();
+      $trigger.remove();
+    });
+  }
+
+  window.ecPopoutMultiselect = { enhance: enhanceWithin, reset: resetWithin };
+
+  $(function(){ enhanceWithin(document); });
+
+})(window.jQuery);
+</script>
  <!---End-content---->
 
 	 </div>
 
 	  <!---Footer---->
 <footer class="ec-footer">
-    <div class="ec-footer-main">
+                <div class="ec-footer-main">
         <div class="ec-footer-wrap">
             <div class="ec-footer-grid">
                 <div class="ec-footer-brand">
@@ -1193,27 +2021,24 @@ $(function(){
                         <img src="https://e-contract.com.au/application/images/logo-footer-transparent.png" alt="e-contract.com.au">
                     </a>
                     <p class="ec-footer-summary">Find Work or Labour when you need it. Our goal is to assist YOU &mdash; connecting contractors, workers and employees across Australia.</p>
+                    <p class="ec-footer-copy">e-contract.com.au &copy; 2026 All Rights Reserved</p>
                 </div>
 
                 <div class="ec-footer-column">
-                    <h3 class="ec-footer-title">Extra Bits</h3>
+                    <h3 class="ec-footer-title">Help &amp; Info</h3>
                     <ul class="ec-footer-links">
                         <li><a href="https://e-contract.com.au/tips-hints">Site Info / FAQ</a></li>
+                        <li><a href="https://e-contract.com.au/terms-condition">Terms and Conditions</a></li>
                         <li><a href="https://e-contract.com.au/privacy-policy">Privacy Policy</a></li>
                     </ul>
                 </div>
 
+                
                 <div class="ec-footer-column">
                     <h3 class="ec-footer-title">Contact Us</h3>
-                    <a class="ec-footer-button" href="https://e-contract.com.au/contact">Write a Message</a>
+                    <a class="ec-footer-button" href="https://e-contract.com.au/feedback">Feedback</a>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="ec-footer-bottom">
-        <div class="ec-footer-wrap">
-            <p class="ec-footer-copy">e-contract.com.au &copy; 2026 All Rights Reserved</p>
         </div>
     </div>
 </footer>
@@ -1240,9 +2065,9 @@ window.ecRequireLoginAlert = function(event){
     }
 
     if(typeof window.show_msg === 'function'){
-        window.show_msg('body', '<a href="https://e-contract.com.au/register-interest-employee">Register your interest here</a>');
+        window.show_msg('body', '<a href="https://e-contract.com.au/user/login">Please Sign up / Login</a>');
     }else{
-        alert('Please register your interest.');
+        alert('Please Login / Sign up');
     }
 
     return true;
@@ -1269,15 +2094,6 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions — guests are STOPPED here (not server-redirected): the
-        // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
-        // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit — the
-        // guest sees "Register your interest" and the form never validates or posts.
-        if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
-            return current;
-        }
-
         var href = (typeof current.getAttribute === 'function' && current.getAttribute('href')) || '';
         var onclick = (typeof current.getAttribute === 'function' && current.getAttribute('onclick')) || '';
         var label = (typeof current.getAttribute === 'function' && current.getAttribute('data-login-label')) || current.value || current.textContent || '';
@@ -1286,10 +2102,10 @@ window.ecFindLoginRequiredTarget = function(target){
         onclick = onclick.toLowerCase();
         label = label.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '').toLowerCase();
 
-        // NOTE: Create a Job / Need Someone Now links are intentionally NOT gated
-        // here. Guests are allowed to OPEN and fill those pages; only the finalise
-        // actions (Publicly Post / Send to Contacts / Submit Quote) are gated, and
-        // that is enforced server-side (redirect to register-interest).
+        // NOTE: links TO create_job / create_quick_job are intentionally NOT gated here.
+        // Guests are allowed to view those pages to see what they'll get; the gate now
+        // lives on the on-page "Publicly post" / "Send to contacts" buttons, which carry
+        // data-requires-login (matched above).
 
         if(href.indexOf('send=hire') !== -1 || onclick.indexOf('send=hire') !== -1){
             return current;
@@ -1319,19 +2135,6 @@ document.addEventListener('click', function(event){
     var actionButton = window.ecFindLoginRequiredTarget(target);
 
     if(!actionButton || actionButton.disabled){
-        return;
-    }
-
-    // Guests: the job finalise buttons (Publicly post / Send to contacts / Send on
-    // Create a Job + Need Someone Now) STOP here and go straight to Register your
-    // interest. We redirect rather than use the popup because the transient popup
-    // renders at opacity 0 / off-screen on the create-job pages (no visible feedback).
-    if(!window.ecUserLoggedIn && typeof actionButton.matches === 'function' &&
-        actionButton.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        window.location.href = 'https://e-contract.com.au/register-interest-employee';
         return;
     }
 
@@ -1452,8 +2255,24 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
+    // Hard backstop: close any loader that is still up. Called on the safety timer
+    // and on hashchange so the loader can never get permanently stuck even if it was
+    // opened on a navigation that never actually unloaded the page.
+    function forceCloseLoader(){
+        if(typeof Swal !== 'undefined' && typeof Swal.close === 'function'){
+            Swal.close();
+        }
+        closeFallbackLoader();
+    }
+
     // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
+        // Safety net: if a real navigation happens the page unloads and this timer
+        // dies with it. If it does NOT (blocked nav, same-page link, JS error), the
+        // timer fires and clears the loader so it is never stuck on screen forever.
+        window.clearTimeout(window.ecLoaderSafetyTimer);
+        window.ecLoaderSafetyTimer = window.setTimeout(forceCloseLoader, 12000);
+
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();
             return;
@@ -1492,6 +2311,18 @@ $(document).ready(function(){
         // Allow individual links to opt-out with data-no-loader
         if($(this).data('no-loader')) return;
 
+        // Skip same-document navigations: a link whose only difference from the
+        // current URL is the #fragment (e.g. myaccount/contacts#employees) does NOT
+        // reload the page, it just scrolls. Showing the loader here would leave it on
+        // screen forever because no page-unload ever tears it down. Compare the
+        // anchor's RESOLVED location parts (the browser fills these in for <a>).
+        if(this.hash &&
+           this.pathname === window.location.pathname &&
+           this.search   === window.location.search &&
+           this.hostname === window.location.hostname){
+            return;
+        }
+
         window.showPageLoader();
     });
 
@@ -1499,6 +2330,13 @@ $(document).ready(function(){
     $(document).on('submit', 'form', function(e){
         if(e.isDefaultPrevented()) return;
         window.showPageLoader();
+    });
+
+    // A #fragment navigation does not unload the page, so close the loader the moment
+    // the hash changes — instant backstop in case a loader was ever shown for one.
+    $(window).on('hashchange', function(){
+        window.clearTimeout(window.ecLoaderSafetyTimer);
+        forceCloseLoader();
     });
 
 });
@@ -1515,6 +2353,15 @@ window.addEventListener('pageshow', function(event){
             fallback.parentNode.removeChild(fallback);
         }
     }
+});
+</script>
+
+
+<!-- Enable browser-native spellcheck on every free-text textarea that hasn't opted out -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var t = document.querySelectorAll('textarea:not([spellcheck])');
+  for (var i = 0; i < t.length; i++){ t[i].spellcheck = true; }
 });
 </script>
 

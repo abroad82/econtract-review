@@ -2,10 +2,13 @@
 <html>
 <head><base href="https://e-contract.com.au/">
 <title>e-contract</title>
-<link rel="manifest" href="/manifest.webmanifest">
+<!-- Manifest is served per-host so staging/beta/live install as separately
+     labelled apps instead of three identical "e-contract" icons. -->
+<link rel="manifest" href="/pwa/manifest">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<!-- iOS takes the home-screen name from THIS meta, not the manifest. -->
 <meta name="apple-mobile-web-app-title" content="e-contract">
 <link rel="apple-touch-icon" href="/application/images/logo_icon.png">
 
@@ -21,8 +24,8 @@
 <!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1782286682" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792620286"></script-->
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792706707"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -38,7 +41,7 @@ $( ".menuitem" ).click(function() {
 });
 });
 </script>
-<script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/function.js?v=1782157965" charset="utf-8"></script>
+<script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/function.js?v=1792669105" charset="utf-8"></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -60,13 +63,13 @@ $(function(){
 });
 </script>
 
-<script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1782157965"></script>
-<script defer src="/pwa-android.js?v=1782157966"></script>
-<script defer src="/pwa-ios.js?v=1782157966"></script>
+<script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1792669105"></script>
+<script defer src="/pwa-android.js?v=1792669105"></script>
+<script defer src="/pwa-ios.js?v=1792669105"></script>
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'e160ca158ab10668e15887506a320dca'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'07a3baa5189eed4fd5d6143856f85ebc'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -85,17 +88,42 @@ $(function(){
 </script>
 </head>
 
-<body>
-    <!-- EMAIL VERIFICATION BANNER -->
+<body class="ecp-home-index">
+    <!-- EMAIL VERIFICATION BANNER removed: the verify reminder now lives in the login + signup pop-ups. -->
+
 
 <div class="header">
   <div class="header_top">
     <div class="wrap">
-      <div class="logo aanimate"> <a href="https://e-contract.com.au/"><img src="https://e-contract.com.au/application/images/logo.png" /></a> </div>
-      <div class="header-phone aanimate">
-        <h2>
-                    <a class="register-interest-btn" href="https://e-contract.com.au/register-interest-employee">Register your interest</a>
-                  </h2></div>
+            <div class="logo aanimate"> <a href="https://e-contract.com.au/"><img src="https://e-contract.com.au/application/images/logo.png" /></a> </div>
+            <div class="header-phone aanimate">
+                <h2><a href="https://e-contract.com.au/user/login">Login</a> | <a href="https://e-contract.com.au/signup?open=signup">Sign Up</a></h2>
+              </div>
+      <style>
+      .header-phone .acct-bell{position:relative;display:inline-block;vertical-align:middle;margin-right:12px;color:#333;line-height:0;}
+      .header-phone .acct-bell:hover{color:#000;}
+      .header-phone .acct-bell-badge{position:absolute;top:-7px;right:-8px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center;}
+      .top-nav li a{position:relative;}
+      .top-nav .ec-topnav-badge{position:absolute;top:-7px;right:-8px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center;}
+      .header-phone .acct-menu{position:relative;display:inline-block;vertical-align:middle;}
+      .header-phone .acct-toggle{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-family:inherit;font-size:14px;font-weight:500;color:#333;line-height:1;cursor:pointer;}
+      .header-phone .acct-caret{display:inline-block;color:#8a8f98;font-size:11px;margin-left:5px;transition:transform .2s ease;}
+      .header-phone .acct-menu.open .acct-caret{transform:rotate(180deg);}
+      .header-phone .acct-dropdown{position:absolute;top:calc(100% + 8px);right:0;min-width:190px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);list-style:none;margin:0;padding:6px 0;display:none;z-index:1200;text-align:left;}
+      .header-phone .acct-menu.open .acct-dropdown{display:block;}
+      .header-phone .acct-dropdown li{margin:0;}
+      .header-phone .acct-dropdown a{display:block;padding:11px 18px;font-size:14px;font-weight:500;color:#333;text-decoration:none;white-space:nowrap;}
+      .header-phone .acct-dropdown a:hover{background:#f6f6f7;}
+      </style>
+      <script>
+      (function(){
+        var t = document.querySelector('.header-phone .acct-toggle');
+        if(!t){return;}
+        var m = t.parentNode;
+        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); });
+        document.addEventListener('click', function(){ if(m.className.indexOf('open')!==-1){ m.className='acct-menu'; t.setAttribute('aria-expanded','false'); } });
+      })();
+      </script>
       <div class="clear"> </div>
     </div>
   </div>
@@ -104,8 +132,6 @@ $(function(){
       <div class="top-nav aanimate">
         <ul>
                     <li class="active"><a href="https://e-contract.com.au/">Home</a></li>
-                    <li ><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
-                    <li ><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
                     
           <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
           
@@ -126,14 +152,37 @@ $(function(){
 <div class="mobile-menu-drawer">
     <ul>
                     <li><a href="https://e-contract.com.au/">Home</a></li>
-                    <li><a href="https://e-contract.com.au/?home=employee">I&#039;m an Employee</a></li>
-                    <li><a href="https://e-contract.com.au/?home=contractor">I&#039;m a Contractor</a></li>
                     <li><a href="https://e-contract.com.au/tips-hints">Site Info</a></li>
         
                     <li class="divider"></li>
-            <li><a href="https://e-contract.com.au/register-interest-employee">Register your interest</a></li>
+            <li><a href="https://e-contract.com.au/user/login?open=login">Login</a></li>
+            <li><a href="https://e-contract.com.au/signup?open=signup">Sign Up</a></li>
             </ul>
 </div>
+
+<style>
+.mobile-menu-drawer .mm-group-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;background:none;border:0;padding:0;margin:0;font-family:inherit;font-size:16px;font-weight:600;color:#333;text-align:left;cursor:pointer;}
+.mobile-menu-drawer .mm-caret{color:#999;font-size:18px;line-height:1;transition:transform .2s ease;}
+.mobile-menu-drawer .mm-group.open .mm-caret{transform:rotate(90deg);}
+.mobile-menu-drawer .mm-sub{list-style:none;margin:12px 0 0;padding:0;display:none;}
+.mobile-menu-drawer .mm-group.open .mm-sub{display:block;}
+.mobile-menu-drawer .mm-sub li{margin:0 0 22px;padding-left:16px;}
+.mobile-menu-drawer .mm-sub{margin-top:16px;}
+.mobile-menu-drawer .mm-sub a{font-weight:600;font-size:15px;}
+.mobile-menu-drawer .mm-notif-badge{display:inline-block;min-width:18px;height:18px;padding:0 5px;margin-left:8px;border-radius:9px;background:#ff4136;color:#fff;font-size:11px;font-weight:700;line-height:18px;text-align:center;vertical-align:middle;}
+</style>
+<script>
+(function(){
+  var tg = document.querySelectorAll('.mobile-menu-drawer .mm-group-toggle');
+  for (var i = 0; i < tg.length; i++) {
+    tg[i].addEventListener('click', function(){
+      var g = this.parentNode, open = g.className.indexOf('open') === -1;
+      g.className = open ? 'mm-group open' : 'mm-group';
+      this.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+})();
+</script>
 
       
       <!--div class="header-search">
@@ -247,67 +296,206 @@ $(function(){
   </form>
 </div>
 
+<style>
+.ec-lp{--lp-ink:#111827;--lp-text:#334155;--lp-muted:#6b7280;--lp-red:#e8281e;--lp-red-2:#ff4136;--lp-red-tint:#fff5f3;--lp-red-badge:#fdeceb;--lp-border:#e5e7eb;--lp-soft:#fbfbfc;}
+.ec-lp,.ec-lp *{box-sizing:border-box;}
+.ec-lp{font-family:'Roboto',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--lp-text);line-height:1.5;}
+.ec-lp .ec-lp-wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
 
-<div class="wrap">
-    <div class="content_top hv2-public-content">
+.ec-lp .ec-lp-alert{max-width:1080px;margin:16px auto 0;padding:12px 16px;border-radius:10px;background:#eef6ff;border:1px solid #cfe4ff;color:#0b4a8f;font-size:14px;}
+.ec-lp .ec-lp-alert.err{background:#fdeceb;border-color:#f5c2bf;color:#a3271f;}
 
-        <div class="hv2 hv2-public">
-            
-            <div class="hv2-layout">
+/* buttons */
+.ec-lp .ec-lp-btn{display:inline-block;padding:14px 26px;border-radius:10px;font-size:1rem;font-weight:700;text-decoration:none;transition:.16s;border:1px solid transparent;cursor:pointer;}
+.ec-lp .ec-lp-btn-primary{background:var(--lp-red);color:#fff;box-shadow:0 2px 8px rgba(232,40,30,.28);}
+.ec-lp .ec-lp-btn-primary:hover{background:#cf2018;transform:translateY(-1px);text-decoration:none;color:#fff;}
+.ec-lp .ec-lp-btn-secondary{background:#fff;color:var(--lp-ink);border-color:var(--lp-border);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.ec-lp .ec-lp-btn-secondary:hover{background:var(--lp-soft);transform:translateY(-1px);text-decoration:none;color:var(--lp-ink);}
 
-                <!-- ── Left column: CTA cards + Stats ──────── -->
-                <div class="hv2-left">
+/* hero */
+.ec-lp .ec-lp-hero{padding:64px 0 52px;text-align:center;background:linear-gradient(180deg,var(--lp-soft) 0%,#fff 100%);}
+.ec-lp .ec-lp-badge{display:inline-block;background:var(--lp-red-badge);color:var(--lp-red);padding:6px 14px;border-radius:999px;font-size:.8rem;font-weight:700;margin-bottom:20px;letter-spacing:.2px;}
+.ec-lp .ec-lp-h1{font-size:2.5rem;font-weight:800;color:var(--lp-ink);line-height:1.18;letter-spacing:-.02em;margin:0 0 18px;}
+.ec-lp .ec-lp-sub{font-size:1.15rem;color:var(--lp-muted);max-width:660px;margin:0 auto 28px;}
+.ec-lp .ec-lp-ctas{display:flex;justify-content:center;gap:14px;margin-bottom:16px;flex-wrap:wrap;}
+.ec-lp .ec-lp-micro{font-size:.85rem;color:var(--lp-muted);}
+.ec-lp .ec-lp-micro b{color:var(--lp-text);}
 
-                    <!-- ── CTA cards ───────────────────────── -->
-                    <div class="hv2-ctas">
+/* social-proof stats band */
+.ec-lp .ec-lp-stats{background:#fff;border-top:1px solid var(--lp-border);border-bottom:1px solid var(--lp-border);}
+.ec-lp .ec-lp-stats-inner{display:flex;justify-content:center;gap:64px;padding:26px 20px;flex-wrap:wrap;}
+.ec-lp .ec-lp-stat{text-align:center;}
+.ec-lp .ec-lp-stat-num{display:block;font-size:2rem;font-weight:800;color:var(--lp-red);line-height:1;}
+.ec-lp .ec-lp-stat-label{display:block;font-size:.82rem;color:var(--lp-muted);margin-top:6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;}
 
-                        <a href="https://e-contract.com.au/?home=employee" class="hv2-cta hv2-cta-red">
-                            <div class="hv2-cta-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="#e8281e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="7" width="20" height="14" rx="2"/>
-                                    <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
-                                </svg>
-                            </div>
-                            <p class="hv2-cta-title">Work Short Term or Full Time</p>
-                            <p class="hv2-cta-sub">Browse available jobs<br />and apply for work</p>
-                            <span class="hv2-cta-btn">I'm an Employee</span>
-                        </a>
+/* section headings */
+.ec-lp .ec-lp-head{text-align:center;margin-bottom:34px;}
+.ec-lp .ec-lp-head h2{font-size:1.85rem;color:var(--lp-ink);margin:0 0 6px;}
+.ec-lp .ec-lp-head p{color:var(--lp-muted);margin:0;}
 
-                        <a href="https://e-contract.com.au/?home=contractor" class="hv2-cta hv2-cta-dark">
-                            <div class="hv2-cta-icon">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-                                    <circle cx="9" cy="7" r="4"/>
-                                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                                    <path d="M16 3.13a4 4 0 010 7.75"/>
-                                </svg>
-                            </div>
-                            <p class="hv2-cta-title">Find Contracts or Workers</p>
-                            <p class="hv2-cta-sub">Find your next contract<br />or hire skilled workers</p>
-                            <span class="hv2-cta-btn">I'm a Contractor</span>
-                        </a>
+/* how it works */
+.ec-lp .ec-lp-steps{padding:54px 0 8px;}
+.ec-lp .ec-lp-steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.ec-lp .ec-lp-step{background:#fff;border:1px solid var(--lp-border);border-radius:14px;padding:26px 22px;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.ec-lp .ec-lp-step .ec-lp-n{width:34px;height:34px;border-radius:50%;background:var(--lp-red-tint);color:var(--lp-red);font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+.ec-lp .ec-lp-step h3{font-size:1.1rem;color:var(--lp-ink);margin:0 0 6px;}
+.ec-lp .ec-lp-step p{color:var(--lp-muted);font-size:.95rem;margin:0;}
 
-                    </div>
+/* why switch table */
+.ec-lp .ec-lp-table-sec{padding:54px 0;}
+.ec-lp .ec-lp-tablewrap{overflow-x:auto;border-radius:14px;border:1px solid var(--lp-border);box-shadow:0 4px 10px -2px rgba(0,0,0,.06);}
+.ec-lp table.ec-lp-table{width:100%;border-collapse:collapse;text-align:left;min-width:520px;margin:0;}
+.ec-lp table.ec-lp-table th,.ec-lp table.ec-lp-table td{padding:18px 24px;border-bottom:1px solid var(--lp-border);}
+.ec-lp table.ec-lp-table tr:last-child td{border-bottom:0;}
+.ec-lp table.ec-lp-table th{font-size:1rem;font-weight:800;background:var(--lp-soft);color:var(--lp-ink);}
+.ec-lp table.ec-lp-table th.hl,.ec-lp table.ec-lp-table td.hl{background:var(--lp-red-tint);color:var(--lp-ink);font-weight:700;}
+.ec-lp table.ec-lp-table td.old{color:var(--lp-muted);}
+.ec-lp table.ec-lp-table td.old:before{content:"\2717  ";color:#c0362c;font-weight:700;}
+.ec-lp table.ec-lp-table td.hl:before{content:"\2713  ";color:var(--lp-red);font-weight:800;}
 
-                    <!-- ── Stats ───────────────────────────── -->
-                    
-                </div>
+/* dual audience */
+.ec-lp .ec-lp-split{padding:54px 0 72px;background:var(--lp-soft);}
+.ec-lp .ec-lp-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.ec-lp .ec-lp-card{background:#fff;padding:34px;border-radius:14px;border:1px solid var(--lp-border);box-shadow:0 2px 12px rgba(0,0,0,.05);display:flex;flex-direction:column;justify-content:space-between;}
+.ec-lp .ec-lp-card.lead{border-color:#f3b3af;}
+.ec-lp .ec-lp-card h3{font-size:1.4rem;color:var(--lp-ink);margin:0 0 10px;}
+.ec-lp .ec-lp-card p{color:var(--lp-muted);margin:0 0 22px;font-size:1rem;line-height:1.6;}
+.ec-lp .ec-lp-card .ec-lp-btn{align-self:flex-start;}
 
-                <!-- ── Right column: Video ─────────────────── -->
-                <div class="hv2-right">
-                                        <div class="hv2-video">
-                        <div class="hv2-video-wrap">
-                            <iframe src="//player.vimeo.com/video/106163635?title=0&amp;byline=0&amp;portrait=0"
-                                    frameborder="0"
-                                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-                        </div>
-                    </div>
-                                    </div>
+/* phone */
+@media(max-width:768px){
+  .ec-lp .ec-lp-hero{padding:44px 0 36px;}
+  .ec-lp .ec-lp-h1{font-size:1.8rem;}
+  .ec-lp .ec-lp-sub{font-size:1.02rem;}
+  .ec-lp .ec-lp-ctas{flex-direction:column;}
+  .ec-lp .ec-lp-ctas .ec-lp-btn{width:100%;}
+  .ec-lp .ec-lp-steps-grid{grid-template-columns:1fr;gap:14px;}
+  .ec-lp .ec-lp-cards{grid-template-columns:1fr;}
+  .ec-lp .ec-lp-head h2{font-size:1.55rem;}
+}
+</style>
 
-            </div>
-        </div>
+<div class="ec-lp">
 
+  
+  <style>
+  /* $29 crossed out + "free right now" (Rob 2026-09-30), matching the post-job modal's
+     ec-urg-strike look. Scoped under .ec-lp. */
+  .ec-lp .ec-lp-free{font-size:14px;color:#374151;margin:2px 0 14px;line-height:1.5;}
+  .ec-lp .ec-lp-free b{color:#111827;}
+  .ec-lp .ec-lp-strike{position:relative;display:inline-block;padding:0 3px;font-weight:800;color:#111827;}
+  .ec-lp .ec-lp-strike::after{content:'';position:absolute;left:-3px;right:-3px;top:52%;height:3px;background:rgba(232,40,30,.6);border-radius:2px;transform:rotate(-12deg);}
+  /* $29 struck inside the red button: white text, dark diagonal line so it shows on red */
+  .ec-lp .ec-lp-strike-btn{color:#fff;}
+  .ec-lp .ec-lp-strike-btn::after{background:rgba(0,0,0,.7);height:3px;}
+  /* black "Free for now" stamp over the Post-a-Job button */
+  .ec-lp .ec-lp-btn-post{position:relative;overflow:visible;}
+  .ec-lp .ec-lp-stamp{position:absolute;top:-11px;right:-9px;transform:rotate(-12deg);background:#111827;color:#fff;font-size:10px;font-weight:800;line-height:1;text-transform:uppercase;letter-spacing:.5px;padding:5px 8px;border-radius:6px;pointer-events:none;box-shadow:0 2px 6px rgba(0,0,0,.25);white-space:nowrap;}
+  </style>
+  <!-- HERO -->
+  <section class="ec-lp-hero">
+    <div class="ec-lp-wrap">
+      <span class="ec-lp-badge">Fast &amp; direct hiring</span>
+      <h1 class="ec-lp-h1">Need trades or labour on site fast?<br>Stop the ring-around.</h1>
+      <p class="ec-lp-sub">Post a job in under 5 minutes. Connect with available contractors and workers in your area in minutes &mdash; straight from your phone.</p>
+      <div class="ec-lp-ctas">
+        <a href="https://e-contract.com.au/home/find_work" class="ec-lp-btn ec-lp-btn-secondary">Find Work</a>
+        <a href="https://e-contract.com.au/home/hire_workers" class="ec-lp-btn ec-lp-btn-secondary">Find Workers</a>
+        <a href="https://e-contract.com.au/signup?open=signup" class="ec-lp-btn ec-lp-btn-primary ec-lp-btn-post">Post a Job for <span class="ec-lp-strike ec-lp-strike-btn">$29</span><span class="ec-lp-stamp" aria-hidden="true">Free for now</span></a>
+      </div>
+      <p class="ec-lp-free"><span class="ec-lp-strike">$29</span> <b>Free to post right now</b> &mdash; you're an early adopter, so it's on us while we start up.</p>
+      <div class="ec-lp-micro">No agency markups. No lock-in contracts. <b>Full control over who you hire.</b></div>
     </div>
+  </section>
+
+  
+  <!-- HOW IT WORKS -->
+  <section class="ec-lp-steps">
+    <div class="ec-lp-wrap">
+      <div class="ec-lp-head">
+        <h2>How it works</h2>
+        <p>Sorted from the ute, in three steps.</p>
+      </div>
+      <div class="ec-lp-steps-grid">
+        <div class="ec-lp-step">
+          <div class="ec-lp-n">1</div>
+          <h3>Post in under 5 mins</h3>
+          <p>Enter the trade, date, rate and location for $29.</p>
+        </div>
+        <div class="ec-lp-step">
+          <div class="ec-lp-n">2</div>
+          <h3>Matched in minutes</h3>
+          <p>Available workers and contractors nearby get alerted and apply directly.</p>
+        </div>
+        <div class="ec-lp-step">
+          <div class="ec-lp-n">3</div>
+          <h3>You pick who turns up</h3>
+          <p>Check their profile and rate, approve them on your phone, get the job done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SWITCH -->
+  <section class="ec-lp-table-sec">
+    <div class="ec-lp-wrap">
+      <div class="ec-lp-head">
+        <h2>Why switch?</h2>
+        <p>A simpler, faster, cheaper way to keep the job moving.</p>
+      </div>
+      <div class="ec-lp-tablewrap">
+        <table class="ec-lp-table">
+          <thead>
+            <tr>
+              <th>The old way</th>
+              <th class="hl">The e-contract way</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="old">2 hours calling mates &amp; begging favours</td>
+              <td class="hl">Under 5 mins to post from your ute</td>
+            </tr>
+            <tr>
+              <td class="old">Paying massive agency markups</td>
+              <td class="hl">Flat $29 job post, direct relationship</td>
+            </tr>
+            <tr>
+              <td class="old">You get sent whoever is free</td>
+              <td class="hl">You pick and choose exactly who you hire</td>
+            </tr>
+            <tr>
+              <td class="old">Waiting days while a job stands still</td>
+              <td class="hl">Connect with ready-to-work labour in minutes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+    <!-- DUAL AUDIENCE -->
+  <section class="ec-lp-split">
+    <div class="ec-lp-wrap">
+      <div class="ec-lp-cards">
+        <div class="ec-lp-card lead">
+          <div>
+            <h3>Need to hire?</h3>
+            <p>Get workers on site tomorrow for just $29. Review verified profiles, agree on rates, and book direct &mdash; without the agency markup.</p>
+          </div>
+          <a href="https://e-contract.com.au/signup?open=signup" class="ec-lp-btn ec-lp-btn-primary">Post a Job ($29)</a>
+        </div>
+        <div class="ec-lp-card">
+          <div>
+            <h3>Looking for work?</h3>
+            <p>Set your trade, set your rate, and get matched with active jobs near you. Apply directly and take home what you earn &mdash; free.</p>
+          </div>
+          <a href="https://e-contract.com.au/signup?open=signup" class="ec-lp-btn ec-lp-btn-secondary">Create free profile</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
 </div>
 
  <!---End-content---->
@@ -316,7 +504,7 @@ $(function(){
 
 	  <!---Footer---->
 <footer class="ec-footer">
-    <div class="ec-footer-main">
+                <div class="ec-footer-main">
         <div class="ec-footer-wrap">
             <div class="ec-footer-grid">
                 <div class="ec-footer-brand">
@@ -324,27 +512,24 @@ $(function(){
                         <img src="https://e-contract.com.au/application/images/logo-footer-transparent.png" alt="e-contract.com.au">
                     </a>
                     <p class="ec-footer-summary">Find Work or Labour when you need it. Our goal is to assist YOU &mdash; connecting contractors, workers and employees across Australia.</p>
+                    <p class="ec-footer-copy">e-contract.com.au &copy; 2026 All Rights Reserved</p>
                 </div>
 
                 <div class="ec-footer-column">
-                    <h3 class="ec-footer-title">Extra Bits</h3>
+                    <h3 class="ec-footer-title">Help &amp; Info</h3>
                     <ul class="ec-footer-links">
                         <li><a href="https://e-contract.com.au/tips-hints">Site Info / FAQ</a></li>
+                        <li><a href="https://e-contract.com.au/terms-condition">Terms and Conditions</a></li>
                         <li><a href="https://e-contract.com.au/privacy-policy">Privacy Policy</a></li>
                     </ul>
                 </div>
 
+                
                 <div class="ec-footer-column">
                     <h3 class="ec-footer-title">Contact Us</h3>
-                    <a class="ec-footer-button" href="https://e-contract.com.au/contact">Write a Message</a>
+                    <a class="ec-footer-button" href="https://e-contract.com.au/feedback">Feedback</a>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="ec-footer-bottom">
-        <div class="ec-footer-wrap">
-            <p class="ec-footer-copy">e-contract.com.au &copy; 2026 All Rights Reserved</p>
         </div>
     </div>
 </footer>
@@ -371,9 +556,9 @@ window.ecRequireLoginAlert = function(event){
     }
 
     if(typeof window.show_msg === 'function'){
-        window.show_msg('body', '<a href="https://e-contract.com.au/register-interest-employee">Register your interest here</a>');
+        window.show_msg('body', '<a href="https://e-contract.com.au/user/login">Please Sign up / Login</a>');
     }else{
-        alert('Please register your interest.');
+        alert('Please Login / Sign up');
     }
 
     return true;
@@ -400,15 +585,6 @@ window.ecFindLoginRequiredTarget = function(target){
             return current;
         }
 
-        // Job finalise actions — guests are STOPPED here (not server-redirected): the
-        // Publicly post / Send to contacts buttons on Create a Job, and the Publicly
-        // post / Send buttons on Need Someone Now (quick job). This gate runs in the
-        // capture phase, so it fires before the form's own validation/submit — the
-        // guest sees "Register your interest" and the form never validates or posts.
-        if(typeof current.matches === 'function' && current.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
-            return current;
-        }
-
         var href = (typeof current.getAttribute === 'function' && current.getAttribute('href')) || '';
         var onclick = (typeof current.getAttribute === 'function' && current.getAttribute('onclick')) || '';
         var label = (typeof current.getAttribute === 'function' && current.getAttribute('data-login-label')) || current.value || current.textContent || '';
@@ -417,10 +593,10 @@ window.ecFindLoginRequiredTarget = function(target){
         onclick = onclick.toLowerCase();
         label = label.replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '').toLowerCase();
 
-        // NOTE: Create a Job / Need Someone Now links are intentionally NOT gated
-        // here. Guests are allowed to OPEN and fill those pages; only the finalise
-        // actions (Publicly Post / Send to Contacts / Submit Quote) are gated, and
-        // that is enforced server-side (redirect to register-interest).
+        // NOTE: links TO create_job / create_quick_job are intentionally NOT gated here.
+        // Guests are allowed to view those pages to see what they'll get; the gate now
+        // lives on the on-page "Publicly post" / "Send to contacts" buttons, which carry
+        // data-requires-login (matched above).
 
         if(href.indexOf('send=hire') !== -1 || onclick.indexOf('send=hire') !== -1){
             return current;
@@ -450,19 +626,6 @@ document.addEventListener('click', function(event){
     var actionButton = window.ecFindLoginRequiredTarget(target);
 
     if(!actionButton || actionButton.disabled){
-        return;
-    }
-
-    // Guests: the job finalise buttons (Publicly post / Send to contacts / Send on
-    // Create a Job + Need Someone Now) STOP here and go straight to Register your
-    // interest. We redirect rather than use the popup because the transient popup
-    // renders at opacity 0 / off-screen on the create-job pages (no visible feedback).
-    if(!window.ecUserLoggedIn && typeof actionButton.matches === 'function' &&
-        actionButton.matches('input[name="pbtype"], input[name="action_button"], .js-stc-open')){
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        event.stopPropagation();
-        window.location.href = 'https://e-contract.com.au/register-interest-employee';
         return;
     }
 
@@ -583,8 +746,24 @@ $(document).ready(function(){
         $('#ec-page-loader').remove();
     }
 
+    // Hard backstop: close any loader that is still up. Called on the safety timer
+    // and on hashchange so the loader can never get permanently stuck even if it was
+    // opened on a navigation that never actually unloaded the page.
+    function forceCloseLoader(){
+        if(typeof Swal !== 'undefined' && typeof Swal.close === 'function'){
+            Swal.close();
+        }
+        closeFallbackLoader();
+    }
+
     // Global helper – any page can call this before programmatic redirects
     window.showPageLoader = function(){
+        // Safety net: if a real navigation happens the page unloads and this timer
+        // dies with it. If it does NOT (blocked nav, same-page link, JS error), the
+        // timer fires and clears the loader so it is never stuck on screen forever.
+        window.clearTimeout(window.ecLoaderSafetyTimer);
+        window.ecLoaderSafetyTimer = window.setTimeout(forceCloseLoader, 12000);
+
         if(typeof Swal === 'undefined' || typeof Swal.fire !== 'function'){
             showFallbackLoader();
             return;
@@ -623,6 +802,18 @@ $(document).ready(function(){
         // Allow individual links to opt-out with data-no-loader
         if($(this).data('no-loader')) return;
 
+        // Skip same-document navigations: a link whose only difference from the
+        // current URL is the #fragment (e.g. myaccount/contacts#employees) does NOT
+        // reload the page, it just scrolls. Showing the loader here would leave it on
+        // screen forever because no page-unload ever tears it down. Compare the
+        // anchor's RESOLVED location parts (the browser fills these in for <a>).
+        if(this.hash &&
+           this.pathname === window.location.pathname &&
+           this.search   === window.location.search &&
+           this.hostname === window.location.hostname){
+            return;
+        }
+
         window.showPageLoader();
     });
 
@@ -630,6 +821,13 @@ $(document).ready(function(){
     $(document).on('submit', 'form', function(e){
         if(e.isDefaultPrevented()) return;
         window.showPageLoader();
+    });
+
+    // A #fragment navigation does not unload the page, so close the loader the moment
+    // the hash changes — instant backstop in case a loader was ever shown for one.
+    $(window).on('hashchange', function(){
+        window.clearTimeout(window.ecLoaderSafetyTimer);
+        forceCloseLoader();
     });
 
 });
@@ -646,6 +844,15 @@ window.addEventListener('pageshow', function(event){
             fallback.parentNode.removeChild(fallback);
         }
     }
+});
+</script>
+
+
+<!-- Enable browser-native spellcheck on every free-text textarea that hasn't opted out -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var t = document.querySelectorAll('textarea:not([spellcheck])');
+  for (var i = 0; i < t.length; i++){ t[i].spellcheck = true; }
 });
 </script>
 
