@@ -25,7 +25,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792793088"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792879466"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -69,7 +69,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'cec63a83882c3982726a937937439760'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'e1e784b35f26588ba6664f8449cc426b'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -130,14 +130,34 @@ $(function(){
       .header-phone .acct-dropdown li{margin:0;}
       .header-phone .acct-dropdown a{display:block;padding:11px 18px;font-size:14px;font-weight:500;color:#333;text-decoration:none;white-space:nowrap;}
       .header-phone .acct-dropdown a:hover{background:#f6f6f7;}
+      /* Account dropdown Gov Forms — expands in place to the gov links (Rob 2026-10-24). */
+      .header-phone .acct-dropdown .acct-grp-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:11px 18px;background:none;border:0;font-family:inherit;font-size:14px;font-weight:500;color:#333;text-align:left;white-space:nowrap;cursor:pointer;}
+      .header-phone .acct-dropdown .acct-grp-toggle:hover{background:#f6f6f7;}
+      .header-phone .acct-dropdown .acct-caret-g{color:#8a8f98;font-size:12px;margin-left:10px;transition:transform .2s ease;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-caret-g{transform:rotate(90deg);}
+      .header-phone .acct-dropdown .acct-sub{list-style:none;margin:0;padding:0 0 4px;display:none;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-sub{display:block;}
+      .header-phone .acct-dropdown .acct-sub a{display:block;padding:8px 18px 8px 30px;font-size:13px;font-weight:500;color:#555;white-space:normal;}
+      /* Desktop top-nav dropdowns — My Jobs / Notifications (mirror the phone drawers). */
+      .top-nav li.tn-has-dd{position:relative;}
+      .top-nav li.tn-has-dd .tn-caret{font-size:10px;color:#9aa0a6;margin-left:3px;}
+      /* position:fixed so the dropdown escapes .header_bottom's overflow:hidden clearfix; JS sets top/left from the toggle. */
+      .top-nav li.tn-has-dd .tn-dropdown{position:fixed;min-width:176px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.14);list-style:none;margin:0;padding:6px;display:none;z-index:1200;text-align:left;}
+      .top-nav li.tn-has-dd.tn-open .tn-dropdown{display:block;}
+      .top-nav li.tn-has-dd .tn-dropdown li{display:block;float:none;margin:0;width:auto;}
+      .top-nav li.tn-has-dd .tn-dropdown a{display:block;margin:0;padding:9px 14px;border-radius:7px;font-size:14px;font-weight:500;line-height:1.2;color:#222;white-space:nowrap;}
+      .top-nav li.tn-has-dd .tn-dropdown a:hover{background:#f6f6f7;}
       </style>
       <script>
       (function(){
         var t = document.querySelector('.header-phone .acct-toggle');
         if(!t){return;}
         var m = t.parentNode;
-        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); });
+        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); if(op){ var tn=document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var j=0;j<tn.length;j++){ tn[j].className = tn[j].className.replace(/\s*tn-open/g,''); } } });
         document.addEventListener('click', function(){ if(m.className.indexOf('open')!==-1){ m.className='acct-menu'; t.setAttribute('aria-expanded','false'); } });
+        // Gov Forms expand inside the account dropdown (does not close the account menu).
+        var gt = document.querySelector('.header-phone .acct-dropdown .acct-grp-toggle');
+        if(gt){ gt.addEventListener('click', function(e){ e.stopPropagation(); var g=this.parentNode; var op=g.className.indexOf('open')===-1; g.className = op?'acct-grp open':'acct-grp'; this.setAttribute('aria-expanded', op?'true':'false'); }); }
       })();
       </script>
       <div class="clear"> </div>
@@ -147,13 +167,37 @@ $(function(){
     <div class="wrap">
       <div class="top-nav aanimate">
         <ul>
-                    <li ><a href="https://e-contract.com.au/">Home</a></li>
+                    <li class=""><a href="https://e-contract.com.au/">Home</a></li>
                     
           <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
           
         </ul>
       </div>
-     
+      <script>
+      /* Desktop top-nav dropdowns (My Jobs / Notifications): the caret/link opens the
+         dropdown in place; one open at a time; outside click closes. */
+      (function(){
+        var toggles = document.querySelectorAll('.top-nav li.tn-has-dd .tn-dd-toggle');
+        if(!toggles.length){ return; }
+        function closeAll(){ var o = document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var k=0;k<o.length;k++){ o[k].className = o[k].className.replace(/\s*tn-open/g,''); } }
+        for(var i=0;i<toggles.length;i++){
+          toggles[i].addEventListener('click', function(e){
+            e.preventDefault(); e.stopPropagation();
+            var li = this.parentNode; var willOpen = li.className.indexOf('tn-open') === -1;
+            closeAll();
+            var am = document.querySelector('.header-phone .acct-menu.open'); if(am){ am.className = 'acct-menu'; }
+            if(willOpen){
+              li.className += ' tn-open';
+              var dd = li.querySelector('.tn-dropdown'); var r = this.getBoundingClientRect();
+              dd.style.left = Math.round(r.left) + 'px'; dd.style.top = Math.round(r.bottom + 6) + 'px';
+            }
+          });
+        }
+        document.addEventListener('click', closeAll);
+        window.addEventListener('scroll', closeAll, true);
+      })();
+      </script>
+
      <!-- MOBILE MENU BUTTON -->
 <div class="mobile-menu-btn">
     <span></span>
@@ -345,7 +389,7 @@ $(function(){
                                 <h1 class="page-title">Find Work <span class="page-title-variant">&mdash; Job Board</span></h1>
                             </div>
                                                         <div class="ecfw-resultsbar">
-                                <span class="ecfw-count">6 results</span>
+                                <span class="ecfw-count">5 results</span>
                                 <button type="button" class="ecfw-filter-btn" id="ecfwOpen" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Filter</button>
                             </div>
                                                         <form id="ecfwForm" method="get" action="https://e-contract.com.au/search/find_me_work">
@@ -1832,7 +1876,7 @@ body.ec-share-noscroll{overflow:hidden;}
             <div style="grid-column: 1 / -1;">
                 <div class="ec-info-grid">
                     <div class="d-field-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 21 Nov '26 &middot; <span class="jdcal-count">5 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-22&quot;,&quot;2026-08-29&quot;,&quot;2026-09-05&quot;,&quot;2026-09-12&quot;,&quot;2026-09-19&quot;,&quot;2026-09-26&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-17&quot;,&quot;2026-10-24&quot;,&quot;2026-10-31&quot;,&quot;2026-11-07&quot;,&quot;2026-11-14&quot;,&quot;2026-11-21&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">31 Oct '26 – 21 Nov '26 &middot; <span class="jdcal-count">4 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-22&quot;,&quot;2026-08-29&quot;,&quot;2026-09-05&quot;,&quot;2026-09-12&quot;,&quot;2026-09-19&quot;,&quot;2026-09-26&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-17&quot;,&quot;2026-10-24&quot;,&quot;2026-10-31&quot;,&quot;2026-11-07&quot;,&quot;2026-11-14&quot;,&quot;2026-11-21&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
                     <div class="d-field-label">Positions required</div>
                     <div class="ec-info-val ec-info-val-mid">4</div>
                 </div>
@@ -2015,7 +2059,7 @@ body.ec-share-noscroll{overflow:hidden;}
             <div style="grid-column: 1 / -1;">
                 <div class="ec-info-grid">
                     <div class="m-detail-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 21 Nov '26 &middot; <span class="jdcal-count">5 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-22&quot;,&quot;2026-08-29&quot;,&quot;2026-09-05&quot;,&quot;2026-09-12&quot;,&quot;2026-09-19&quot;,&quot;2026-09-26&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-17&quot;,&quot;2026-10-24&quot;,&quot;2026-10-31&quot;,&quot;2026-11-07&quot;,&quot;2026-11-14&quot;,&quot;2026-11-21&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">31 Oct '26 – 21 Nov '26 &middot; <span class="jdcal-count">4 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-22&quot;,&quot;2026-08-29&quot;,&quot;2026-09-05&quot;,&quot;2026-09-12&quot;,&quot;2026-09-19&quot;,&quot;2026-09-26&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-17&quot;,&quot;2026-10-24&quot;,&quot;2026-10-31&quot;,&quot;2026-11-07&quot;,&quot;2026-11-14&quot;,&quot;2026-11-21&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
                     <div class="m-detail-label">Positions required</div>
                     <div class="ec-info-val ec-info-val-mid">4</div>
                 </div>
@@ -2039,20 +2083,20 @@ body.ec-share-noscroll{overflow:hidden;}
 
 <!-- ========== DESKTOP CARD ========== -->
 <div class="desktop-cards">
-<div class="d-card recordfound" data-jobid="910" data-userid="517">
+<div class="d-card recordfound" data-jobid="903" data-userid="517">
     <!-- Highlight Header -->
     <div class="d-card-highlight">
-        <a href="https://e-contract.com.au/search/work/910" class="d-card-logo">
+        <a href="https://e-contract.com.au/search/work/903" class="d-card-logo">
             <img src="https://e-contract.com.au/application/images/no_image.jpg" title="sk ltd" class="user_pic">
         </a>
-        <a href="https://e-contract.com.au/search/work/910" class="ec-banner-link">
+        <a href="https://e-contract.com.au/search/work/903" class="ec-banner-link">
         <div class="d-card-overview">
-            <div class="d-card-title">HVAC / Refrigeration Technician</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">Belconnen</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">ACT</span></div>        </div>
+            <div class="d-card-title">Labourer / Trades Assistant</div>
+                        <div class="ec-loc"><span class="ec-loc-suburb">ACT Remainder - Hall</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Gungahlin ACT</span></div>        </div>
         </a>
                                 <div class="d-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
                             <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="910" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
+        <button class="m-star-btn quick_list" data-jobid="903" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
         <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
      another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
      overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
@@ -2101,368 +2145,11 @@ body.ec-share-noscroll{overflow:hidden;}
 
 <script type="text/javascript">
 (function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/910";
-    var ecShareTitleIn = "Test 27 aug";
+    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/903";
+    var ecShareTitleIn = "7th aug direct hire";
     var $btn     = $('#ec-share-5-btn');
     var $overlay = $('#ec-share-5-overlay');
     var $close   = $('#ec-share-5-close');
-    var $copyBtn = $overlay.find('.ec-share-copy');
-
-    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
-    // translateY for centring) — a transform makes any position:fixed descendant position
-    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
-    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
-    $('body').append($overlay);
-
-    function ecShareData(){
-        return {
-            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
-            title: ecShareTitleIn ? ecShareTitleIn : document.title
-        };
-    }
-
-    function ecShareBuildLinks(){
-        var d = ecShareData();
-        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
-        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
-        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
-    }
-
-    function ecShareOpen(){
-        ecShareBuildLinks();
-        $overlay.addClass('ec-share-open');
-        $('body').addClass('ec-share-noscroll');
-    }
-    function ecShareClose(){
-        $overlay.removeClass('ec-share-open');
-        $('body').removeClass('ec-share-noscroll');
-    }
-
-    $btn.on('click', function(){
-        var d = ecShareData();
-        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
-        // browser that technically supports navigator.share — always gets our popup.
-        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
-        if (navigator.share && isPhoneSize) {
-            navigator.share({ title: d.title, url: d.url });
-            return;
-        }
-        ecShareOpen();
-    });
-    $close.on('click', ecShareClose);
-    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
-    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
-
-    function ecShareLegacyCopy(text){
-        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
-        $('body').append($tmp);
-        $tmp[0].select();
-        try { document.execCommand('copy'); } catch (e) {}
-        $tmp.remove();
-    }
-
-    $copyBtn.on('click', function(){
-        var d = ecShareData();
-        var $b = $(this);
-        var original = $b.text();
-        function done(){
-            $b.text('Copied');
-            setTimeout(function(){ $b.text(original); }, 1500);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
-        } else {
-            ecShareLegacyCopy(d.url);
-            done();
-        }
-    });
-})(window.jQuery);
-</script>
-        </span>
-    </div>
-
-    <!-- Body: Info Grid + Links -->
-    <div class="d-card-body">
-                <div class="d-card-grid">
-            <div style="grid-column: 1 / -1;">
-                <div class="ec-info-grid">
-                    <div class="d-field-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 &middot; <span class="jdcal-count">1 day</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-28&quot;,&quot;2026-08-29&quot;,&quot;2026-08-30&quot;,&quot;2026-08-31&quot;,&quot;2026-09-04&quot;,&quot;2026-09-07&quot;,&quot;2026-09-09&quot;,&quot;2026-09-12&quot;,&quot;2026-09-13&quot;,&quot;2026-09-16&quot;,&quot;2026-09-18&quot;,&quot;2026-09-19&quot;,&quot;2026-09-22&quot;,&quot;2026-09-25&quot;,&quot;2026-10-01&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-11&quot;,&quot;2026-10-12&quot;,&quot;2026-10-14&quot;,&quot;2026-10-16&quot;,&quot;2026-10-22&quot;,&quot;2026-10-24&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
-                    <div class="d-field-label">Positions required</div>
-                    <div class="ec-info-val ec-info-val-mid">6</div>
-                </div>
-            </div>
-            <div style="grid-column: 1 / -1;">
-                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="HVAC / Refrigeration Technician - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Controls &amp; Automation</span><span class="uv2-badge">Ducted Systems</span><span class="uv2-badge">Hydronic Heating</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+0</span></button></div>            </div>
-        </div>
-        
-    </div>
-
-    <!-- Actions Bar -->
-    <div class="d-card-actions">
-                                    <div style="display:flex;flex-direction:column;">
-                    <div class="d-field-label">How many workers will you supply?</div>
-                    <select name="quantity" class="quantity">
-                        <option value="">Select</option>
-                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>                    </select>
-                </div>
-                                    <button value="910" class="d-btn d-btn-primary job-apply-outline job_apply job_apply910">Apply</button>
-                    
-        <div class="d-actions-spacer"></div>
-        <button class="d-btn d-btn-dark add_to_contact" value="517">Add to Contacts</button>        <button onclick="window.location.href='https://e-contract.com.au/search/work/910';" class="d-btn d-btn-outline">Job Details</button>
-    </div>
-
-    <!-- Hidden Message Box -->
-    <div class="send_message_box" style="display:none;">
-        <textarea name="message" class="message" placeholder="Write your message"></textarea>
-        <button class="mybutton send_message_button" value="517">Send</button>
-    </div>
-</div>
-</div><!-- /.desktop-cards -->
-
-<!-- ========== MOBILE CARD ========== -->
-<div class="mobile-cards">
-<div class="m-card recordfound" data-jobid="910" data-userid="517">
-    <div class="m-card-highlight">
-        <a href="https://e-contract.com.au/search/work/910" class="m-card-logo">
-            <img src="https://e-contract.com.au/application/images/no_image.jpg" title="sk ltd" class="user_pic">
-        </a>
-        <a href="https://e-contract.com.au/search/work/910" class="ec-banner-link">
-        <div class="m-card-info">
-            <div class="m-card-title">HVAC / Refrigeration Technician</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">Belconnen</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">ACT</span></div>        </div>
-        </a>
-                                <div class="m-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
-                            <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="910" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
-        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
-     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
-     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
-     Native share first (navigator.share on supporting mobile browsers); popup fallback for
-     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
-
-     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
-     view's plain local variables into a nested $this->load->view() call, only what's
-     handed to it explicitly or via $this->load->vars():
-       $this->load->view('includes/share_button', array(
-           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
-           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
-           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
-                                                         // sizes, ~34px circular icon-only tap target
-                                                         // (e.g. a corner star+share stack)
-       ));
-     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
-     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
-     pass all of them again explicitly rather than relying on omission. -->
-<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-6-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
-    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
-        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
-    </svg>
-    <span class="ec-share-label">Share</span>
-</button>
-
-<div class="ec-share-overlay" id="ec-share-6-overlay">
-    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-6-title">
-        <div class="ec-share-head">
-            <h3 class="ec-share-title" id="ec-share-6-title">Share this page</h3>
-            <button type="button" class="ec-share-close" id="ec-share-6-close" aria-label="Close">&times;</button>
-        </div>
-        <div class="ec-share-body">
-            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
-            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
-            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-(function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/910";
-    var ecShareTitleIn = "Test 27 aug";
-    var $btn     = $('#ec-share-6-btn');
-    var $overlay = $('#ec-share-6-overlay');
-    var $close   = $('#ec-share-6-close');
-    var $copyBtn = $overlay.find('.ec-share-copy');
-
-    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
-    // translateY for centring) — a transform makes any position:fixed descendant position
-    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
-    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
-    $('body').append($overlay);
-
-    function ecShareData(){
-        return {
-            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
-            title: ecShareTitleIn ? ecShareTitleIn : document.title
-        };
-    }
-
-    function ecShareBuildLinks(){
-        var d = ecShareData();
-        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
-        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
-        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
-    }
-
-    function ecShareOpen(){
-        ecShareBuildLinks();
-        $overlay.addClass('ec-share-open');
-        $('body').addClass('ec-share-noscroll');
-    }
-    function ecShareClose(){
-        $overlay.removeClass('ec-share-open');
-        $('body').removeClass('ec-share-noscroll');
-    }
-
-    $btn.on('click', function(){
-        var d = ecShareData();
-        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
-        // browser that technically supports navigator.share — always gets our popup.
-        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
-        if (navigator.share && isPhoneSize) {
-            navigator.share({ title: d.title, url: d.url });
-            return;
-        }
-        ecShareOpen();
-    });
-    $close.on('click', ecShareClose);
-    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
-    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
-
-    function ecShareLegacyCopy(text){
-        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
-        $('body').append($tmp);
-        $tmp[0].select();
-        try { document.execCommand('copy'); } catch (e) {}
-        $tmp.remove();
-    }
-
-    $copyBtn.on('click', function(){
-        var d = ecShareData();
-        var $b = $(this);
-        var original = $b.text();
-        function done(){
-            $b.text('Copied');
-            setTimeout(function(){ $b.text(original); }, 1500);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
-        } else {
-            ecShareLegacyCopy(d.url);
-            done();
-        }
-    });
-})(window.jQuery);
-</script>
-        </span>
-    </div>
-
-    <div class="m-card-details">
-                <div class="m-detail-grid">
-            <div style="grid-column: 1 / -1;">
-                <div class="ec-info-grid">
-                    <div class="m-detail-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 &middot; <span class="jdcal-count">1 day</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-08-28&quot;,&quot;2026-08-29&quot;,&quot;2026-08-30&quot;,&quot;2026-08-31&quot;,&quot;2026-09-04&quot;,&quot;2026-09-07&quot;,&quot;2026-09-09&quot;,&quot;2026-09-12&quot;,&quot;2026-09-13&quot;,&quot;2026-09-16&quot;,&quot;2026-09-18&quot;,&quot;2026-09-19&quot;,&quot;2026-09-22&quot;,&quot;2026-09-25&quot;,&quot;2026-10-01&quot;,&quot;2026-10-03&quot;,&quot;2026-10-10&quot;,&quot;2026-10-11&quot;,&quot;2026-10-12&quot;,&quot;2026-10-14&quot;,&quot;2026-10-16&quot;,&quot;2026-10-22&quot;,&quot;2026-10-24&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
-                    <div class="m-detail-label">Positions required</div>
-                    <div class="ec-info-val ec-info-val-mid">6</div>
-                </div>
-            </div>
-            <div style="grid-column: 1 / -1;">
-                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="HVAC / Refrigeration Technician - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Controls &amp; Automation</span><span class="uv2-badge">Ducted Systems</span><span class="uv2-badge">Hydronic Heating</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+0</span></button></div>            </div>
-        </div>
-            </div>
-
-    <div class="m-card-actions">
-                                    <div class="m-detail-label" style="width:100%;margin-bottom:4px;">How many workers will you supply?</div>
-                <select name="quantity" class="quantity m-qty-select">
-                    <option value="">Select</option>
-                    <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option>                </select>
-                                    <button value="910" class="m-btn m-btn-primary job-apply-outline job_apply job_apply910">Apply</button>
-                            <a href="https://e-contract.com.au/search/work/910" class="m-btn m-btn-outline">Job Details</a>
-    </div>
-</div>
-</div><!-- /.mobile-cards -->
-
-
-<!-- ========== DESKTOP CARD ========== -->
-<div class="desktop-cards">
-<div class="d-card recordfound" data-jobid="903" data-userid="517">
-    <!-- Highlight Header -->
-    <div class="d-card-highlight">
-        <a href="https://e-contract.com.au/search/work/903" class="d-card-logo">
-            <img src="https://e-contract.com.au/application/images/no_image.jpg" title="sk ltd" class="user_pic">
-        </a>
-        <a href="https://e-contract.com.au/search/work/903" class="ec-banner-link">
-        <div class="d-card-overview">
-            <div class="d-card-title">Labourer / Trades Assistant</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">ACT Remainder - Hall</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Gungahlin ACT</span></div>        </div>
-        </a>
-                                <div class="d-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
-                            <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="903" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
-        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
-     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
-     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
-     Native share first (navigator.share on supporting mobile browsers); popup fallback for
-     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
-
-     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
-     view's plain local variables into a nested $this->load->view() call, only what's
-     handed to it explicitly or via $this->load->vars():
-       $this->load->view('includes/share_button', array(
-           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
-           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
-           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
-                                                         // sizes, ~34px circular icon-only tap target
-                                                         // (e.g. a corner star+share stack)
-       ));
-     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
-     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
-     pass all of them again explicitly rather than relying on omission. -->
-<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-7-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
-    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
-        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
-    </svg>
-    <span class="ec-share-label">Share</span>
-</button>
-
-<div class="ec-share-overlay" id="ec-share-7-overlay">
-    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-7-title">
-        <div class="ec-share-head">
-            <h3 class="ec-share-title" id="ec-share-7-title">Share this page</h3>
-            <button type="button" class="ec-share-close" id="ec-share-7-close" aria-label="Close">&times;</button>
-        </div>
-        <div class="ec-share-body">
-            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
-            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
-            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-(function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/903";
-    var ecShareTitleIn = "7th aug direct hire";
-    var $btn     = $('#ec-share-7-btn');
-    var $overlay = $('#ec-share-7-overlay');
-    var $close   = $('#ec-share-7-close');
     var $copyBtn = $overlay.find('.ec-share-copy');
 
     // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
@@ -2613,7 +2300,7 @@ body.ec-share-noscroll{overflow:hidden;}
      Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
      the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
      pass all of them again explicitly rather than relying on omission. -->
-<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-8-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
+<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-6-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
     <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
         <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
         <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
@@ -2624,11 +2311,11 @@ body.ec-share-noscroll{overflow:hidden;}
     <span class="ec-share-label">Share</span>
 </button>
 
-<div class="ec-share-overlay" id="ec-share-8-overlay">
-    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-8-title">
+<div class="ec-share-overlay" id="ec-share-6-overlay">
+    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-6-title">
         <div class="ec-share-head">
-            <h3 class="ec-share-title" id="ec-share-8-title">Share this page</h3>
-            <button type="button" class="ec-share-close" id="ec-share-8-close" aria-label="Close">&times;</button>
+            <h3 class="ec-share-title" id="ec-share-6-title">Share this page</h3>
+            <button type="button" class="ec-share-close" id="ec-share-6-close" aria-label="Close">&times;</button>
         </div>
         <div class="ec-share-body">
             <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
@@ -2644,9 +2331,9 @@ body.ec-share-noscroll{overflow:hidden;}
 (function($){ if (typeof $ === 'undefined') { return; }
     var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/903";
     var ecShareTitleIn = "7th aug direct hire";
-    var $btn     = $('#ec-share-8-btn');
-    var $overlay = $('#ec-share-8-overlay');
-    var $close   = $('#ec-share-8-close');
+    var $btn     = $('#ec-share-6-btn');
+    var $overlay = $('#ec-share-6-overlay');
+    var $close   = $('#ec-share-6-close');
     var $copyBtn = $overlay.find('.ec-share-copy');
 
     // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
@@ -2786,6 +2473,363 @@ body.ec-share-noscroll{overflow:hidden;}
      Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
      the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
      pass all of them again explicitly rather than relying on omission. -->
+<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-7-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
+    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
+        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
+    </svg>
+    <span class="ec-share-label">Share</span>
+</button>
+
+<div class="ec-share-overlay" id="ec-share-7-overlay">
+    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-7-title">
+        <div class="ec-share-head">
+            <h3 class="ec-share-title" id="ec-share-7-title">Share this page</h3>
+            <button type="button" class="ec-share-close" id="ec-share-7-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ec-share-body">
+            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
+            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
+            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+(function($){ if (typeof $ === 'undefined') { return; }
+    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/921";
+    var ecShareTitleIn = "";
+    var $btn     = $('#ec-share-7-btn');
+    var $overlay = $('#ec-share-7-overlay');
+    var $close   = $('#ec-share-7-close');
+    var $copyBtn = $overlay.find('.ec-share-copy');
+
+    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
+    // translateY for centring) — a transform makes any position:fixed descendant position
+    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
+    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
+    $('body').append($overlay);
+
+    function ecShareData(){
+        return {
+            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
+            title: ecShareTitleIn ? ecShareTitleIn : document.title
+        };
+    }
+
+    function ecShareBuildLinks(){
+        var d = ecShareData();
+        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
+        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
+        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
+        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
+        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
+    }
+
+    function ecShareOpen(){
+        ecShareBuildLinks();
+        $overlay.addClass('ec-share-open');
+        $('body').addClass('ec-share-noscroll');
+    }
+    function ecShareClose(){
+        $overlay.removeClass('ec-share-open');
+        $('body').removeClass('ec-share-noscroll');
+    }
+
+    $btn.on('click', function(){
+        var d = ecShareData();
+        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
+        // browser that technically supports navigator.share — always gets our popup.
+        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
+        if (navigator.share && isPhoneSize) {
+            navigator.share({ title: d.title, url: d.url });
+            return;
+        }
+        ecShareOpen();
+    });
+    $close.on('click', ecShareClose);
+    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
+    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
+
+    function ecShareLegacyCopy(text){
+        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
+        $('body').append($tmp);
+        $tmp[0].select();
+        try { document.execCommand('copy'); } catch (e) {}
+        $tmp.remove();
+    }
+
+    $copyBtn.on('click', function(){
+        var d = ecShareData();
+        var $b = $(this);
+        var original = $b.text();
+        function done(){
+            $b.text('Copied');
+            setTimeout(function(){ $b.text(original); }, 1500);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
+        } else {
+            ecShareLegacyCopy(d.url);
+            done();
+        }
+    });
+})(window.jQuery);
+</script>
+        </span>
+    </div>
+
+    <!-- Body: Info Grid + Links -->
+    <div class="d-card-body">
+                <div class="d-card-grid">
+            <div style="grid-column: 1 / -1;">
+                <div class="ec-info-grid">
+                    <div class="d-field-label">Job Dates</div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">25 Oct '26 – 28 Oct '26 &middot; <span class="jdcal-count">3 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-25&quot;,&quot;2026-10-26&quot;,&quot;2026-10-28&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="d-field-label">Positions required</div>
+                    <div class="ec-info-val ec-info-val-mid">1</div>
+                </div>
+            </div>
+            <div style="grid-column: 1 / -1;">
+                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Floor &amp; Wall Tiling</span><span class="uv2-badge">Grouting &amp; Sealing</span><span class="uv2-badge">Tile Removal</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Work Type"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Residential</span></span></button></div>            </div>
+        </div>
+        
+    </div>
+
+    <!-- Actions Bar -->
+    <div class="d-card-actions">
+                                    <div style="display:flex;flex-direction:column;">
+                    <div class="d-field-label">How many workers will you supply?</div>
+                    <select name="quantity" class="quantity">
+                        <option value="">Select</option>
+                        <option value="1">1</option>                    </select>
+                </div>
+                                    <button value="921" class="d-btn d-btn-primary job-apply-outline job_apply job_apply921">Apply</button>
+                    
+        <div class="d-actions-spacer"></div>
+        <button class="d-btn d-btn-dark add_to_contact" value="524">Add to Contacts</button>        <button onclick="window.location.href='https://e-contract.com.au/search/work/921';" class="d-btn d-btn-outline">Job Details</button>
+    </div>
+
+    <!-- Hidden Message Box -->
+    <div class="send_message_box" style="display:none;">
+        <textarea name="message" class="message" placeholder="Write your message"></textarea>
+        <button class="mybutton send_message_button" value="524">Send</button>
+    </div>
+</div>
+</div><!-- /.desktop-cards -->
+
+<!-- ========== MOBILE CARD ========== -->
+<div class="mobile-cards">
+<div class="m-card recordfound" data-jobid="921" data-userid="524">
+    <div class="m-card-highlight">
+        <a href="https://e-contract.com.au/search/work/921" class="m-card-logo">
+            <img src="https://e-contract.com.au/user/logo/Screenshot_2026-10-14_at_12.32_.29?pm_1.png" title="Queenie" class="user_pic">
+        </a>
+        <a href="https://e-contract.com.au/search/work/921" class="ec-banner-link">
+        <div class="m-card-info">
+            <div class="m-card-title">Tiler / Waterproofer</div>
+                        <div class="ec-loc"><span class="ec-loc-suburb">Margaret River</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Augusta - Margaret River - Busselton WA</span></div>        </div>
+        </a>
+                                <div class="m-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
+                            <span class="ec-card-corner ec-card-corner--row">
+        <button class="m-star-btn quick_list" data-jobid="921" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
+        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
+     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
+     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
+     Native share first (navigator.share on supporting mobile browsers); popup fallback for
+     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
+
+     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
+     view's plain local variables into a nested $this->load->view() call, only what's
+     handed to it explicitly or via $this->load->vars():
+       $this->load->view('includes/share_button', array(
+           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
+           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
+           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
+                                                         // sizes, ~34px circular icon-only tap target
+                                                         // (e.g. a corner star+share stack)
+       ));
+     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
+     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
+     pass all of them again explicitly rather than relying on omission. -->
+<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-8-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
+    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
+        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
+        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
+    </svg>
+    <span class="ec-share-label">Share</span>
+</button>
+
+<div class="ec-share-overlay" id="ec-share-8-overlay">
+    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-8-title">
+        <div class="ec-share-head">
+            <h3 class="ec-share-title" id="ec-share-8-title">Share this page</h3>
+            <button type="button" class="ec-share-close" id="ec-share-8-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ec-share-body">
+            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
+            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
+            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+(function($){ if (typeof $ === 'undefined') { return; }
+    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/921";
+    var ecShareTitleIn = "";
+    var $btn     = $('#ec-share-8-btn');
+    var $overlay = $('#ec-share-8-overlay');
+    var $close   = $('#ec-share-8-close');
+    var $copyBtn = $overlay.find('.ec-share-copy');
+
+    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
+    // translateY for centring) — a transform makes any position:fixed descendant position
+    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
+    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
+    $('body').append($overlay);
+
+    function ecShareData(){
+        return {
+            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
+            title: ecShareTitleIn ? ecShareTitleIn : document.title
+        };
+    }
+
+    function ecShareBuildLinks(){
+        var d = ecShareData();
+        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
+        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
+        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
+        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
+        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
+    }
+
+    function ecShareOpen(){
+        ecShareBuildLinks();
+        $overlay.addClass('ec-share-open');
+        $('body').addClass('ec-share-noscroll');
+    }
+    function ecShareClose(){
+        $overlay.removeClass('ec-share-open');
+        $('body').removeClass('ec-share-noscroll');
+    }
+
+    $btn.on('click', function(){
+        var d = ecShareData();
+        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
+        // browser that technically supports navigator.share — always gets our popup.
+        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
+        if (navigator.share && isPhoneSize) {
+            navigator.share({ title: d.title, url: d.url });
+            return;
+        }
+        ecShareOpen();
+    });
+    $close.on('click', ecShareClose);
+    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
+    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
+
+    function ecShareLegacyCopy(text){
+        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
+        $('body').append($tmp);
+        $tmp[0].select();
+        try { document.execCommand('copy'); } catch (e) {}
+        $tmp.remove();
+    }
+
+    $copyBtn.on('click', function(){
+        var d = ecShareData();
+        var $b = $(this);
+        var original = $b.text();
+        function done(){
+            $b.text('Copied');
+            setTimeout(function(){ $b.text(original); }, 1500);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
+        } else {
+            ecShareLegacyCopy(d.url);
+            done();
+        }
+    });
+})(window.jQuery);
+</script>
+        </span>
+    </div>
+
+    <div class="m-card-details">
+                <div class="m-detail-grid">
+            <div style="grid-column: 1 / -1;">
+                <div class="ec-info-grid">
+                    <div class="m-detail-label">Job Dates</div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">25 Oct '26 – 28 Oct '26 &middot; <span class="jdcal-count">3 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-25&quot;,&quot;2026-10-26&quot;,&quot;2026-10-28&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="m-detail-label">Positions required</div>
+                    <div class="ec-info-val ec-info-val-mid">1</div>
+                </div>
+            </div>
+            <div style="grid-column: 1 / -1;">
+                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Floor &amp; Wall Tiling</span><span class="uv2-badge">Grouting &amp; Sealing</span><span class="uv2-badge">Tile Removal</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Work Type"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Residential</span></span></button></div>            </div>
+        </div>
+            </div>
+
+    <div class="m-card-actions">
+                                    <div class="m-detail-label" style="width:100%;margin-bottom:4px;">How many workers will you supply?</div>
+                <select name="quantity" class="quantity m-qty-select">
+                    <option value="">Select</option>
+                    <option value="1">1</option>                </select>
+                                    <button value="921" class="m-btn m-btn-primary job-apply-outline job_apply job_apply921">Apply</button>
+                            <a href="https://e-contract.com.au/search/work/921" class="m-btn m-btn-outline">Job Details</a>
+    </div>
+</div>
+</div><!-- /.mobile-cards -->
+
+
+<!-- ========== DESKTOP CARD ========== -->
+<div class="desktop-cards">
+<div class="d-card recordfound" data-jobid="918" data-userid="518">
+    <!-- Highlight Header -->
+    <div class="d-card-highlight">
+        <a href="https://e-contract.com.au/search/work/918" class="d-card-logo">
+            <img src="https://e-contract.com.au/user/logo/20260812_124434.jpg" title="Abroad business electrical" class="user_pic">
+        </a>
+        <a href="https://e-contract.com.au/search/work/918" class="ec-banner-link">
+        <div class="d-card-overview">
+            <div class="d-card-title">White Card</div>
+                        <div class="ec-loc"><span class="ec-loc-suburb">Marion</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Marion SA</span></div>        </div>
+        </a>
+                                <div class="d-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
+                            <span class="ec-card-corner ec-card-corner--row">
+        <button class="m-star-btn quick_list" data-jobid="918" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
+        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
+     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
+     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
+     Native share first (navigator.share on supporting mobile browsers); popup fallback for
+     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
+
+     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
+     view's plain local variables into a nested $this->load->view() call, only what's
+     handed to it explicitly or via $this->load->vars():
+       $this->load->view('includes/share_button', array(
+           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
+           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
+           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
+                                                         // sizes, ~34px circular icon-only tap target
+                                                         // (e.g. a corner star+share stack)
+       ));
+     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
+     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
+     pass all of them again explicitly rather than relying on omission. -->
 <button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-9-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
     <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
         <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
@@ -2815,7 +2859,7 @@ body.ec-share-noscroll{overflow:hidden;}
 
 <script type="text/javascript">
 (function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/921";
+    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/918";
     var ecShareTitleIn = "";
     var $btn     = $('#ec-share-9-btn');
     var $overlay = $('#ec-share-9-overlay');
@@ -2903,13 +2947,13 @@ body.ec-share-noscroll{overflow:hidden;}
             <div style="grid-column: 1 / -1;">
                 <div class="ec-info-grid">
                     <div class="d-field-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 28 Oct '26 &middot; <span class="jdcal-count">4 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-25&quot;,&quot;2026-10-26&quot;,&quot;2026-10-28&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">30 Oct '26 – 31 Oct '26 &middot; <span class="jdcal-count">2 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-30&quot;,&quot;2026-10-31&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
                     <div class="d-field-label">Positions required</div>
-                    <div class="ec-info-val ec-info-val-mid">1</div>
+                    <div class="ec-info-val ec-info-val-mid">2</div>
                 </div>
             </div>
             <div style="grid-column: 1 / -1;">
-                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Floor &amp; Wall Tiling</span><span class="uv2-badge">Grouting &amp; Sealing</span><span class="uv2-badge">Tile Removal</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Work Type"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Residential</span></span></button></div>            </div>
+                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="White Card - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+0</span></button></div>            </div>
         </div>
         
     </div>
@@ -2920,37 +2964,37 @@ body.ec-share-noscroll{overflow:hidden;}
                     <div class="d-field-label">How many workers will you supply?</div>
                     <select name="quantity" class="quantity">
                         <option value="">Select</option>
-                        <option value="1">1</option>                    </select>
+                        <option value="1">1</option><option value="2">2</option>                    </select>
                 </div>
-                                    <button value="921" class="d-btn d-btn-primary job-apply-outline job_apply job_apply921">Apply</button>
+                                    <button value="918" class="d-btn d-btn-primary job-apply-outline job_apply job_apply918">Apply</button>
                     
         <div class="d-actions-spacer"></div>
-        <button class="d-btn d-btn-dark add_to_contact" value="524">Add to Contacts</button>        <button onclick="window.location.href='https://e-contract.com.au/search/work/921';" class="d-btn d-btn-outline">Job Details</button>
+        <button class="d-btn d-btn-dark add_to_contact" value="518">Add to Contacts</button>        <button onclick="window.location.href='https://e-contract.com.au/search/work/918';" class="d-btn d-btn-outline">Job Details</button>
     </div>
 
     <!-- Hidden Message Box -->
     <div class="send_message_box" style="display:none;">
         <textarea name="message" class="message" placeholder="Write your message"></textarea>
-        <button class="mybutton send_message_button" value="524">Send</button>
+        <button class="mybutton send_message_button" value="518">Send</button>
     </div>
 </div>
 </div><!-- /.desktop-cards -->
 
 <!-- ========== MOBILE CARD ========== -->
 <div class="mobile-cards">
-<div class="m-card recordfound" data-jobid="921" data-userid="524">
+<div class="m-card recordfound" data-jobid="918" data-userid="518">
     <div class="m-card-highlight">
-        <a href="https://e-contract.com.au/search/work/921" class="m-card-logo">
-            <img src="https://e-contract.com.au/user/logo/Screenshot_2026-10-14_at_12.32_.29?pm_1.png" title="Queenie" class="user_pic">
+        <a href="https://e-contract.com.au/search/work/918" class="m-card-logo">
+            <img src="https://e-contract.com.au/user/logo/20260812_124434.jpg" title="Abroad business electrical" class="user_pic">
         </a>
-        <a href="https://e-contract.com.au/search/work/921" class="ec-banner-link">
+        <a href="https://e-contract.com.au/search/work/918" class="ec-banner-link">
         <div class="m-card-info">
-            <div class="m-card-title">Tiler / Waterproofer</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">Margaret River</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Augusta - Margaret River - Busselton WA</span></div>        </div>
+            <div class="m-card-title">White Card</div>
+                        <div class="ec-loc"><span class="ec-loc-suburb">Marion</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Marion SA</span></div>        </div>
         </a>
                                 <div class="m-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
                             <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="921" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
+        <button class="m-star-btn quick_list" data-jobid="918" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
         <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
      another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
      overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
@@ -2999,7 +3043,7 @@ body.ec-share-noscroll{overflow:hidden;}
 
 <script type="text/javascript">
 (function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/921";
+    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/918";
     var ecShareTitleIn = "";
     var $btn     = $('#ec-share-10-btn');
     var $overlay = $('#ec-share-10-overlay');
@@ -3086,364 +3130,7 @@ body.ec-share-noscroll{overflow:hidden;}
             <div style="grid-column: 1 / -1;">
                 <div class="ec-info-grid">
                     <div class="m-detail-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 28 Oct '26 &middot; <span class="jdcal-count">4 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-25&quot;,&quot;2026-10-26&quot;,&quot;2026-10-28&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
-                    <div class="m-detail-label">Positions required</div>
-                    <div class="ec-info-val ec-info-val-mid">1</div>
-                </div>
-            </div>
-            <div style="grid-column: 1 / -1;">
-                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Specific skills"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Floor &amp; Wall Tiling</span><span class="uv2-badge">Grouting &amp; Sealing</span><span class="uv2-badge">Tile Removal</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Tiler / Waterproofer - Work Type"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Residential</span></span></button></div>            </div>
-        </div>
-            </div>
-
-    <div class="m-card-actions">
-                                    <div class="m-detail-label" style="width:100%;margin-bottom:4px;">How many workers will you supply?</div>
-                <select name="quantity" class="quantity m-qty-select">
-                    <option value="">Select</option>
-                    <option value="1">1</option>                </select>
-                                    <button value="921" class="m-btn m-btn-primary job-apply-outline job_apply job_apply921">Apply</button>
-                            <a href="https://e-contract.com.au/search/work/921" class="m-btn m-btn-outline">Job Details</a>
-    </div>
-</div>
-</div><!-- /.mobile-cards -->
-
-
-<!-- ========== DESKTOP CARD ========== -->
-<div class="desktop-cards">
-<div class="d-card recordfound" data-jobid="918" data-userid="518">
-    <!-- Highlight Header -->
-    <div class="d-card-highlight">
-        <a href="https://e-contract.com.au/search/work/918" class="d-card-logo">
-            <img src="https://e-contract.com.au/user/logo/20260812_124434.jpg" title="Abroad business electrical" class="user_pic">
-        </a>
-        <a href="https://e-contract.com.au/search/work/918" class="ec-banner-link">
-        <div class="d-card-overview">
-            <div class="d-card-title">White Card</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">Marion</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Marion SA</span></div>        </div>
-        </a>
-                                <div class="d-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
-                            <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="918" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
-        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
-     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
-     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
-     Native share first (navigator.share on supporting mobile browsers); popup fallback for
-     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
-
-     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
-     view's plain local variables into a nested $this->load->view() call, only what's
-     handed to it explicitly or via $this->load->vars():
-       $this->load->view('includes/share_button', array(
-           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
-           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
-           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
-                                                         // sizes, ~34px circular icon-only tap target
-                                                         // (e.g. a corner star+share stack)
-       ));
-     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
-     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
-     pass all of them again explicitly rather than relying on omission. -->
-<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-11-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
-    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
-        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
-    </svg>
-    <span class="ec-share-label">Share</span>
-</button>
-
-<div class="ec-share-overlay" id="ec-share-11-overlay">
-    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-11-title">
-        <div class="ec-share-head">
-            <h3 class="ec-share-title" id="ec-share-11-title">Share this page</h3>
-            <button type="button" class="ec-share-close" id="ec-share-11-close" aria-label="Close">&times;</button>
-        </div>
-        <div class="ec-share-body">
-            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
-            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
-            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-(function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/918";
-    var ecShareTitleIn = "";
-    var $btn     = $('#ec-share-11-btn');
-    var $overlay = $('#ec-share-11-overlay');
-    var $close   = $('#ec-share-11-close');
-    var $copyBtn = $overlay.find('.ec-share-copy');
-
-    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
-    // translateY for centring) — a transform makes any position:fixed descendant position
-    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
-    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
-    $('body').append($overlay);
-
-    function ecShareData(){
-        return {
-            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
-            title: ecShareTitleIn ? ecShareTitleIn : document.title
-        };
-    }
-
-    function ecShareBuildLinks(){
-        var d = ecShareData();
-        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
-        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
-        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
-    }
-
-    function ecShareOpen(){
-        ecShareBuildLinks();
-        $overlay.addClass('ec-share-open');
-        $('body').addClass('ec-share-noscroll');
-    }
-    function ecShareClose(){
-        $overlay.removeClass('ec-share-open');
-        $('body').removeClass('ec-share-noscroll');
-    }
-
-    $btn.on('click', function(){
-        var d = ecShareData();
-        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
-        // browser that technically supports navigator.share — always gets our popup.
-        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
-        if (navigator.share && isPhoneSize) {
-            navigator.share({ title: d.title, url: d.url });
-            return;
-        }
-        ecShareOpen();
-    });
-    $close.on('click', ecShareClose);
-    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
-    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
-
-    function ecShareLegacyCopy(text){
-        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
-        $('body').append($tmp);
-        $tmp[0].select();
-        try { document.execCommand('copy'); } catch (e) {}
-        $tmp.remove();
-    }
-
-    $copyBtn.on('click', function(){
-        var d = ecShareData();
-        var $b = $(this);
-        var original = $b.text();
-        function done(){
-            $b.text('Copied');
-            setTimeout(function(){ $b.text(original); }, 1500);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
-        } else {
-            ecShareLegacyCopy(d.url);
-            done();
-        }
-    });
-})(window.jQuery);
-</script>
-        </span>
-    </div>
-
-    <!-- Body: Info Grid + Links -->
-    <div class="d-card-body">
-                <div class="d-card-grid">
-            <div style="grid-column: 1 / -1;">
-                <div class="ec-info-grid">
-                    <div class="d-field-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 31 Oct '26 &middot; <span class="jdcal-count">3 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-30&quot;,&quot;2026-10-31&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
-                    <div class="d-field-label">Positions required</div>
-                    <div class="ec-info-val ec-info-val-mid">2</div>
-                </div>
-            </div>
-            <div style="grid-column: 1 / -1;">
-                <div class="fw-pills fw-pills-3"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Specific skills</span><span class="ecp-l ecp-l-short">Skills</span> <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="White Card - Cards &amp; Tickets"><span class="ecp-l ecp-l-full">Cards &amp; Tickets</span><span class="ecp-l ecp-l-short">Cards</span> <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled"><span class="ecp-l ecp-l-full">Work Type</span><span class="ecp-l ecp-l-short">Type</span> <span class="fw-pill-count">+0</span></button></div>            </div>
-        </div>
-        
-    </div>
-
-    <!-- Actions Bar -->
-    <div class="d-card-actions">
-                                    <div style="display:flex;flex-direction:column;">
-                    <div class="d-field-label">How many workers will you supply?</div>
-                    <select name="quantity" class="quantity">
-                        <option value="">Select</option>
-                        <option value="1">1</option><option value="2">2</option>                    </select>
-                </div>
-                                    <button value="918" class="d-btn d-btn-primary job-apply-outline job_apply job_apply918">Apply</button>
-                    
-        <div class="d-actions-spacer"></div>
-        <button class="d-btn d-btn-dark add_to_contact" value="518">Add to Contacts</button>        <button onclick="window.location.href='https://e-contract.com.au/search/work/918';" class="d-btn d-btn-outline">Job Details</button>
-    </div>
-
-    <!-- Hidden Message Box -->
-    <div class="send_message_box" style="display:none;">
-        <textarea name="message" class="message" placeholder="Write your message"></textarea>
-        <button class="mybutton send_message_button" value="518">Send</button>
-    </div>
-</div>
-</div><!-- /.desktop-cards -->
-
-<!-- ========== MOBILE CARD ========== -->
-<div class="mobile-cards">
-<div class="m-card recordfound" data-jobid="918" data-userid="518">
-    <div class="m-card-highlight">
-        <a href="https://e-contract.com.au/search/work/918" class="m-card-logo">
-            <img src="https://e-contract.com.au/user/logo/20260812_124434.jpg" title="Abroad business electrical" class="user_pic">
-        </a>
-        <a href="https://e-contract.com.au/search/work/918" class="ec-banner-link">
-        <div class="m-card-info">
-            <div class="m-card-title">White Card</div>
-                        <div class="ec-loc"><span class="ec-loc-suburb">Marion</span><svg class="ec-loc-pin" width="11" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg><span class="ec-loc-detail">Marion SA</span></div>        </div>
-        </a>
-                                <div class="m-card-rate"><a href="https://e-contract.com.au/user/login" class="ec-rate-locked" style="display:inline-block;max-width:88px;white-space:normal;line-height:1.12;text-align:center;font-size:11px;font-weight:700;color:#374151;background:#fff;border:1.5px solid #e8281e;border-radius:8px;padding:4px 8px;text-decoration:none;">Log in to see rates</a></div>
-                            <span class="ec-card-corner ec-card-corner--row">
-        <button class="m-star-btn quick_list" data-jobid="918" title="Quick List" aria-label="Add to Quick List">&#9733;</button>
-        <!-- Self-contained share button + popup (v1). Own ec-share-* shell so it never collides with
-     another modal's CSS/JS (MODAL-RULES.md §4). Shell VALUES (red top accent, radius, shadow,
-     overlay, close/backdrop/Esc, body-scroll lock) match ec-fmodal per MODAL-RULES.md §1/§7.
-     Native share first (navigator.share on supporting mobile browsers); popup fallback for
-     desktop / unsupported browsers. No backend, no CSRF (everything here is GET/JS).
-
-     Load with the vars PASSED IN (not just pre-assigned) — CI's Loader does not carry a
-     view's plain local variables into a nested $this->load->view() call, only what's
-     handed to it explicitly or via $this->load->vars():
-       $this->load->view('includes/share_button', array(
-           'ec_share_url'       => site_url('...'),  // fallback if unset/empty: JS window.location.href
-           'ec_share_title'     => '...',             // fallback if unset/empty: JS document.title
-           'ec_share_icon_only' => true                // optional: drop the "Share" label at all
-                                                         // sizes, ~34px circular icon-only tap target
-                                                         // (e.g. a corner star+share stack)
-       ));
-     Note: CI's _ci_cached_vars is cumulative for the whole request, so a second include on
-     the same page that wants DIFFERENT values (or to turn ec_share_icon_only back off) must
-     pass all of them again explicitly rather than relying on omission. -->
-<button type="button" class="ec-share-btn ec-share-btn--icon-only" id="ec-share-12-btn" aria-haspopup="dialog" aria-label="Share" title="Share">
-    <svg class="ec-share-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-        <circle cx="18" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="6" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <circle cx="18" cy="19" r="3" fill="none" stroke="currentColor" stroke-width="2"></circle>
-        <line x1="8.6" y1="10.6" x2="15.4" y2="6.4" stroke="currentColor" stroke-width="2"></line>
-        <line x1="8.6" y1="13.4" x2="15.4" y2="17.6" stroke="currentColor" stroke-width="2"></line>
-    </svg>
-    <span class="ec-share-label">Share</span>
-</button>
-
-<div class="ec-share-overlay" id="ec-share-12-overlay">
-    <div class="ec-share-modal" role="dialog" aria-modal="true" aria-labelledby="ec-share-12-title">
-        <div class="ec-share-head">
-            <h3 class="ec-share-title" id="ec-share-12-title">Share this page</h3>
-            <button type="button" class="ec-share-close" id="ec-share-12-close" aria-label="Close">&times;</button>
-        </div>
-        <div class="ec-share-body">
-            <a class="ec-share-link" data-ec-share-channel="sms" href="#">Text (SMS)</a>
-            <a class="ec-share-link" data-ec-share-channel="whatsapp" href="#" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="ec-share-link" data-ec-share-channel="email" href="#">Email</a>
-            <a class="ec-share-link" data-ec-share-channel="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-            <button type="button" class="ec-share-link ec-share-copy" data-ec-share-channel="copy">Copy link</button>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-(function($){ if (typeof $ === 'undefined') { return; }
-    var ecShareUrlIn   = "https:\/\/e-contract.com.au\/search\/work\/918";
-    var ecShareTitleIn = "";
-    var $btn     = $('#ec-share-12-btn');
-    var $overlay = $('#ec-share-12-overlay');
-    var $close   = $('#ec-share-12-close');
-    var $copyBtn = $overlay.find('.ec-share-copy');
-
-    // The button can sit inside a CSS-transformed ancestor (e.g. a corner stack using
-    // translateY for centring) — a transform makes any position:fixed descendant position
-    // relative to THAT ancestor instead of the viewport. Move just the overlay to <body> so
-    // it always covers the full screen; handlers stay bound (same element, same jQuery ref).
-    $('body').append($overlay);
-
-    function ecShareData(){
-        return {
-            url:   ecShareUrlIn   ? ecShareUrlIn   : window.location.href,
-            title: ecShareTitleIn ? ecShareTitleIn : document.title
-        };
-    }
-
-    function ecShareBuildLinks(){
-        var d = ecShareData();
-        var titleAndUrl = encodeURIComponent(d.title + ' ' + d.url);
-        $overlay.find('[data-ec-share-channel="sms"]').attr('href', 'sms:?&body=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="whatsapp"]').attr('href', 'https://wa.me/?text=' + titleAndUrl);
-        $overlay.find('[data-ec-share-channel="email"]').attr('href', 'mailto:?subject=' + encodeURIComponent(d.title) + '&body=' + encodeURIComponent(d.url));
-        $overlay.find('[data-ec-share-channel="facebook"]').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url));
-    }
-
-    function ecShareOpen(){
-        ecShareBuildLinks();
-        $overlay.addClass('ec-share-open');
-        $('body').addClass('ec-share-noscroll');
-    }
-    function ecShareClose(){
-        $overlay.removeClass('ec-share-open');
-        $('body').removeClass('ec-share-noscroll');
-    }
-
-    $btn.on('click', function(){
-        var d = ecShareData();
-        // Native share sheet only on an actual small/touch (phone) screen; desktop — even a
-        // browser that technically supports navigator.share — always gets our popup.
-        var isPhoneSize = (typeof matchMedia === 'function') && matchMedia('(max-width: 768px)').matches;
-        if (navigator.share && isPhoneSize) {
-            navigator.share({ title: d.title, url: d.url });
-            return;
-        }
-        ecShareOpen();
-    });
-    $close.on('click', ecShareClose);
-    $overlay.on('click', function(e){ if (e.target === this) { ecShareClose(); } });
-    $(document).on('keydown', function(e){ if (e.which === 27 && $overlay.hasClass('ec-share-open')) { ecShareClose(); } });
-
-    function ecShareLegacyCopy(text){
-        var $tmp = $('<textarea readonly></textarea>').val(text).css({ position: 'fixed', top: '-1000px', left: '-1000px' });
-        $('body').append($tmp);
-        $tmp[0].select();
-        try { document.execCommand('copy'); } catch (e) {}
-        $tmp.remove();
-    }
-
-    $copyBtn.on('click', function(){
-        var d = ecShareData();
-        var $b = $(this);
-        var original = $b.text();
-        function done(){
-            $b.text('Copied');
-            setTimeout(function(){ $b.text(original); }, 1500);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(d.url).then(done, function(){ ecShareLegacyCopy(d.url); done(); });
-        } else {
-            ecShareLegacyCopy(d.url);
-            done();
-        }
-    });
-})(window.jQuery);
-</script>
-        </span>
-    </div>
-
-    <div class="m-card-details">
-                <div class="m-detail-grid">
-            <div style="grid-column: 1 / -1;">
-                <div class="ec-info-grid">
-                    <div class="m-detail-label">Job Dates</div>
-                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">24 Oct '26 – 31 Oct '26 &middot; <span class="jdcal-count">3 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-30&quot;,&quot;2026-10-31&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
+                    <div class="ec-info-val ec-info-dates"><span class="ec-nowrap">30 Oct '26 – 31 Oct '26 &middot; <span class="jdcal-count">2 days</span></span> <button type="button" class="jdc-open" title="View Dates" aria-label="View Dates" data-dates='[&quot;2026-10-24&quot;,&quot;2026-10-30&quot;,&quot;2026-10-31&quot;]'><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> View Dates</button></div>
                     <div class="m-detail-label">Positions required</div>
                     <div class="ec-info-val ec-info-val-mid">2</div>
                 </div>
@@ -3513,7 +3200,7 @@ $(document).ready(function(){
         // what produced a tab number pointing at a section not on screen.
         var mj;
                 mj = (parseInt(res.find_me_work_new,10)||0) + (parseInt(res.find_me_a_worker_new,10)||0) + (parseInt(res.find_employee_unread,10)||0);
-                var ct = (parseInt(res.unread_contacts,10)||0) + (parseInt(res.unread_message,10)||0);
+                var ct = (parseInt(res.unread_contacts,10)||0); // Messages moved to the Notifications drawer; Contacts badge = contacts only
         setAgg('ec-agg-myjobs', mj);
         setAgg('ec-agg-contacts', ct);
     };

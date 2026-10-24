@@ -25,7 +25,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792793086"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792879464"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -69,7 +69,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'3f8bf4267e0ae18fc1201bacf7288586'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'a42aeca6aa108d0102d9948e3abffa7f'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -130,14 +130,34 @@ $(function(){
       .header-phone .acct-dropdown li{margin:0;}
       .header-phone .acct-dropdown a{display:block;padding:11px 18px;font-size:14px;font-weight:500;color:#333;text-decoration:none;white-space:nowrap;}
       .header-phone .acct-dropdown a:hover{background:#f6f6f7;}
+      /* Account dropdown Gov Forms — expands in place to the gov links (Rob 2026-10-24). */
+      .header-phone .acct-dropdown .acct-grp-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:11px 18px;background:none;border:0;font-family:inherit;font-size:14px;font-weight:500;color:#333;text-align:left;white-space:nowrap;cursor:pointer;}
+      .header-phone .acct-dropdown .acct-grp-toggle:hover{background:#f6f6f7;}
+      .header-phone .acct-dropdown .acct-caret-g{color:#8a8f98;font-size:12px;margin-left:10px;transition:transform .2s ease;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-caret-g{transform:rotate(90deg);}
+      .header-phone .acct-dropdown .acct-sub{list-style:none;margin:0;padding:0 0 4px;display:none;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-sub{display:block;}
+      .header-phone .acct-dropdown .acct-sub a{display:block;padding:8px 18px 8px 30px;font-size:13px;font-weight:500;color:#555;white-space:normal;}
+      /* Desktop top-nav dropdowns — My Jobs / Notifications (mirror the phone drawers). */
+      .top-nav li.tn-has-dd{position:relative;}
+      .top-nav li.tn-has-dd .tn-caret{font-size:10px;color:#9aa0a6;margin-left:3px;}
+      /* position:fixed so the dropdown escapes .header_bottom's overflow:hidden clearfix; JS sets top/left from the toggle. */
+      .top-nav li.tn-has-dd .tn-dropdown{position:fixed;min-width:176px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.14);list-style:none;margin:0;padding:6px;display:none;z-index:1200;text-align:left;}
+      .top-nav li.tn-has-dd.tn-open .tn-dropdown{display:block;}
+      .top-nav li.tn-has-dd .tn-dropdown li{display:block;float:none;margin:0;width:auto;}
+      .top-nav li.tn-has-dd .tn-dropdown a{display:block;margin:0;padding:9px 14px;border-radius:7px;font-size:14px;font-weight:500;line-height:1.2;color:#222;white-space:nowrap;}
+      .top-nav li.tn-has-dd .tn-dropdown a:hover{background:#f6f6f7;}
       </style>
       <script>
       (function(){
         var t = document.querySelector('.header-phone .acct-toggle');
         if(!t){return;}
         var m = t.parentNode;
-        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); });
+        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); if(op){ var tn=document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var j=0;j<tn.length;j++){ tn[j].className = tn[j].className.replace(/\s*tn-open/g,''); } } });
         document.addEventListener('click', function(){ if(m.className.indexOf('open')!==-1){ m.className='acct-menu'; t.setAttribute('aria-expanded','false'); } });
+        // Gov Forms expand inside the account dropdown (does not close the account menu).
+        var gt = document.querySelector('.header-phone .acct-dropdown .acct-grp-toggle');
+        if(gt){ gt.addEventListener('click', function(e){ e.stopPropagation(); var g=this.parentNode; var op=g.className.indexOf('open')===-1; g.className = op?'acct-grp open':'acct-grp'; this.setAttribute('aria-expanded', op?'true':'false'); }); }
       })();
       </script>
       <div class="clear"> </div>
@@ -147,13 +167,37 @@ $(function(){
     <div class="wrap">
       <div class="top-nav aanimate">
         <ul>
-                    <li ><a href="https://e-contract.com.au/">Home</a></li>
+                    <li class=""><a href="https://e-contract.com.au/">Home</a></li>
                     
           <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
           
         </ul>
       </div>
-     
+      <script>
+      /* Desktop top-nav dropdowns (My Jobs / Notifications): the caret/link opens the
+         dropdown in place; one open at a time; outside click closes. */
+      (function(){
+        var toggles = document.querySelectorAll('.top-nav li.tn-has-dd .tn-dd-toggle');
+        if(!toggles.length){ return; }
+        function closeAll(){ var o = document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var k=0;k<o.length;k++){ o[k].className = o[k].className.replace(/\s*tn-open/g,''); } }
+        for(var i=0;i<toggles.length;i++){
+          toggles[i].addEventListener('click', function(e){
+            e.preventDefault(); e.stopPropagation();
+            var li = this.parentNode; var willOpen = li.className.indexOf('tn-open') === -1;
+            closeAll();
+            var am = document.querySelector('.header-phone .acct-menu.open'); if(am){ am.className = 'acct-menu'; }
+            if(willOpen){
+              li.className += ' tn-open';
+              var dd = li.querySelector('.tn-dropdown'); var r = this.getBoundingClientRect();
+              dd.style.left = Math.round(r.left) + 'px'; dd.style.top = Math.round(r.bottom + 6) + 'px';
+            }
+          });
+        }
+        document.addEventListener('click', closeAll);
+        window.addEventListener('scroll', closeAll, true);
+      })();
+      </script>
+
      <!-- MOBILE MENU BUTTON -->
 <div class="mobile-menu-btn">
     <span></span>
@@ -1412,13 +1456,13 @@ body.ec-share-noscroll{overflow:hidden;}
 
     <!-- Body: Info Grid + Links -->
     <div class="d-card-body">
-                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>7 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
+                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>7 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
                 <div>
                     <div class="d-field-label">Job Title</div>
                     <div class="d-field-value d-field-value-role">Abrasive Blaster / Industrial Coater</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Abrasive Blasting</span></span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Abrasive Blasting</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                     
@@ -1586,13 +1630,13 @@ body.ec-share-noscroll{overflow:hidden;}
     </div>
 
     <div class="m-card-details">
-                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>7 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
+                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">White Card</span></div></div></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>7 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Abrasive Blaster / Industrial Coater</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Abrasive Blasting</span></span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob 82 — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Abrasive Blasting</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                     </div>
                     </div>
@@ -1968,13 +2012,13 @@ body.hwp-noscroll{overflow:hidden!important;}
 
     <!-- Body: Info Grid + Links -->
     <div class="d-card-body">
-                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">Working at Heights</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Work Type">Work Type <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
+                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">Working at Heights</span></div></div></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
                 <div>
                     <div class="d-field-label">Job Title</div>
                     <div class="d-field-value d-field-value-role">Arborist / Tree Services</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Green Waste &amp; Chipping</span></span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Green Waste &amp; Chipping</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Work Type">Work Type <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span></span></button></div></div>
                 </div>
             </div>
                         <div class="d-card-grid">
@@ -1983,7 +2027,7 @@ body.hwp-noscroll{overflow:hidden!important;}
                     <div class="d-field-value d-field-value-role">Asbestos Removalist</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                     
@@ -2154,20 +2198,20 @@ body.hwp-noscroll{overflow:hidden!important;}
     </div>
 
     <div class="m-card-details">
-                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">Working at Heights</span></div></div></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Work Type">Work Type <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
+                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Cards &amp; Tickets">Cards &amp; Tickets <span class="fw-pill-count">+1</span><span class="fw-pop-data"><div class="fwpop-group"><div class="fwpop-cat">General / Safety</div><div class="uv2-badges"><span class="uv2-badge">Working at Heights</span></div></div></span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Arborist / Tree Services</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Green Waste &amp; Chipping</span></span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Specific skills">Specific skills <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Green Waste &amp; Chipping</span></span></button><button type="button" class="uv2-pill fw-pill" data-fwtitle="Rob — Work Type">Work Type <span class="fw-pill-count">+1</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span></span></button></div></div>
             </div>
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Asbestos Removalist</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                     </div>
                 <a href="https://e-contract.com.au/user/view/518" class="m-job-titles-link">View 1 More Job Title &#8594;</a>
@@ -2379,13 +2423,13 @@ body.hwp-noscroll{overflow:hidden!important;}
 
     <!-- Body: Info Grid + Links -->
     <div class="d-card-body">
-                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>4 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
+                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>4 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
                 <div>
                     <div class="d-field-label">Job Title</div>
                     <div class="d-field-value d-field-value-role">Auto Electrician</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                         <div class="d-card-grid">
@@ -2394,7 +2438,7 @@ body.hwp-noscroll{overflow:hidden!important;}
                     <div class="d-field-value d-field-value-role">Crane Operator</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                     
@@ -2565,20 +2609,20 @@ body.hwp-noscroll{overflow:hidden!important;}
     </div>
 
     <div class="m-card-details">
-                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>4 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
+                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>4 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Auto Electrician</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Crane Operator</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Specific skills <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                     </div>
                 <a href="https://e-contract.com.au/user/view/524" class="m-job-titles-link">View 1 More Job Title &#8594;</a>
@@ -2791,13 +2835,13 @@ body.hwp-noscroll{overflow:hidden!important;}
 
     <!-- Body: Info Grid + Links -->
     <div class="d-card-body">
-                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
+                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
                 <div>
                     <div class="d-field-label">Job Title</div>
                     <div class="d-field-value d-field-value-role">Door / Window Installer</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Khan — Specific skills">Specific skills <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Aluminium doors</span><span class="uv2-badge">Automatic</span><span class="uv2-badge">Service</span></span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Khan — Specific skills">Specific skills <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Aluminium doors</span><span class="uv2-badge">Automatic</span><span class="uv2-badge">Service</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                     
@@ -2965,13 +3009,13 @@ body.hwp-noscroll{overflow:hidden!important;}
     </div>
 
     <div class="m-card-details">
-                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
+                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>6 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">Door / Window Installer</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Khan — Specific skills">Specific skills <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Aluminium doors</span><span class="uv2-badge">Automatic</span><span class="uv2-badge">Service</span></span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Khan — Specific skills">Specific skills <span class="fw-pill-count">+3</span><span class="fw-pop-data"><span class="uv2-badge">Aluminium doors</span><span class="uv2-badge">Automatic</span><span class="uv2-badge">Service</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                     </div>
                     </div>
@@ -3182,13 +3226,13 @@ body.hwp-noscroll{overflow:hidden!important;}
 
     <!-- Body: Info Grid + Links -->
     <div class="d-card-body">
-                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>3 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
+                            <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>3 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>                        <div class="d-card-grid">
                 <div>
                     <div class="d-field-label">Job Title</div>
                     <div class="d-field-value d-field-value-role">HVAC / Refrigeration Technician</div>
                 </div>
                 <div>
-                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Nawaz — Specific skills">Specific skills <span class="fw-pill-count">+2</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span><span class="uv2-badge">Controls &amp; Automation</span></span></button></div></div>
+                    <div class="d-field-value d-field-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Nawaz — Specific skills">Specific skills <span class="fw-pill-count">+2</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span><span class="uv2-badge">Controls &amp; Automation</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
                 </div>
             </div>
                     
@@ -3356,13 +3400,13 @@ body.hwp-noscroll{overflow:hidden!important;}
     </div>
 
     <div class="m-card-details">
-                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>3 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
+                        <div class="worker-row"><div class="wr-left"></div><div class="wr-right"><div class="fw-pills"><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Cards &amp; Tickets <span class="fw-pill-count">+0</span></button></div><span class="wr-jobs"><span class="ec-jobs-badge"><span class="ec-jobs-badge-top"><svg width="14" height="14" viewBox="0 0 24 24" fill="#e0301e" aria-hidden="true" style="flex:0 0 auto;"><path d="M10 2h4a2 2 0 0 1 2 2v2h3a2 2 0 0 1 2 2v3H3V8a2 2 0 0 1 2-2h3V4a2 2 0 0 1 2-2zm4 4V4h-4v2h4zM3 13h18v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-6z"/></svg><span>3 jobs</span></span><span class="ec-jobs-badge-sub">completed</span></span></span></div></div>        <div class="m-detail-grid">
                         <div>
                 <div class="m-detail-label">Job Title</div>
                 <div class="m-detail-value">HVAC / Refrigeration Technician</div>
             </div>
             <div>
-                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Nawaz — Specific skills">Specific skills <span class="fw-pill-count">+2</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span><span class="uv2-badge">Controls &amp; Automation</span></span></button></div></div>
+                <div class="m-detail-value m-detail-value-skills"><div class="fw-pills"><button type="button" class="uv2-pill fw-pill" data-fwtitle="Samreen Nawaz — Specific skills">Specific skills <span class="fw-pill-count">+2</span><span class="fw-pop-data"><span class="uv2-badge">Commercial</span><span class="uv2-badge">Controls &amp; Automation</span></span></button><button type="button" class="uv2-pill uv2-pill-zero" disabled="disabled">Work Type <span class="fw-pill-count">+0</span></button></div></div>
             </div>
                     </div>
                     </div>
@@ -3855,7 +3899,7 @@ $(document).ready(function(){
         // what produced a tab number pointing at a section not on screen.
         var mj;
                 mj = (parseInt(res.find_me_work_new,10)||0) + (parseInt(res.find_me_a_worker_new,10)||0) + (parseInt(res.find_employee_unread,10)||0);
-                var ct = (parseInt(res.unread_contacts,10)||0) + (parseInt(res.unread_message,10)||0);
+                var ct = (parseInt(res.unread_contacts,10)||0); // Messages moved to the Notifications drawer; Contacts badge = contacts only
         setAgg('ec-agg-myjobs', mj);
         setAgg('ec-agg-contacts', ct);
     };

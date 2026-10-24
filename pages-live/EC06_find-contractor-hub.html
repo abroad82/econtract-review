@@ -25,7 +25,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792793084"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792879462"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -69,7 +69,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'c0af3a3bdcacd98419696fce0fb1a2a9'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'8476514d962647e05b45b55575f3a02e'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -130,14 +130,34 @@ $(function(){
       .header-phone .acct-dropdown li{margin:0;}
       .header-phone .acct-dropdown a{display:block;padding:11px 18px;font-size:14px;font-weight:500;color:#333;text-decoration:none;white-space:nowrap;}
       .header-phone .acct-dropdown a:hover{background:#f6f6f7;}
+      /* Account dropdown Gov Forms — expands in place to the gov links (Rob 2026-10-24). */
+      .header-phone .acct-dropdown .acct-grp-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:11px 18px;background:none;border:0;font-family:inherit;font-size:14px;font-weight:500;color:#333;text-align:left;white-space:nowrap;cursor:pointer;}
+      .header-phone .acct-dropdown .acct-grp-toggle:hover{background:#f6f6f7;}
+      .header-phone .acct-dropdown .acct-caret-g{color:#8a8f98;font-size:12px;margin-left:10px;transition:transform .2s ease;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-caret-g{transform:rotate(90deg);}
+      .header-phone .acct-dropdown .acct-sub{list-style:none;margin:0;padding:0 0 4px;display:none;}
+      .header-phone .acct-dropdown .acct-grp.open .acct-sub{display:block;}
+      .header-phone .acct-dropdown .acct-sub a{display:block;padding:8px 18px 8px 30px;font-size:13px;font-weight:500;color:#555;white-space:normal;}
+      /* Desktop top-nav dropdowns — My Jobs / Notifications (mirror the phone drawers). */
+      .top-nav li.tn-has-dd{position:relative;}
+      .top-nav li.tn-has-dd .tn-caret{font-size:10px;color:#9aa0a6;margin-left:3px;}
+      /* position:fixed so the dropdown escapes .header_bottom's overflow:hidden clearfix; JS sets top/left from the toggle. */
+      .top-nav li.tn-has-dd .tn-dropdown{position:fixed;min-width:176px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.14);list-style:none;margin:0;padding:6px;display:none;z-index:1200;text-align:left;}
+      .top-nav li.tn-has-dd.tn-open .tn-dropdown{display:block;}
+      .top-nav li.tn-has-dd .tn-dropdown li{display:block;float:none;margin:0;width:auto;}
+      .top-nav li.tn-has-dd .tn-dropdown a{display:block;margin:0;padding:9px 14px;border-radius:7px;font-size:14px;font-weight:500;line-height:1.2;color:#222;white-space:nowrap;}
+      .top-nav li.tn-has-dd .tn-dropdown a:hover{background:#f6f6f7;}
       </style>
       <script>
       (function(){
         var t = document.querySelector('.header-phone .acct-toggle');
         if(!t){return;}
         var m = t.parentNode;
-        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); });
+        t.addEventListener('click', function(e){ e.stopPropagation(); var op = m.className.indexOf('open')===-1; m.className = op?'acct-menu open':'acct-menu'; t.setAttribute('aria-expanded', op?'true':'false'); if(op){ var tn=document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var j=0;j<tn.length;j++){ tn[j].className = tn[j].className.replace(/\s*tn-open/g,''); } } });
         document.addEventListener('click', function(){ if(m.className.indexOf('open')!==-1){ m.className='acct-menu'; t.setAttribute('aria-expanded','false'); } });
+        // Gov Forms expand inside the account dropdown (does not close the account menu).
+        var gt = document.querySelector('.header-phone .acct-dropdown .acct-grp-toggle');
+        if(gt){ gt.addEventListener('click', function(e){ e.stopPropagation(); var g=this.parentNode; var op=g.className.indexOf('open')===-1; g.className = op?'acct-grp open':'acct-grp'; this.setAttribute('aria-expanded', op?'true':'false'); }); }
       })();
       </script>
       <div class="clear"> </div>
@@ -147,13 +167,37 @@ $(function(){
     <div class="wrap">
       <div class="top-nav aanimate">
         <ul>
-                    <li ><a href="https://e-contract.com.au/">Home</a></li>
+                    <li class=""><a href="https://e-contract.com.au/">Home</a></li>
                     
           <!--li ><a href="https://e-contract.com.au/contact">Contact</a></li-->
           
         </ul>
       </div>
-     
+      <script>
+      /* Desktop top-nav dropdowns (My Jobs / Notifications): the caret/link opens the
+         dropdown in place; one open at a time; outside click closes. */
+      (function(){
+        var toggles = document.querySelectorAll('.top-nav li.tn-has-dd .tn-dd-toggle');
+        if(!toggles.length){ return; }
+        function closeAll(){ var o = document.querySelectorAll('.top-nav li.tn-has-dd.tn-open'); for(var k=0;k<o.length;k++){ o[k].className = o[k].className.replace(/\s*tn-open/g,''); } }
+        for(var i=0;i<toggles.length;i++){
+          toggles[i].addEventListener('click', function(e){
+            e.preventDefault(); e.stopPropagation();
+            var li = this.parentNode; var willOpen = li.className.indexOf('tn-open') === -1;
+            closeAll();
+            var am = document.querySelector('.header-phone .acct-menu.open'); if(am){ am.className = 'acct-menu'; }
+            if(willOpen){
+              li.className += ' tn-open';
+              var dd = li.querySelector('.tn-dropdown'); var r = this.getBoundingClientRect();
+              dd.style.left = Math.round(r.left) + 'px'; dd.style.top = Math.round(r.bottom + 6) + 'px';
+            }
+          });
+        }
+        document.addEventListener('click', closeAll);
+        window.addEventListener('scroll', closeAll, true);
+      })();
+      </script>
+
      <!-- MOBILE MENU BUTTON -->
 <div class="mobile-menu-btn">
     <span></span>
@@ -399,7 +443,7 @@ $(function(){
     <div id="location-field" class="form-field location-search-field" style="flex:1; position:relative;">
       <label class="field-label">Where do you need someone?</label>
       <div class="inwrap">
-        <input type="text" id="location_search" name="ec_locfind_d977ad0041" value="" placeholder="Type suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+        <input type="text" id="location_search" name="ec_locfind_d67f0ea8d6" value="" placeholder="Type suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
               </div>
       <input type="hidden" name="region_id[]" id="region_id" value="">
       <input type="hidden" name="suburb_id[]" id="suburb_id" value="">
@@ -456,7 +500,7 @@ $(function(){
   <div id="trade-pick-field" class="form-field" style="margin-top:20px;">
     <label class="field-label">Who do you need?</label>
     <div class="fw-ta-wrap">
-      <input type="text" id="fw_typeahead" name="ec_finderq_909f470bee" value="" placeholder="Start typing a trade, skill or card&hellip;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+      <input type="text" id="fw_typeahead" name="ec_finderq_47140df7f4" value="" placeholder="Start typing a trade, skill or card&hellip;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
       <ul class="fw-ta-list" id="fw_ta_list"></ul>
     </div>
         <div class="fw-chips" id="fw_chips"></div>
@@ -484,7 +528,7 @@ $(function(){
     </div>
         <div id="trade-field" class="form-field" style="position:relative; display:none;">
       <label class="field-label">Who do you need?</label>
-      <input type="text" id="trade_finder" name="ec_tradefind_18a04f14af" value="" placeholder="Start typing a skill or trade..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+      <input type="text" id="trade_finder" name="ec_tradefind_76bd6e1cd2" value="" placeholder="Start typing a skill or trade..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
       <select id="specific" name="sindustry_id" autocomplete="off" style="display:none;">
         <option value="">Job Title</option>
               </select>
@@ -601,7 +645,7 @@ $(document).ready(function(){
         // what produced a tab number pointing at a section not on screen.
         var mj;
                 mj = (parseInt(res.find_me_work_new,10)||0) + (parseInt(res.find_me_a_worker_new,10)||0) + (parseInt(res.find_employee_unread,10)||0);
-                var ct = (parseInt(res.unread_contacts,10)||0) + (parseInt(res.unread_message,10)||0);
+                var ct = (parseInt(res.unread_contacts,10)||0); // Messages moved to the Notifications drawer; Contacts badge = contacts only
         setAgg('ec-agg-myjobs', mj);
         setAgg('ec-agg-contacts', ct);
     };
