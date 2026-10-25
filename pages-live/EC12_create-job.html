@@ -25,7 +25,7 @@
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
 <link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792879469"></script-->
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1792965860"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -69,7 +69,7 @@ $(function(){
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'a6b024b24f50d609c2dadc3dccd309cc'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'b26efca15f2a5e3643719e5561fda2b1'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -614,7 +614,7 @@ body.cjv3-modal-open{ overflow:hidden; }
               <label class="field-label">Primary Role <span class="cjv3-req">*</span> <span class="cjv3-fl-hint">Select 1</span></label>
               <div id="trade-field" class="cjv3-pick form-field">
                                 <input type="text" id="trade_finder"
-                       name="ec_tradefind_34d525a00d" value=""
+                       name="ec_tradefind_dbea99c886" value=""
                        placeholder="Type trade, skill or ticket" autocomplete="off" autocorrect="off" autocapitalize="off"
                        spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
                 <div id="trade_pill" class="cjv3-pill" style="display:none;"><span id="trade_pill_label"></span><span class="cjv3-pill-x" id="trade_pill_x">&times;</span></div>
@@ -640,7 +640,7 @@ body.cjv3-modal-open{ overflow:hidden; }
 
             <div id="location-field" class="form-field location-search-field" style="position:relative;margin-top:7px;">
               <label class="field-label">Job Location <span class="cjv3-req">*</span></label>
-              <input type="text" id="location_search" name="ec_locfind_ecd6a6d045" value="" placeholder="Type a suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+              <input type="text" id="location_search" name="ec_locfind_a4c278e018" value="" placeholder="Type a suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
               <input type="hidden" name="state_id" id="state_id" value="">
               <input type="hidden" name="region_id" id="region_id" value="">
               <input type="hidden" name="suburb_id" id="suburb_id" value="">
@@ -973,7 +973,7 @@ body.cjv3-modal-open{ overflow:hidden; }
               <div class="form-field full-width tap-when-field">
   <label class="field-label">When — tap the days you need</label>
     <label class="tapcal-weekly"><input type="checkbox" id="tapcalWeekly"> Same days every week <span class="tapcal-weekly-hint">(repeats your chosen days for ~3 months)</span></label>
-  <div id="tapcalWrap" class="tapcal" data-preselected='[]' data-today="2026-10-25" data-start-by="" data-no-default="1">
+  <div id="tapcalWrap" class="tapcal" data-preselected='[]' data-today="2026-10-26" data-start-by="" data-no-default="1">
     <div class="tapcal-head">
       <button type="button" class="tapcal-nav" data-nav="-1" aria-label="Previous month">&#8249;</button>
       <span class="tapcal-title" id="tapcalTitle"></span>
