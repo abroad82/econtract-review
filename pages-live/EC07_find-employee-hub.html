@@ -24,8 +24,8 @@
 <!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793311436"></script-->
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1793371492" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793397800"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -64,12 +64,12 @@ $(function(){
 </script>
 
 <script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1792669105"></script>
-<script defer src="/pwa-android.js?v=1792669105"></script>
+<script defer src="/pwa-android.js?v=1793371492"></script>
 <script defer src="/pwa-ios.js?v=1792669105"></script>
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'8e7f4cc1fc78c296d551708d2e393f0d'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'6f7ce2dc22798184302cf58b9353ba92'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -403,55 +403,10 @@ $(function(){
 
                                       <div class="full_grid">
 
-<h1 class="browse-page-title">Find an Employee <span>&mdash; search</span></h1>
+<h1 class="browse-page-title"><b id="fwho-title" style="font-weight:inherit;">Find an Employee</b> <span>&mdash; search</span></h1>
 
 <div class="form-section ec-fw-2field">
   <div class="form-section-title mt0" style="display:none;">Location</div>
-  <div class="form-grid state-region" style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
-        <style>
-    /* Match the Find Work gate look (Rob 2026-09-04). Scoped by field id; no colour accents. */
-    #location-field .field-label,#trade-field .field-label,#trade-pick-field .field-label{display:block;font-family:'Roboto',sans-serif;font-size:15px;font-weight:700;color:#111827;letter-spacing:-.01em;margin:0 0 9px;}
-    #location-field #location_search,#trade-field #trade_finder{box-sizing:border-box;width:100%;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px 16px;font-size:15px;color:#111827;font-family:'Roboto',sans-serif;}
-    #location-field #location_search::placeholder,#trade-field #trade_finder::placeholder{color:#9ca3af;}
-    #location-field #location_search:focus,#trade-field #trade_finder:focus{border-color:#9ca3af;box-shadow:0 3px 12px rgba(0,0,0,.08);outline:none;}
-    .ec-home-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;flex-wrap:wrap;}
-    .ec-home-row .ec-home-cur{display:flex;align-items:baseline;gap:8px;min-width:0;}
-    .ec-home-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#b0b6be;}
-    .ec-home-v{font-size:13px;font-weight:600;color:#9ca3af;line-height:1.1;}
-    .ec-home-none{font-size:12.5px;color:#b0b6be;}
-    .ec-home-savebtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:600;color:#9ca3af;cursor:pointer;white-space:nowrap;}
-    .ec-home-savebtn input{accent-color:#e8281e;width:13px;height:13px;margin:0;flex:0 0 auto;}
-    #trade-field{margin-top:20px;}
-    /* one-line title + compact home + section boxes, tuned to fit ~665px (Rob 2026-10-01) */
-    .grides .browse-page-title{font-size:21px;line-height:1.2;white-space:nowrap;margin:0 0 3px;}
-    .browse-page-title span{display:inline;font-size:.6em;font-weight:500;color:#9ca3af;white-space:nowrap;}
-    .ec-home-row{flex-wrap:wrap;margin-top:9px;}
-    .ec-home-cur{min-width:0;}
-    .ec-home-v{line-height:1.25;}
-    #location-field,#trade-pick-field{box-sizing:border-box;border:1px solid #e9eaee;background:#fcfcfd;border-radius:14px;padding:11px 12px 12px;}
-    #trade-pick-field{margin-top:10px !important;}
-    #location_list{top:84px !important;left:12px !important;right:12px !important;}
-    /* Save-as-home moved INTO the field (Rob 2026-10-14): stacked "Save as / home", no spill */
-    .inwrap{position:relative;}
-    .inwrap.has-save #location_search{padding-right:82px;}
-    .ec-insave{position:absolute;top:50%;right:7px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;cursor:pointer;color:#9ca3af;font-weight:600;background:#fff;border:1px solid #e5e7eb;border-radius:7px;padding:3px 7px;line-height:1.05;white-space:nowrap;}
-    .ec-insave input{accent-color:#e8281e;width:11px;height:11px;margin:0;flex:0 0 auto;}
-    .ec-insave .lbl{display:block;font-size:9.5px;text-align:left;}
-    .ec-home-note{margin-top:7px;font-size:11.5px;color:#b0b6be;}
-    .ec-home-note b{color:#9ca3af;font-weight:600;}
-    </style>
-    <div id="location-field" class="form-field location-search-field" style="flex:1; position:relative;">
-      <label class="field-label">Where do you need someone?</label>
-      <div class="inwrap">
-        <input type="text" id="location_search" name="ec_locfind_9b1fbd0652" value="" placeholder="Type suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
-              </div>
-      <input type="hidden" name="region_id[]" id="region_id" value="">
-      <input type="hidden" name="suburb_id[]" id="suburb_id" value="">
-      <input type="hidden" name="selected_type" id="selected_type">
-      <ul id="location_list" style="border:1px solid #ccc; display:none; max-height:200px; overflow:auto; position:absolute; top:68px; left:0; right:0; background:#FFF; z-index:9999;"></ul>
-          </div>
-  </div>
-
     <style>
   .fw-ta-wrap{position:relative;margin-top:8px;}
   #fw_typeahead{box-sizing:border-box;width:100%;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px 16px;font-size:15px;color:#111827;font-family:'Roboto',sans-serif;}
@@ -500,7 +455,7 @@ $(function(){
   <div id="trade-pick-field" class="form-field" style="margin-top:20px;">
     <label class="field-label">Who do you need?</label>
     <div class="fw-ta-wrap">
-      <input type="text" id="fw_typeahead" name="ec_finderq_961798f9ff" value="" placeholder="Start typing a trade, skill or card&hellip;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+      <input type="text" id="fw_typeahead" name="ec_finderq_4259b014fe" value="" placeholder="Start typing a trade, skill or card&hellip;" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
       <ul class="fw-ta-list" id="fw_ta_list"></ul>
     </div>
         <div class="fw-chips" id="fw_chips"></div>
@@ -518,6 +473,82 @@ $(function(){
         <button type="button" id="fw-clear" class="fw-clear-btn">&#10005; Clear search</button>
   </div>
 
+    <style>
+  #fwho-field{box-sizing:border-box;border:1px solid #e9eaee;background:#fcfcfd;border-radius:14px;padding:11px 12px 12px;margin-top:10px;}
+  #fwho-field .field-label{display:block;font-family:'Roboto',sans-serif;font-size:15px;font-weight:700;color:#111827;letter-spacing:-.01em;margin:0 0 9px;}
+  .fwho-seg{display:flex;gap:8px;}
+  .fwho-btn{flex:1 1 0;min-width:0;box-sizing:border-box;min-height:36px;display:flex;align-items:center;justify-content:center;margin:0;background:#fff;border:1px solid #E4E2DC;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.10);padding:5px 8px;font-family:'Roboto',sans-serif;font-size:.8rem;font-weight:600;color:#6B6B66;cursor:pointer;line-height:1.15;text-align:center;}
+  .fwho-btn input{position:absolute;opacity:0;width:0;height:0;pointer-events:none;}
+  .fwho-btn.fwho-on{border:1.5px solid #C7362B;color:#C7362B;}
+  @media(max-width:420px){ .fwho-seg{gap:6px;} .fwho-btn{font-size:.74rem;padding:5px 4px;} }
+  </style>
+  <div id="fwho-field" class="form-field">
+    <label class="field-label">Sub-contractor or employee?</label>
+    <div class="fwho-seg">
+            <label class="fwho-btn"><input type="radio" name="find" value="both" data-title="Find a Worker">Both</label>
+            <label class="fwho-btn"><input type="radio" name="find" value="contractor" data-title="Find a Sub-Contractor">Sub-Contractors</label>
+            <label class="fwho-btn fwho-on"><input type="radio" name="find" value="employee" checked="checked" data-title="Find an Employee">Employees</label>
+          </div>
+  </div>
+  <script>
+  (function(){
+    var f = document.getElementById('fwho-field'); if(!f){ return; }
+    var ins = f.getElementsByTagName('input');
+    for(var i = 0; i < ins.length; i++){
+      ins[i].onchange = function(){
+        for(var j = 0; j < ins.length; j++){ ins[j].parentNode.className = 'fwho-btn' + (ins[j].checked ? ' fwho-on' : ''); }
+        var t = document.getElementById('fwho-title'); if(t){ t.innerHTML = this.getAttribute('data-title'); }
+      };
+    }
+  })();
+  </script>
+
+  <div class="form-grid state-region" style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+        <style>
+    /* Match the Find Work gate look (Rob 2026-09-04). Scoped by field id; no colour accents. */
+    #location-field .field-label,#trade-field .field-label,#trade-pick-field .field-label{display:block;font-family:'Roboto',sans-serif;font-size:15px;font-weight:700;color:#111827;letter-spacing:-.01em;margin:0 0 9px;}
+    #location-field #location_search,#trade-field #trade_finder{box-sizing:border-box;width:100%;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.05);padding:14px 16px;font-size:15px;color:#111827;font-family:'Roboto',sans-serif;}
+    #location-field #location_search::placeholder,#trade-field #trade_finder::placeholder{color:#9ca3af;}
+    #location-field #location_search:focus,#trade-field #trade_finder:focus{border-color:#9ca3af;box-shadow:0 3px 12px rgba(0,0,0,.08);outline:none;}
+    .ec-home-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;flex-wrap:wrap;}
+    .ec-home-row .ec-home-cur{display:flex;align-items:baseline;gap:8px;min-width:0;}
+    .ec-home-k{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#b0b6be;}
+    .ec-home-v{font-size:13px;font-weight:600;color:#9ca3af;line-height:1.1;}
+    .ec-home-none{font-size:12.5px;color:#b0b6be;}
+    .ec-home-savebtn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:5px 10px;font-size:11.5px;font-weight:600;color:#9ca3af;cursor:pointer;white-space:nowrap;}
+    .ec-home-savebtn input{accent-color:#e8281e;width:13px;height:13px;margin:0;flex:0 0 auto;}
+    #trade-field{margin-top:20px;}
+    /* one-line title + compact home + section boxes, tuned to fit ~665px (Rob 2026-10-01) */
+    .grides .browse-page-title{font-size:21px;line-height:1.2;white-space:nowrap;margin:0 0 3px;}
+    .browse-page-title span{display:inline;font-size:.6em;font-weight:500;color:#9ca3af;white-space:nowrap;}
+    .ec-home-row{flex-wrap:wrap;margin-top:9px;}
+    .ec-home-cur{min-width:0;}
+    .ec-home-v{line-height:1.25;}
+    #location-field,#trade-pick-field{box-sizing:border-box;border:1px solid #e9eaee;background:#fcfcfd;border-radius:14px;padding:11px 12px 12px;}
+    #trade-pick-field{margin-top:0 !important;} /* Who box now on top, Where box last (Rob 2026-10-30) */
+    .ec-fw-2field .state-region{margin-top:10px;}
+    #location_list{top:84px !important;left:12px !important;right:12px !important;}
+    /* Save-as-home moved INTO the field (Rob 2026-10-14): stacked "Save as / home", no spill */
+    .inwrap{position:relative;}
+    .inwrap.has-save #location_search{padding-right:82px;}
+    .ec-insave{position:absolute;top:50%;right:7px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;cursor:pointer;color:#9ca3af;font-weight:600;background:#fff;border:1px solid #e5e7eb;border-radius:7px;padding:3px 7px;line-height:1.05;white-space:nowrap;}
+    .ec-insave input{accent-color:#e8281e;width:11px;height:11px;margin:0;flex:0 0 auto;}
+    .ec-insave .lbl{display:block;font-size:9.5px;text-align:left;}
+    .ec-home-note{margin-top:7px;font-size:11.5px;color:#b0b6be;}
+    .ec-home-note b{color:#9ca3af;font-weight:600;}
+    </style>
+    <div id="location-field" class="form-field location-search-field" style="flex:1; position:relative;">
+      <label class="field-label">Where do you need someone?</label>
+      <div class="inwrap">
+        <input type="text" id="location_search" name="ec_locfind_9a08ad7c26" value="" placeholder="Type suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+              </div>
+      <input type="hidden" name="region_id[]" id="region_id" value="">
+      <input type="hidden" name="suburb_id[]" id="suburb_id" value="">
+      <input type="hidden" name="selected_type" id="selected_type">
+      <ul id="location_list" style="border:1px solid #ccc; display:none; max-height:200px; overflow:auto; position:absolute; top:68px; left:0; right:0; background:#FFF; z-index:9999;"></ul>
+          </div>
+  </div>
+
   <div class="form-section-title" style="display:none;">Category</div>
   <div class="form-grid-3" style="display:block;">
     <div class="form-field" style="display:none;">
@@ -528,7 +559,7 @@ $(function(){
     </div>
         <div id="trade-field" class="form-field" style="position:relative; display:none;">
       <label class="field-label">Who do you need?</label>
-      <input type="text" id="trade_finder" name="ec_tradefind_5ea4efa81a" value="" placeholder="Start typing a skill or trade..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+      <input type="text" id="trade_finder" name="ec_tradefind_594181c76f" value="" placeholder="Start typing a skill or trade..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
       <select id="specific" name="sindustry_id" autocomplete="off" style="display:none;">
         <option value="">Job Title</option>
               </select>
@@ -594,7 +625,7 @@ $(function(){
 </div>
 
 <div class="form-actions">
-  <input type="hidden" name="find" value="employee" />  <input type="hidden" name="search" value="worker" />
+  <input type="hidden" name="search" value="worker" />
       <input class="form-btn-primary" type="submit" value="Find!" style="min-height:0;padding:14px 16px;border-radius:12px;background:#fff;color:#111827;font-size:15px;font-weight:600;letter-spacing:.3px;box-shadow:0 0 0 2px #ff4136, 0 1px 2px rgba(0,0,0,.05);">
 </div>
 
@@ -773,6 +804,7 @@ $(document).ready(function(){
 
                 showCount("#count_find_me_a_worker_total", res.find_me_a_worker, "");
                 showCount("#count_find_me_a_worker_new", res.find_me_a_worker_new, "my_unread_message_count");
+                showCount("#count_hiring_new", res.hiring_new, "");
                 showCount("#count_created_jobs", res.created_jobs, "black");
                 showCount("#count_received_requrest_for_a_worker", res.received_requrest_for_a_worker, "");
                 showCount("#count_received_requrest_for_a_worker_unread", res.received_requrest_for_a_worker_unread, "");

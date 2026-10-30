@@ -24,8 +24,8 @@
 <!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793311442"></script-->
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1793371492" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.css?v=1.0" rel="stylesheet" type="text/css" /><link href="https://e-contract.com.au/application/css/front_css/font-awesome.min.css?v=1.0" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793397806"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -64,12 +64,12 @@ $(function(){
 </script>
 
 <script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1792669105"></script>
-<script defer src="/pwa-android.js?v=1792669105"></script>
+<script defer src="/pwa-android.js?v=1793371492"></script>
 <script defer src="/pwa-ios.js?v=1792669105"></script>
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'d3c4f460e6e0472a1afc204ee764fc12'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'c15d2d7659e5091aeeacb7784bca068d'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -574,38 +574,34 @@ body.cjv3-modal-open{ overflow:hidden; }
 .cjv3-edit-h1 .page-title-variant{ font-size:12px; font-weight:400; color:var(--ink-3); }
 .cjv3-typebox{ display:inline-block; border:1px solid var(--red); border-radius:999px; background:#FBF1F0; padding:3px 11px; font-size:12px; font-weight:600; color:var(--ink-2); margin-bottom:12px; }
 .cjv3-typebox-sub{ font-weight:400; color:var(--ink-3); font-size:11px; }
+/* COMBINED (?cj=1): Job Type row -- three equal buttons on one line, site button style; selected = red border + red text, no fill. */
+.cjv3-typeseg{ display:flex; gap:8px; }
+.cjv3-typebtn{ flex:1 1 0; min-width:0; height:42px; padding:0 4px; margin:0; background:#fff; border:1px solid var(--line); border-radius:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,.10); color:#6b7280; font-size:13px; font-weight:600; font-family:inherit; line-height:1.2; white-space:nowrap; cursor:pointer; }
+.cjv3-typebtn.cjv3-on{ border-color:#C7362B; color:#C7362B; }
+.cjv3-typeseg.cjv3-invalid{ outline:2px solid #e8281e; outline-offset:2px; border-radius:12px; }
+/* POSTED edit: Job Type / Who can apply are shown locked (Rob 2026-10-28). */
+.cjv3-typebtn:disabled, .cjv3-whobtn:disabled{ cursor:default; opacity:.45; background:#fff !important; }
+.cjv3-typebtn.cjv3-on:disabled, .cjv3-whobtn.cjv3-on:disabled{ opacity:1; }
+.cjv3-lock-note{ font-weight:400; color:var(--ink-3); font-size:11px; margin-left:4px; }
 </style>
 <div class="cjv3">
   <div class="cjv3-card">
     <div class="cjv3-body">
-            <h1 class="cjv3-h1">Create a Job <span class="page-title-variant">for a sub-contractor</span></h1>
-      <p class="cjv3-sub">Pick a job type below and the rest of the form appears.</p>
-      
+                  <h1 class="cjv3-h1">Create a Job</h1>
+            
       <div class="signnup-pop" style="display:none;">
         <span id="errorVal"></span>
       </div>
 
             <form id="cjv3Form" action="https://e-contract.com.au/myaccount/insert_update_job" method="post" enctype="multipart/form-data" novalidate onsubmit="return cjv3CheckForm();">
         <input type="hidden" name="return_path" value="" />
-        <input type="hidden" name="job_for" value="for_contractor" />
+        <input type="hidden" name="job_for" id="cjv3JobFor" value="for_contractor" />
         <input type="hidden" name="job_type" id="cjv3JobType" value="4" />
         <input type="hidden" name="is_urgent" id="ecIsUrgent" value="0" />
-                
-                <div class="cjv3-step">
-          <div class="cjv3-steplabel" style="font-size:13px;font-weight:600;color:var(--ink);margin:2px 0 8px;">What kind of job?</div>
-                    <div class="cjv3-seg">
-            <label class="cjv3-segbtn">
-              <input type="radio" class="cjv3-segradio" name="labour_type" value="0" />
-              <span class="cjv3-segbody"><b>Direct Hire</b><small>Set the rate</small></span>
-            </label>
-            <label class="cjv3-segbtn">
-              <input type="radio" class="cjv3-segradio" name="labour_type" value="1" />
-              <span class="cjv3-segbody"><b>Quote Required</b><small>Ask for a price</small></span>
-            </label>
-          </div>
-                  </div>
+                <input type="hidden" name="labour_type" id="cjv3LabourType" value="0" />        
         
-        <div id="cjv3FormBody" hidden>
+        <div id="cjv3FormBody">
 
                     <div class="cjv3-jb">
             <div class="cjv3-jb-title">Job basics</div>
@@ -614,7 +610,7 @@ body.cjv3-modal-open{ overflow:hidden; }
               <label class="field-label">Primary Role <span class="cjv3-req">*</span> <span class="cjv3-fl-hint">Select 1</span></label>
               <div id="trade-field" class="cjv3-pick form-field">
                                 <input type="text" id="trade_finder"
-                       name="ec_tradefind_c7b4e9c584" value=""
+                       name="ec_tradefind_3891e2c72b" value=""
                        placeholder="Type trade, skill or ticket" autocomplete="off" autocorrect="off" autocapitalize="off"
                        spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
                 <div id="trade_pill" class="cjv3-pill" style="display:none;"><span id="trade_pill_label"></span><span class="cjv3-pill-x" id="trade_pill_x">&times;</span></div>
@@ -640,7 +636,7 @@ body.cjv3-modal-open{ overflow:hidden; }
 
             <div id="location-field" class="form-field location-search-field" style="position:relative;margin-top:7px;">
               <label class="field-label">Job Location <span class="cjv3-req">*</span></label>
-              <input type="text" id="location_search" name="ec_locfind_62636d1d74" value="" placeholder="Type a suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
+              <input type="text" id="location_search" name="ec_locfind_1db74c14f2" value="" placeholder="Type a suburb..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly');" ontouchstart="this.removeAttribute('readonly');" />
               <input type="hidden" name="state_id" id="state_id" value="">
               <input type="hidden" name="region_id" id="region_id" value="">
               <input type="hidden" name="suburb_id" id="suburb_id" value="">
@@ -648,6 +644,32 @@ body.cjv3-modal-open{ overflow:hidden; }
               <ul id="location_list" style="border:1px solid #ccc; display:none; max-height:200px; overflow:auto; position:absolute; top:62px; left:0; right:0; background:#FFF; z-index:9999;"></ul>
             </div>
 
+                        <div class="form-field" id="cjv3TypeRow" style="margin-top:7px;">
+              <label class="field-label">Job Type <span class="cjv3-req">*</span></label>
+              <div class="cjv3-typeseg" id="cjv3TypeSeg">
+                <button type="button" class="cjv3-typebtn" data-cjtype="short">Short Term</button>
+                <button type="button" class="cjv3-typebtn" data-cjtype="perm">Full Time</button>
+                <button type="button" class="cjv3-typebtn" data-cjtype="quote">Quote</button>
+              </div>
+            </div>
+            
+                                                <style>
+            #cjv3WhoRow .cjv3-whoperm, #cjv3WhoRow .cjv3-whoquote{ display:none; }
+            #cjv3WhoRow.cjv3-who-perm .cjv3-whoperm, #cjv3WhoRow.cjv3-who-quote .cjv3-whoquote{ display:block; }
+            #cjv3WhoRow.cjv3-who-perm .cjv3-whobtn[data-cjwho], #cjv3WhoRow.cjv3-who-quote .cjv3-whobtn[data-cjwho]{ display:none !important; }
+            </style>
+            <div class="form-field cjv3-st-who" id="cjv3WhoRow" style="display:none;margin-top:7px;">
+              <label class="field-label">Who can apply?</label>
+              <div class="cjv3-whoseg" id="cjv3WhoSeg">
+                <button type="button" class="cjv3-whobtn" data-cjwho="sub">Sub-contractor</button>
+                <button type="button" class="cjv3-whobtn" data-cjwho="emp">Employee</button>
+                <button type="button" class="cjv3-whobtn cjv3-on" data-cjwho="both">Both</button>
+                <button type="button" class="cjv3-whobtn cjv3-whoperm cjv3-on" disabled="disabled">Employee</button>
+                <button type="button" class="cjv3-whobtn cjv3-whoquote cjv3-on" disabled="disabled">Sub-contractor</button>
+              </div>
+              <input type="hidden" name="cj_who" id="cjv3Who" value="both" disabled="disabled" />
+            </div>
+            
             <div class="form-field" style="margin-top:7px;">
               <label class="field-label">When <span class="cjv3-req">*</span></label>
               <button type="button" class="cjv3-when-btn" id="cjv3WhenBtn" onclick="window.cjv3Open('When');">
@@ -669,8 +691,48 @@ body.cjv3-modal-open{ overflow:hidden; }
             </div>
                       </div>
 
+                              <style>
+          #cjv3RowDetails{ background:#fff; border-radius:14px; padding:12px 14px; gap:12px; margin:6px 0 14px;
+            box-shadow:0 1px 3px rgba(0,0,0,.14),0 1px 2px rgba(0,0,0,.06); }
+          #cjv3RowDetails:hover{ background:#fff; }
+          /* Page tidy (same as the job page / Saved / Contacts): no My Jobs / Contacts / Calendar pill banner. (Rob 2026-10-28) */
+          body .osubm{ display:none; }
+          #cjv3RowDetails .cjv3-r-go, #cjv3RowDetails .cjv3-r-opt{ display:none; }
+          #cjv3RowDetails .cjv3-r-t b{ font-size:14px; color:#4b5563; }
+          #cjv3RowDetails .cjv3-r-t small{ font-size:11.5px; color:#6b7280; }
+          .cjv3-r-plus{ flex:0 0 30px; width:30px; height:30px; border-radius:50%; background:#fff; border:2px solid #e8281e;
+            color:#e8281e; font-size:20px; font-weight:700; line-height:1; display:flex; align-items:center; justify-content:center; }
+          .cjv3-r-plus::before{ content:'+'; }
+          #cjv3RowDetails.cjv3-row-done .cjv3-r-plus{ border-color:#16a34a; color:#16a34a; font-size:16px; }
+          #cjv3RowDetails.cjv3-row-done .cjv3-r-plus::before{ content:'\2713'; }
+          #cjv3PostNowBtn, #cjv3SaveEditBtn{ background:#fff !important; border:0 !important; color:#e8281e !important; font-weight:700;
+            box-shadow:0 1px 3px rgba(0,0,0,.14),0 1px 2px rgba(0,0,0,.06) !important; background-image:none !important; }
+          #cjv3PostNowBtn:hover, #cjv3SaveEditBtn:hover{ background:#fff !important; color:#c7362b !important; }
+          /* Rate basis pills (every rate row on the combined page): one line, 3 small equal buttons, no fill. */
+          #cjv3DetailsModal .ec-rb{ display:flex; flex-wrap:nowrap; gap:6px; padding:0; margin-bottom:10px; }
+          #cjv3DetailsModal .ec-rb label{ flex:1 1 0; min-width:0; height:32px; padding:0 4px; display:flex; align-items:center; justify-content:center;
+            font-size:11.5px; font-weight:600; color:#6b7280; border:1px solid #E4E2DC; border-radius:10px; background:#fff; white-space:nowrap;
+            box-shadow:0 1px 2px rgba(0,0,0,.08); }
+          #cjv3DetailsModal .ec-rb label:hover{ border-color:#E4E2DC; }
+          #cjv3DetailsModal .ec-rb input{ display:none; }
+          #cjv3DetailsModal .ec-rb input:checked + span{ color:#C7362B; font-weight:600; }
+          #cjv3DetailsModal .ec-rb label:has(input:checked){ border-color:#C7362B; color:#C7362B; background:#fff; }
+          #cjv3DetailsModal .cjv3-ratebox .form-field{ min-width:0; }
+          #cjv3DetailsModal .rate-field{ display:flex; align-items:center; gap:6px; max-width:none; }
+          #cjv3DetailsModal .rate-field input.rate{ flex:1 1 auto; width:auto; min-width:0; }
+          #cjv3DetailsModal .rate-field .rate-currency, #cjv3DetailsModal .rate-field .rate-suffix{ color:var(--ink-2); font-size:13px; white-space:nowrap; }
+          /* Short Term: "Who can apply?" row + one bordered section per worker type. */
+          .cjv3-whoseg{ display:flex; gap:6px; margin-bottom:4px; }
+          .cjv3-whobtn{ flex:1 1 0; min-width:0; height:40px; padding:0 2px; margin:0; background:#fff; border:1px solid var(--line); border-radius:12px;
+            box-shadow:0 1px 3px rgba(0,0,0,.10); color:#6b7280; font-size:13px; font-weight:600; font-family:inherit; line-height:1.2; white-space:nowrap; cursor:pointer; }
+          .cjv3-whobtn.cjv3-on{ border-color:#C7362B; color:#C7362B; }
+          @media (max-width:400px){ .cjv3-whobtn{ font-size:12.5px; } }
+          .cjv3-wsec.cjv3-wsec-on{ border:1px solid var(--line); border-radius:14px; padding:14px; margin-top:12px; }
+          .cjv3-wsec-h{ display:none; font-size:13.5px; font-weight:700; color:#4b5563; margin:0 0 10px; padding-bottom:8px; border-bottom:1px solid #f0f0f0; }
+          .cjv3-wsec.cjv3-wsec-on > .cjv3-wsec-h{ display:block; }
+          </style>
                     <div class="cjv3-row" id="cjv3RowDetails" onclick="window.cjv3Open('Details');">
-            <div class="cjv3-r-t"><b>Add Rate &amp; Job Requirements <span class="cjv3-r-opt">(optional)</span></b><small>Rate, positions, hours, skills, tickets, work type, tools, vehicle &amp; site contact</small></div>
+            <span class="cjv3-r-plus" aria-hidden="true"></span>            <div class="cjv3-r-t"><b>Add Rate &amp; Job Requirements <span class="cjv3-r-opt">(optional)</span></b><small>Rate, positions, hours, skills, tickets, work type, tools, vehicle &amp; site contact</small></div>
             <div class="cjv3-r-go">&#8964;</div>
           </div>
 
@@ -688,7 +750,24 @@ body.cjv3-modal-open{ overflow:hidden; }
                                     <div class="cjv3-steplabel" style="font-size:13px;font-weight:600;color:var(--ink);margin:2px 0 10px;">How to post <span class="cjv3-req">*</span></div>
             
             <div class="cjv3-step cjv3-onboarding">
-                                    <div class="form-section contractor-onboarding-section labour_hire cjv3-lh">
+                        <style>
+              .employee-onboarding-section .ob-note{font-size:12px;line-height:1.55;color:#78350f;background:#fef9e7;border-left:3px solid #f59e0b;padding:12px 14px;border-radius:4px;margin-top:16px;}
+            </style>
+            <div class="form-section employee-onboarding-section cjv3-emp-only" style="display:none;">
+              <div class="form-section-title">Employee Onboarding <span class="cjv3-req">*</span> <button type="button" class="cjv3-info-btn" aria-label="What is Employee Onboarding?" onclick="window.cjv3OpenObInfo();">i</button></div>
+              <p class="form-help" style="margin-bottom:12px;">e-contract digital onboarding (a standard Commencement Pack sent &amp; signed through e-contract) is <strong>coming soon</strong>. For now, you onboard the employee yourself after the agreement is accepted.</p>
+              <div class="form-grid">
+                <div class="form-field full-width">
+                  <label class="field-label">Use e-contract Employee Onboarding?</label>
+                  <select name="employee_onboarding_pack" id="cjv3_emp_onboarding_pack">
+                    <option value="">Select</option>
+                    <option value="yes" disabled>Yes &mdash; coming soon (not available to select yet)</option>
+                    <option value="person">No &mdash; I will onboard myself</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+                                    <div class="form-section contractor-onboarding-section labour_hire cjv3-lh cjv3-sub-only cjv3-st-subpart">
               <div class="form-section-title">Subcontractor Onboarding <span class="cjv3-req">*</span> <button type="button" class="cjv3-info-btn" aria-label="What is Subcontractor Onboarding?" onclick="window.cjv3OpenObInfo();">i</button></div>
               <p class="form-help" style="margin-bottom:10px;font-size:12px;color:#6b7482;">Coming soon &mdash; for now, you onboard the subcontractor yourself.</p>
               <div class="form-grid">
@@ -716,7 +795,20 @@ body.cjv3-modal-open{ overflow:hidden; }
                 </div>
               </div>
             </div>
-            <script>
+                        <div class="form-section cjv3-st-emp" id="cjv3CjeOnboarding" style="display:none;">
+              <div class="form-section-title">Employee Onboarding <span class="cjv3-req">*</span></div>
+              <div class="form-grid">
+                <div class="form-field full-width">
+                  <label class="field-label">Use e-contract Employee Onboarding?</label>
+                  <select name="cje_employee_onboarding_pack" id="cjv3_cje_onboarding_pack" disabled="disabled">
+                    <option value="">Select</option>
+                    <option value="yes" disabled>Yes &mdash; coming soon (not available to select yet)</option>
+                    <option value="person">No &mdash; I will onboard myself</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+                        <script>
             document.addEventListener('DOMContentLoaded', function(){
               var modal = document.getElementById('ecObModal');
               var yesBtn = document.getElementById('ecObModalYes');
@@ -752,16 +844,16 @@ body.cjv3-modal-open{ overflow:hidden; }
                 <div class="ec-urg-choice">
                   <div class="ec-urg-card" id="ecUrgStd" onclick="ecUrgPick('std')">
                     <div class="ec-urg-top"><span class="ec-urg-dot"></span> Standard listing</div>
-                    <p>Published to the board. Sub-contractors find it when they browse.</p>
+                    <p>Published to the board. <span class="cjv3-wk cjv3-wk-emp" style="display:none;">Employees</span><span class="cjv3-wk cjv3-wk-both" style="display:none;">Sub-contractors and employees</span><span class="cjv3-wk cjv3-wk-sub">Sub-contractors</span> find it when they browse.</p>
                   </div>
                   <div class="ec-urg-card ec-urg-urgent" id="ecUrgUrg" onclick="ecUrgPick('urg')">
                     <div class="ec-urg-pill" id="ecUrgPill">Recommended</div>
                     <div class="ec-urg-top"><span class="ec-urg-dot"></span> &#9889; Urgent</div>
-                    <p>Plus we email matching sub-contractors in your area straight away.</p>
+                    <p>Plus we email matching <span class="cjv3-wk cjv3-wk-emp" style="display:none;">employees</span><span class="cjv3-wk cjv3-wk-both" style="display:none;">sub-contractors and employees</span><span class="cjv3-wk cjv3-wk-sub">sub-contractors</span> in your area straight away.</p>
                   </div>
                 </div>
                 <div class="ec-urg-fold" id="ecUrgFold">
-                  <div class="ec-urg-match">We&rsquo;ll email matching sub-contractors in your area the moment you publish.</div>
+                  <div class="ec-urg-match">We&rsquo;ll email matching <span class="cjv3-wk cjv3-wk-emp" style="display:none;">employees</span><span class="cjv3-wk cjv3-wk-both" style="display:none;">sub-contractors and employees</span><span class="cjv3-wk cjv3-wk-sub">sub-contractors</span> in your area the moment you publish.</div>
                 </div>
                 <div class="ec-urg-why" id="ecUrgWhy">Urgent is available on any job &mdash; we&rsquo;ll recommend it automatically if your start date is close.</div>
               </div>
@@ -847,7 +939,7 @@ body.cjv3-modal-open{ overflow:hidden; }
                   if(!main || !btn){ return; }
                   if(window.ecUrgChoice === 'urg'){
                     main.textContent = 'Urgent. Publicly Post.';
-                    if(sub){ sub.textContent = 'Published + emailed to matching sub-contractors straight away'; }
+                    if(sub){ sub.textContent = 'Published + emailed to matching ' + (window.cjv3WorkersWord || 'sub-contractors') + ' straight away'; }
                     btn.className = 'form-btn-primary btn-stack ec-publish-urgent';
                   }else{
                     main.textContent = 'Publicly post';
@@ -973,7 +1065,7 @@ body.cjv3-modal-open{ overflow:hidden; }
               <div class="form-field full-width tap-when-field">
   <label class="field-label">When — tap the days you need</label>
     <label class="tapcal-weekly"><input type="checkbox" id="tapcalWeekly"> Same days every week <span class="tapcal-weekly-hint">(repeats your chosen days for ~3 months)</span></label>
-  <div id="tapcalWrap" class="tapcal" data-preselected='[]' data-today="2026-10-30" data-start-by="" data-no-default="1">
+  <div id="tapcalWrap" class="tapcal" data-preselected='[]' data-today="2026-10-31" data-start-by="" data-no-default="1">
     <div class="tapcal-head">
       <button type="button" class="tapcal-nav" data-nav="-1" aria-label="Previous month">&#8249;</button>
       <span class="tapcal-title" id="tapcalTitle"></span>
@@ -1228,15 +1320,18 @@ body.cjv3-modal-open{ overflow:hidden; }
             <div class="cjv3-secbox">
             <div class="cjv3-sechead cjv3-sechead-first">Rate &amp; Capacity</div>
 
+                        <div class="cjv3-wsec" id="cjv3SubSec">
+            <div class="cjv3-wsec-h">Sub-contractor</div>
+            
             <div class="cjv3-lh labour_hire">
               <div class="cjv3-ratebox">
               <div class="form-grid" style="margin-top:0;">
                 <div class="form-field">
-                  <label class="field-label">Rate</label>
+                  <label class="field-label"><span class="cjv3-sub-only">Rate</span><span class="cjv3-emp-only" style="display:none;">Full Time Rate</span></label>
                                     <div class="ec-rb" id="ecRateBasis">
-                    <label><input type="radio" name="rate_basis" value="tbc" /> <span>To be confirmed</span></label>
+                    <label><input type="radio" name="rate_basis" value="tbc" /> <span>TBC</span></label>
                     <label><input type="radio" name="rate_basis" value="flat" /> <span>Flat rate</span></label>
-                    <label><input type="radio" name="rate_basis" value="overtime" /> <span>Overtime rates applied</span></label>
+                    <label><input type="radio" name="rate_basis" value="overtime" /> <span>Overtime</span></label>
                   </div>
                   <style>
                   .labour_hire .form-field .rate-field{order:1;}
@@ -1437,6 +1532,85 @@ body.cjv3-modal-open{ overflow:hidden; }
               </div>
             </div>
 
+                        </div><!-- /cjv3SubSec -->
+
+                        <div class="cjv3-wsec cjv3-wsec-on cjv3-st-emp" id="cjv3EmpSec" style="display:none;">
+              <div class="cjv3-wsec-h">Employee</div>
+              <div class="cjv3-ratebox">
+                <div class="form-grid" style="margin-top:0;">
+                  <div class="form-field">
+                    <label class="field-label"><span class="employee-short-label">Casual Rate</span></label>
+                    <small class="employee-short-label" style="display:block;margin-bottom:8px;color:#9ca3af;font-size:11.5px;font-weight:400;">Include 25% casual rate in your post.</small>
+                    <div class="ec-rb" id="cjeRateBasis">
+                      <label><input type="radio" name="cje_rate_basis" value="tbc" disabled="disabled" /> <span>TBC</span></label>
+                      <label><input type="radio" name="cje_rate_basis" value="flat" disabled="disabled" /> <span>Flat rate</span></label>
+                      <label><input type="radio" name="cje_rate_basis" value="overtime" disabled="disabled" /> <span>Overtime</span></label>
+                    </div>
+                    <div class="rate-field" style="display:none;">
+                      <span class="rate-currency">$</span>
+                      <input type="number" autocomplete="off" class="rate" name="cje_rate[]" id="cjeRate" inputmode="decimal" disabled="disabled"
+                             min="33.05" step="0.01" value="" placeholder="33.05"
+                             data-floor-ft="26.44" data-floor-casual="33.05">
+                      <span class="rate-suffix cjv3-cje-sfx">/hr</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="cjeIncludes" style="display:none;">
+                <div class="cjv3-ratebox" style="margin-top:16px;">
+                  <label class="field-label">Includes</label>
+                  <div class="form-including-group employee-rate-inclusions" style="margin-bottom:10px;">
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="super" disabled="disabled" /> <span>Super</span></label>
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="long_service" disabled="disabled" /> <span>Long Service</span></label>
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="sickdays" disabled="disabled" /> <span>Sick/carer's leave</span></label>
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="public_holidays" disabled="disabled" /> <span>Public holidays</span></label>
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="holiday_pay" disabled="disabled" /> <span>Annual leave</span></label>
+                    <label><input type="checkbox" name="cje_employee_rate_inclusions[]" value="rdo" disabled="disabled" /> <span>RDO's</span></label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-grid" style="margin-top:16px;">
+                <div class="form-field full-width">
+                  <label class="field-label">How many workers are required?</label>
+                  <select autocomplete="off" class="quantity" name="cje_quantity[]" disabled="disabled" style="width:calc((100% - 16px) / 3);height:36px;min-height:36px;">
+                    <option value="0">Select</option>
+                    <option value="1"> 1 </option><option value="2"> 2 </option><option value="3"> 3 </option><option value="4"> 4 </option><option value="5"> 5 </option><option value="6"> 6 </option><option value="7"> 7 </option><option value="8"> 8 </option><option value="9"> 9 </option><option value="10"> 10 </option><option value="11"> 11 </option><option value="12"> 12 </option><option value="13"> 13 </option><option value="14"> 14 </option><option value="15"> 15 </option><option value="16"> 16 </option><option value="17"> 17 </option><option value="18"> 18 </option><option value="19"> 19 </option><option value="20"> 20 </option><option value="21"> 21 </option><option value="22"> 22 </option><option value="23"> 23 </option><option value="24"> 24 </option><option value="25"> 25 </option><option value="26"> 26 </option><option value="27"> 27 </option><option value="28"> 28 </option><option value="29"> 29 </option><option value="30"> 30 </option><option value="31"> 31 </option><option value="32"> 32 </option><option value="33"> 33 </option><option value="34"> 34 </option><option value="35"> 35 </option><option value="36"> 36 </option><option value="37"> 37 </option><option value="38"> 38 </option><option value="39"> 39 </option><option value="40"> 40 </option><option value="41"> 41 </option><option value="42"> 42 </option><option value="43"> 43 </option><option value="44"> 44 </option><option value="45"> 45 </option><option value="46"> 46 </option><option value="47"> 47 </option><option value="48"> 48 </option><option value="49"> 49 </option><option value="50"> 50 </option>                  </select>
+                </div>
+              </div>
+              <div class="cjv3-grouphead">Hours</div>
+              <div class="form-grid cjv3-hours-row" style="margin-top:0;">
+                <div class="form-field">
+                  <label class="field-label">From Time</label>
+                  <select autocomplete="off" name="cje_time_from[]" class="time_from" disabled="disabled">
+                    <option value="">from time</option>
+                    <option value="0.0">12:00 am</option><option value="0.30">12:30 am</option><option value="1.0">01:00 am</option><option value="1.30">01:30 am</option><option value="2.0">02:00 am</option><option value="2.30">02:30 am</option><option value="3.0">03:00 am</option><option value="3.30">03:30 am</option><option value="4.0">04:00 am</option><option value="4.30">04:30 am</option><option value="5.0">05:00 am</option><option value="5.30">05:30 am</option><option value="6.0">06:00 am</option><option value="6.30">06:30 am</option><option value="7.0">07:00 am</option><option value="7.30">07:30 am</option><option value="8.0">08:00 am</option><option value="8.30">08:30 am</option><option value="9.0">09:00 am</option><option value="9.30">09:30 am</option><option value="10.0">10:00 am</option><option value="10.30">10:30 am</option><option value="11.0">11:00 am</option><option value="11.30">11:30 am</option><option value="12.0">12:00 pm</option><option value="12.30">12:30 pm</option><option value="13.0">01:00 pm</option><option value="13.30">01:30 pm</option><option value="14.0">02:00 pm</option><option value="14.30">02:30 pm</option><option value="15.0">03:00 pm</option><option value="15.30">03:30 pm</option><option value="16.0">04:00 pm</option><option value="16.30">04:30 pm</option><option value="17.0">05:00 pm</option><option value="17.30">05:30 pm</option><option value="18.0">06:00 pm</option><option value="18.30">06:30 pm</option><option value="19.0">07:00 pm</option><option value="19.30">07:30 pm</option><option value="20.0">08:00 pm</option><option value="20.30">08:30 pm</option><option value="21.0">09:00 pm</option><option value="21.30">09:30 pm</option><option value="22.0">10:00 pm</option><option value="22.30">10:30 pm</option><option value="23.0">11:00 pm</option><option value="23.30">11:30 pm</option>                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="field-label">To Time</label>
+                  <select autocomplete="off" name="cje_time_to[]" class="time_to" disabled="disabled">
+                    <option value="">to time</option>
+                    <option value="0.0">12:00 am</option><option value="0.30">12:30 am</option><option value="1.0">01:00 am</option><option value="1.30">01:30 am</option><option value="2.0">02:00 am</option><option value="2.30">02:30 am</option><option value="3.0">03:00 am</option><option value="3.30">03:30 am</option><option value="4.0">04:00 am</option><option value="4.30">04:30 am</option><option value="5.0">05:00 am</option><option value="5.30">05:30 am</option><option value="6.0">06:00 am</option><option value="6.30">06:30 am</option><option value="7.0">07:00 am</option><option value="7.30">07:30 am</option><option value="8.0">08:00 am</option><option value="8.30">08:30 am</option><option value="9.0">09:00 am</option><option value="9.30">09:30 am</option><option value="10.0">10:00 am</option><option value="10.30">10:30 am</option><option value="11.0">11:00 am</option><option value="11.30">11:30 am</option><option value="12.0">12:00 pm</option><option value="12.30">12:30 pm</option><option value="13.0">01:00 pm</option><option value="13.30">01:30 pm</option><option value="14.0">02:00 pm</option><option value="14.30">02:30 pm</option><option value="15.0">03:00 pm</option><option value="15.30">03:30 pm</option><option value="16.0">04:00 pm</option><option value="16.30">04:30 pm</option><option value="17.0">05:00 pm</option><option value="17.30">05:30 pm</option><option value="18.0">06:00 pm</option><option value="18.30">06:30 pm</option><option value="19.0">07:00 pm</option><option value="19.30">07:30 pm</option><option value="20.0">08:00 pm</option><option value="20.30">08:30 pm</option><option value="21.0">09:00 pm</option><option value="21.30">09:30 pm</option><option value="22.0">10:00 pm</option><option value="22.30">10:30 pm</option><option value="23.0">11:00 pm</option><option value="23.30">11:30 pm</option>                  </select>
+                </div>
+              </div>
+            </div>
+            <script>
+            /* Employee (Short Term) section: rate box shows once a basis is picked (hidden + cleared on TBC); Includes shows once any basis is picked. Mirrors the sub-contractor block above. */
+            (function(){
+              var wrap = document.getElementById('cjeRateBasis'), inc = document.getElementById('cjeIncludes'), rate = document.getElementById('cjeRate');
+              if(!wrap || !inc || !rate){ return; }
+              function basis(){ var r = document.getElementsByName('cje_rate_basis'); for(var i=0;i<r.length;i++){ if(r[i].checked){ return r[i].value; } } return ''; }
+              function tog(){
+                var b = basis();
+                if(b === 'tbc'){ rate.value = ''; }
+                rate.parentNode.style.display = (b === '' || b === 'tbc') ? 'none' : '';
+                inc.style.display = (b !== '') ? '' : 'none';
+              }
+              var r = document.getElementsByName('cje_rate_basis');
+              for(var i=0;i<r.length;i++){ if(r[i].addEventListener){ r[i].addEventListener('change', tog); } }
+              tog();
+            })();
+            </script>
+            
             </div><!-- /cjv3-secbox -->
 
             <div class="cjv3-secbox">
@@ -2454,7 +2628,7 @@ $(function(){
         <div class="ec-fmodal-overlay" id="ecUrgModal" role="alertdialog" aria-modal="true" aria-labelledby="ecUrgModalTitle">
           <div class="ec-fmodal" style="border-top-color:#e08600;">
             <h3 class="ec-fmodal-title" id="ecUrgModalTitle"><span aria-hidden="true">&#9889;</span> <span id="ecUrgModalTitleText">Starting soon &mdash; go Urgent?</span></h3>
-            <div class="ec-fmodal-body">Browsing alone may not fill this in time. Going Urgent emails matching sub-contractors in your area the moment you publish &mdash; you can still switch back to Standard first.</div>
+            <div class="ec-fmodal-body">Browsing alone may not fill this in time. Going Urgent emails matching <span class="cjv3-wk cjv3-wk-emp" style="display:none;">employees</span><span class="cjv3-wk cjv3-wk-both" style="display:none;">sub-contractors and employees</span><span class="cjv3-wk cjv3-wk-sub">sub-contractors</span> in your area the moment you publish &mdash; you can still switch back to Standard first.</div>
             <button type="button" class="ec-fmodal-btn" id="ecUrgModalYes" style="background:#e08600;">Make it Urgent</button>
             <span class="ec-fmodal-later" id="ecUrgModalNo">No thanks</span>
           </div>
@@ -2491,8 +2665,14 @@ $(function(){
 
                 <div class="ec-fmodal-overlay" id="cjv3ObInfoModal" role="dialog" aria-modal="true" aria-labelledby="cjv3ObInfoTitle">
           <div class="ec-fmodal">
-                      <h3 class="ec-fmodal-title" id="cjv3ObInfoTitle">What is Subcontractor Onboarding?</h3>
-            <div class="ec-fmodal-body" style="max-height:60vh;overflow:auto;">
+                      <h3 class="ec-fmodal-title cjv3-emp-only" id="cjv3ObInfoTitleEmp" style="display:none;">What is Employee Onboarding?</h3>
+            <div class="ec-fmodal-body cjv3-emp-only" style="max-height:60vh;overflow:auto; display:none;">
+              <p style="margin:0 0 10px;"><strong>Onboarding is</strong> verifying and gathering an employee's details before they start &mdash; right-to-work, tax file number, superannuation, bank details and any licences or checks the role needs.</p>
+              <p style="margin:0 0 10px;"><strong>What e-contract does:</strong> we assist with digital document preparation and transmission only. We don't send, collect or store onboarding forms, and we don't provide legal advice. (Digital onboarding &mdash; a standard Commencement Pack &mdash; is coming soon.)</p>
+              <p style="margin:0;"><strong>What you're responsible for (including but not limited to):</strong> all employment onboarding yourself &mdash; TFN, super, bank, right-to-work, WHS and record keeping &mdash; plus Fair Work, NES, award/classification, payroll, tax, superannuation and workers compensation.</p>
+            </div>
+                                <h3 class="ec-fmodal-title cjv3-sub-only" id="cjv3ObInfoTitle">What is Subcontractor Onboarding?</h3>
+            <div class="ec-fmodal-body cjv3-sub-only" style="max-height:60vh;overflow:auto;">
               <p style="margin:0 0 10px;"><strong>Onboarding is</strong> verifying and gathering a subcontractor's details before they start &mdash; ABN, insurances, licences, White Card, superannuation, tax and bank details.</p>
               <p style="margin:0 0 10px;"><strong>What e-contract does:</strong> we assist with digital document preparation and transmission only. We don't collect, verify or store onboarding documents, and we don't provide legal advice. (Digital onboarding &mdash; a standard Commencement Pack &mdash; is coming soon.)</p>
               <p style="margin:0;"><strong>What you're responsible for (including but not limited to):</strong> verifying the subcontractor's ABN, insurances, licences, White Card and bank details yourself, and checking your own obligations for workers compensation, long service leave and superannuation (these may apply depending on the engagement and your state). You remain responsible for verifying all information about this subcontractor.</p>
@@ -3217,6 +3397,10 @@ body.ec-msp-noscroll{ overflow:hidden; }
     cjv3FieldInvalid($tf, tradeBad, 'Please pick a trade, skill or card from the list.', mark);
     if (tradeBad) { ok = false; }
 
+        var typeBad = !window.cjv3TypeKind;
+    cjv3FieldInvalid($('#cjv3TypeSeg'), typeBad, 'Please choose a job type.', mark);
+    if (typeBad) { ok = false; }
+    
     var $tapWrap = $('#tapcalWrap');
     var $tapFrom = $('#tapcalFrom');
     var $quoteDate = $('input[name="quote_date"]');
@@ -3243,17 +3427,20 @@ body.ec-msp-noscroll{ overflow:hidden; }
     if (mark) { $jbBox.toggleClass('cjv3-jb-flag', !!basicsBad); }
     else if (!basicsBad) { $jbBox.removeClass('cjv3-jb-flag'); }
 
-    var $obEmp = $('#employee_onboarding_pack');
+    var $obEmpAll = $('#employee_onboarding_pack, #cjv3_emp_onboarding_pack, #cjv3_cje_onboarding_pack');
+    var $obEmp = $obEmpAll.filter(function(){ return !this.disabled; }); /* combined mode: Short Term Both has two enabled (sub + employee), every other case at most one */
     var $obQuote = $('#quote_onboarding_pack');
     if (!skipOnboarding) {
-      var $obActive = ($obEmp.length && !$obEmp.prop('disabled')) ? $obEmp
+      var $obActive = ($obEmp.length) ? $obEmp
         : (($obQuote.length && !$obQuote.prop('disabled')) ? $obQuote : null);
       if ($obActive) {
-        var obBad = ($.trim($obActive.val()) == '');
-        cjv3FieldInvalid($obActive, obBad, 'Please choose an onboarding option.', mark);
-        if (obBad) { ok = false; }
+        $obActive.each(function(){
+          var obBad = ($.trim($(this).val()) == '');
+          cjv3FieldInvalid($(this), obBad, 'Please choose an onboarding option.', mark);
+          if (obBad) { ok = false; }
+        });
       }
-      if ($obEmp.length && $obActive !== $obEmp) { cjv3FieldInvalid($obEmp, false, '', mark); }
+      $obEmpAll.each(function(){ if (!$obActive || $obActive.index(this) < 0) { cjv3FieldInvalid($(this), false, '', mark); } });
       if ($obQuote.length && $obActive !== $obQuote) { cjv3FieldInvalid($obQuote, false, '', mark); }
     }
 
@@ -3278,6 +3465,15 @@ body.ec-msp-noscroll{ overflow:hidden; }
       if (rateBad) { ok = false; }
     }
 
+        var $rateE = $('#cjeRate');
+    if ($rateE.length) {
+      var eMin = parseFloat($rateE.attr('min'));
+      var eRaw = $.trim($rateE.val());
+      var eBad = (!$rateE.prop('disabled') && eRaw !== '' && !isNaN(eMin) && eMin > 0 && parseFloat(eRaw) < eMin);
+      cjv3FieldInvalid($rateE, eBad, 'Minimum casual rate for this employee is $' + (isNaN(eMin) ? '' : eMin.toFixed(2)) + '.', mark);
+      if (eBad) { ok = false; }
+    }
+    
     return ok;
   };
 
@@ -3493,11 +3689,28 @@ body.ec-msp-noscroll{ overflow:hidden; }
     }
   }, true);
 
+    document.addEventListener('click', function(event){
+    var target = event.target;
+    if (target && target.nodeType === 3) { target = target.parentNode; }
+    if (!target || typeof target.closest !== 'function') { return; }
+    var btn = target.closest('.stc-send');
+    if (!btn) { return; }
+    var pick = btn.closest('.stc-modal');
+    if (pick && pick.querySelector('input.stc-case:checked:not(:disabled)')) { return; }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var t = document.getElementById('ecIncompleteModalTitle');
+    var b = document.getElementById('ecIncompleteModalBody');
+    if (t) { t.textContent = 'Nobody selected'; }
+    if (b) { b.textContent = 'Please select at least one contact.'; }
+    if (window.ecOpenIncompleteModal) { window.ecOpenIncompleteModal(); }
+  }, true);
+
     $('#title').on('input', function(){ window.cjv3ValidateRequired(); });
   $('#location_search').on('keyup input', function(){ window.cjv3ValidateRequired(); });
   $('#trade_finder').on('keyup input', function(){ window.cjv3ValidateRequired(); });
   $(document).on('click', '#location_list li, #trade_list li', function(){ window.cjv3ValidateRequired(); });
-  $(document).on('change', '#employee_onboarding_pack, #quote_onboarding_pack', function(){
+  $(document).on('change', '#employee_onboarding_pack, #cjv3_emp_onboarding_pack, #cjv3_cje_onboarding_pack, #quote_onboarding_pack', function(){
     window.cjv3ValidateRequired();
     /* If a Standard/Urgent choice is already made, revealing the post buttons was
        gated on completeness -- now onboarding is picked, re-check and show them. */
@@ -3506,7 +3719,86 @@ body.ec-msp-noscroll{ overflow:hidden; }
     }
   });
 
-    function cjv3ApplyFork(v){
+    window.cjv3TypeKind = '';
+  window.cjv3IsPerm = false;
+  window.cjv3Who = 'both'; /* Short Term only: sub | emp | both (default both; Employee for ?job_for=employee; fixed by Hire) */
+  function cjv3ApplyType(kind){
+    var isQuote = (kind === 'quote'), isPerm = (kind === 'perm');
+    window.cjv3IsPerm = isPerm;
+    if (kind) {
+      $('#cjv3JobFor').val(isPerm ? 'for_employee' : 'for_contractor');
+      $('#cjv3JobType').val(isPerm ? '1' : '4');
+      $('#cjv3LabourType').val(isQuote ? '1' : '0');
+    }
+    var sel = '.cjv3-lh, .cjv3-qr, .cjv3-emp-only, .cjv3-sub-only';
+    var $els = $(sel);
+    $els.each(function(){
+      var $e = $(this);
+      var on = !($e.hasClass('cjv3-lh') && isQuote) && !($e.hasClass('cjv3-qr') && !isQuote)
+            && !($e.hasClass('cjv3-emp-only') && !isPerm) && !($e.hasClass('cjv3-sub-only') && isPerm);
+      $e.data('cjOff', !on);
+      var disp = on ? ($e.attr('data-cjshow') || '') : 'none';
+      if (on && this.id === 'cjv3Includes' && !(typeof window.ecRateBasisVal === 'function' && window.ecRateBasisVal() !== '')) { disp = 'none'; }
+      $e.css('display', disp);
+    });
+    $els.find('select, input, textarea').each(function(){
+      var off = $(this).parents(sel).filter(function(){ return $(this).data('cjOff'); }).length > 0 || $(this).closest('.stc-locked').length > 0;
+      this.disabled = off;
+    });
+    var $rate = $('input.rate[name="rate[]"]');
+    var floorFt = $rate.attr('data-floor-ft') || '0';
+    $rate.attr('min', isPerm ? floorFt : '0').attr('placeholder', isPerm ? floorFt : '');
+    $('.rate-field .rate-suffix').not('.cjv3-cje-sfx').text(isPerm ? '/hr' : '/hr exc GST');
+    if (isPerm) { $('#cjv3PickEmp').insertBefore('#cjv3PickSub'); } else { $('#cjv3PickSub').insertBefore('#cjv3PickEmp'); }
+    cjv3ApplyWho(kind, sel);
+    if (typeof window.ecUrgSyncPublishBtn === 'function') { window.ecUrgSyncPublishBtn(); }
+    if (kind && typeof window.cjv3MarkWhen === 'function') { window.cjv3MarkWhen(); }
+    else if (window.cjv3ValidateRequired) { window.cjv3ValidateRequired(); }
+  }
+  /* Short Term "Who can apply?" (sub | emp | both): runs at the end of every cjv3ApplyType(), so the generic
+     enable/disable above has already settled -- this only switches whole sections on/off for Short Term. */
+  function cjv3ApplyWho(kind, sel){
+    var short = (kind === 'short'), who = window.cjv3Who;
+    var subOn = !short || who !== 'emp', empOn = short && who !== 'sub';
+    var wk = (kind === 'perm' || (short && who === 'emp')) ? 'emp' : ((short && who === 'both') ? 'both' : 'sub');
+    window.cjv3WorkersWord = (wk === 'emp') ? 'employees' : ((wk === 'both') ? 'sub-contractors and employees' : 'sub-contractors');
+    $('.cjv3-wk').css('display', 'none'); $('.cjv3-wk-' + wk).css('display', '');
+    $('#cjv3WhoRow').toggleClass('cjv3-who-perm', kind === 'perm').toggleClass('cjv3-who-quote', kind === 'quote').css('display', kind ? '' : 'none');
+    $('#cjv3Who').val(who).prop('disabled', !short);
+    $('#cjv3SubSec').toggleClass('cjv3-wsec-on', short).css('display', subOn ? '' : 'none');
+    $('#cjv3SubSec').find('select, input, textarea').each(function(){
+      this.disabled = !subOn || $(this).parents(sel).filter(function(){ return $(this).data('cjOff'); }).length > 0;
+    });
+    $('.cjv3-st-emp').css('display', empOn ? '' : 'none').find('select, input, textarea').prop('disabled', !empOn);
+    if (short && who === 'emp') { /* employee-only Short Term: employee contacts picker + no sub-contractor onboarding */
+      $('.cjv3-st-subpart').css('display', 'none').find('select, input, textarea').prop('disabled', true);
+      $('#cjv3PickSub').css('display', 'none').find('select, input, textarea').prop('disabled', true);
+      $('#cjv3PickEmp').css('display', '').insertBefore('#cjv3PickSub').find('select, input, textarea').each(function(){ this.disabled = $(this).closest('.stc-locked').length > 0; });
+    }
+    /* Short Term Both: ONE contacts list (the partial's both mode) where sub-contractors AND employees can be ticked. It must be the FIRST .stc-modal in the form while active (the opener grabs the first), and sit last + disabled otherwise. */
+    var bothPick = (short && who === 'both');
+    $('#cjv3PickBoth').css('display', bothPick ? '' : 'none').find('select, input, textarea').prop('disabled', !bothPick);
+    if (bothPick) {
+      $('#cjv3PickSub, #cjv3PickEmp').css('display', 'none').find('select, input, textarea').prop('disabled', true);
+      $('#cjv3PickBox').prepend($('#cjv3PickBoth'));
+    } else { $('#cjv3PickBox').append($('#cjv3PickBoth')); }
+  }
+  $('#cjv3WhoSeg').on('click', '.cjv3-whobtn', function(){
+    $('#cjv3WhoSeg .cjv3-whobtn').removeClass('cjv3-on');
+    $(this).addClass('cjv3-on');
+    window.cjv3Who = $(this).attr('data-cjwho');
+    window.cjv3Dirty = true;
+    cjv3ApplyType(window.cjv3TypeKind);
+  });
+  $('#cjv3TypeSeg').on('click', '.cjv3-typebtn', function(){
+    $('#cjv3TypeSeg .cjv3-typebtn').removeClass('cjv3-on');
+    $(this).addClass('cjv3-on');
+    window.cjv3TypeKind = $(this).attr('data-cjtype');
+    window.cjv3Dirty = true;
+    cjv3ApplyType(window.cjv3TypeKind);
+  });
+  cjv3ApplyType(''); /* nothing chosen yet: sub-contractor Direct Hire layout, nothing selected */
+        function cjv3ApplyFork(v){
     var isQuote = (v === '1');
     $('.cjv3-lh').toggle(!isQuote).find('select, input, textarea').prop('disabled', isQuote);
     $('.cjv3-qr').toggle(isQuote).find('select, input, textarea').prop('disabled', !isQuote);

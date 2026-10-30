@@ -24,8 +24,8 @@
 <!--link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'-->
 
 <link href="https://e-contract.com.au/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1792669105" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
-<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793311434"></script-->
+<link href="https://e-contract.com.au/application/css/front_css/style.css?v=1793371492" rel="stylesheet" type="text/css" /><script type="text/javascript" src="https://e-contract.com.au/application/js/front_js/jquery.min.1.11.0.js" charset="utf-8"></script>
+<!--script src="http://code.jquery.com/jquery-1.11.0.min.js?id=1793397798"></script-->
 
 <script>
 $( document ).ready(function() {
@@ -64,12 +64,12 @@ $(function(){
 </script>
 
 <script defer src="https://e-contract.com.au/application/js/front_js/push-messaging.js?v=1792669105"></script>
-<script defer src="/pwa-android.js?v=1792669105"></script>
+<script defer src="/pwa-android.js?v=1793371492"></script>
 <script defer src="/pwa-ios.js?v=1792669105"></script>
 <script>
 /* CSRF: auto-attach token to AJAX POSTs AND form POSTs (security P1; inert until csrf_protection=TRUE) */
 (function(){ if(typeof jQuery==='undefined'){return;} var name='ci_csrf_token';
-  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'86dc2cf6ff38d2e14435ff01ef96c4f0'; }
+  function tok(){ var m=document.cookie.match(/(?:^|; )ci_csrf_token=([^;]+)/); return m?decodeURIComponent(m[1]):'fd80f9f5b9cc3ba5ef3c865126063ea8'; }
   jQuery.ajaxSetup({ beforeSend:function(xhr,s){ if((s.type||s.method||'').toUpperCase()==='POST'){ var v=tok();
     if(typeof s.data==='string'){ s.data+=(s.data?'&':'')+name+'='+encodeURIComponent(v); }
     else if(window.FormData && s.data instanceof FormData){ s.data.append(name,v); }
@@ -614,6 +614,7 @@ $(document).ready(function(){
 
                 showCount("#count_find_me_a_worker_total", res.find_me_a_worker, "");
                 showCount("#count_find_me_a_worker_new", res.find_me_a_worker_new, "my_unread_message_count");
+                showCount("#count_hiring_new", res.hiring_new, "");
                 showCount("#count_created_jobs", res.created_jobs, "black");
                 showCount("#count_received_requrest_for_a_worker", res.received_requrest_for_a_worker, "");
                 showCount("#count_received_requrest_for_a_worker_unread", res.received_requrest_for_a_worker_unread, "");
